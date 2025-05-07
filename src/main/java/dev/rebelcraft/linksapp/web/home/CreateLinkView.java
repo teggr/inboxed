@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class NewLinkView extends AbstractView {
+public class CreateLinkView extends AbstractView {
 
     @Override
     @Nullable
