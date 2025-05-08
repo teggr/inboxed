@@ -4,10 +4,10 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.view.AbstractView;
-
+import org.springframework.web.servlet.View;
 import dev.rebelcraft.linksapp.domain.Link;
 import dev.rebelcraft.linksapp.web.templates.SiteTemplate;
 import j2html.TagCreator;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class LinksView extends AbstractView {
+public class LinksView implements View {
 
     @Override
     @Nullable
@@ -26,8 +26,8 @@ public class LinksView extends AbstractView {
     }
 
     @Override
-    protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public void render(@Nullable Map<String, ?> model, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response)
+            throws Exception {
 
         // get from the model
         Page<Link> links = (Page<Link>) model.get("links");
@@ -41,7 +41,7 @@ public class LinksView extends AbstractView {
 
         // output the html
         html.render(IndentedHtml.into(response.getWriter()));
-        
+
     }
 
 }

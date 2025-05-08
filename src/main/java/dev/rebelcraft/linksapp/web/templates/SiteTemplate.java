@@ -8,7 +8,7 @@ import j2html.tags.specialized.HtmlTag;
 
 public class SiteTemplate {
 
-    public static DomContent add(Map<String, Object> model, DomContent... content) {
+    public static DomContent add(Map<String, ?> model, DomContent... content) {
 
         // build the view
         HtmlTag html = TagCreator.html(
