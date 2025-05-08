@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URL;
+
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import dev.rebelcraft.linksapp.domain.Link;
 import dev.rebelcraft.linksapp.domain.Links;
 import lombok.RequiredArgsConstructor;
@@ -25,32 +26,33 @@ public class CreateLinkHomeController {
 
     @GetMapping
     public String getCreateLink(Model model) {
-        String createUrl = fromMethodCall(on(CreateLinkHomeController.class).postLink(null, null))
-            .build()
-            .toUriString();
+        String createUrl = fromMethodName(CreateLinkHomeController.class, "postLink", null, null)
+                .build()
+                .toUriString();
         model.addAttribute("createUrl", createUrl);
         return "createLinkView";
     }
 
     @PostMapping
-    public String postLink( @RequestParam("url") String url, RedirectAttributes redirectAttributes ) {
+    public String postLink(@RequestParam(name = "url", required = false) String url,
+            RedirectAttributes redirectAttributes) {
         Link newLink = links.createNew(url);
         redirectAttributes.addAttribute("url", newLink.url());
         return "redirect:/triage-link";
     }
 
     @GetMapping("/triage-link")
-    public String getTriageLink( @RequestParam("url") String url, Model model ) {
-        model.addAttribute( "link", links.getLink(url) );
-        String updateUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/triage-link")
-            .toUriString();
+    public String getTriageLink(@RequestParam("url") URL url, Model model) {
+        model.addAttribute("link", links.getLink(url));
+        String updateUrl = fromMethodName(CreateLinkHomeController.class, "postTriageLink", null, null)
+                .build()
+                .toUriString();
         model.addAttribute("updateUrl", updateUrl);
         return "triageLinkView";
     }
 
     @PostMapping("/triage-link")
-    public String postTriageLink( @ModelAttribute Link link, BindingResult bindingResult ) {
+    public String postTriageLink(@ModelAttribute Link link, BindingResult bindingResult) {
         Link updatedLink = links.update(link);
         return "redirect:/links";
     }

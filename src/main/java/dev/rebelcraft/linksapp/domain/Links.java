@@ -1,32 +1,35 @@
 package dev.rebelcraft.linksapp.domain;
 
-import java.util.List;
-
+import java.net.URL;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class Links {
 
+    private final LinksMapper linksMapper;
+
     public Link createNew( String url ) {
-        return new Link(url);
+        Link link = new Link(url);
+        linksMapper.insertLink(link);
+        return link;
     }
 
     public Page<Link> getLinks() {
-        return new PageImpl<>(List.of(
-            new Link("http://localhost:8181")
-        ));
+        return new PageImpl<>(linksMapper.getAllLinks());
     }
 
-    public Link getLink(String url) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getLink'");
+    public Link getLink(URL url) {
+        return linksMapper.getLinkByUrl(url);
     }
 
     public Link update(Link link) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        linksMapper.updateLink(link);
+        return link;
     }
 
 }

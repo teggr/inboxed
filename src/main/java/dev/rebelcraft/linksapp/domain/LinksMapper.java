@@ -2,6 +2,7 @@ package dev.rebelcraft.linksapp.domain;
 
 import org.apache.ibatis.annotations.*;
 
+import java.net.URL;
 import java.util.List;
 
 @Mapper
@@ -14,7 +15,7 @@ public interface LinksMapper {
     List<Link> getAllLinks();
 
     @Select("SELECT * FROM links WHERE url = #{url}")
-    Link getLinkByUrl(String url);
+    Link getLinkByUrl(URL url);
 
     @Update("UPDATE links SET url = #{url} WHERE id = #{id}")
     void updateLink(Link link);
