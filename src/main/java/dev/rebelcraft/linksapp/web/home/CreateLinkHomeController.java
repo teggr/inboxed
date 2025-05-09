@@ -48,7 +48,7 @@ public class CreateLinkHomeController {
                 .build()
                 .toUriString();
         model.addAttribute("updateUrl", updateUrl);
-        return "triageLinkView";
+        return "newLinkView";
     }
 
     @PostMapping("/triage-link")

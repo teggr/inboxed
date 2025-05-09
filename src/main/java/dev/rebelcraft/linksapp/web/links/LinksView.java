@@ -11,7 +11,6 @@ import org.springframework.web.servlet.view.AbstractView;
 
 import dev.rebelcraft.linksapp.domain.Link;
 import dev.rebelcraft.linksapp.web.templates.SiteTemplate;
-import j2html.TagCreator;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,20 +39,30 @@ public class LinksView extends AbstractView {
         DomContent html = SiteTemplate.add(
                 model,
                 each(
-                        form()
-                                .withMethod("POST")
-                                .withAction(createLinkUrl)
-                                .with(
-                                        input()
-                                                .withType("url")
-                                                .withName("url")
-                                                .withPlaceholder("Enter a URL"),
-                                        input()
-                                                .withType("submit")
-                                                .withName("createUrl")),
-                        each(links.toList(), link -> {
-                            return text(link.url().toString());
-                        })));
+                        h1("Create a new link"),
+                        div(
+                                form()
+                                        .withMethod("POST")
+                                        .withAction(createLinkUrl)
+                                        .with(
+                                                input()
+                                                        .withType("url")
+                                                        .withName("url")
+                                                        .withPlaceholder("Enter a URL"),
+                                                input()
+                                                        .withType("submit")
+                                                        .withName("createUrl"))),
+                        div(
+                                h1("Recent links"),
+                                each(links.toList(), link -> {
+                                        return div(
+                                                a(link.url().toString())
+                                                        .withHref(link.url().toString()),
+                                                p(link.notes()),
+                                                each(link.tags(), tag -> {
+                                                        return span(tag.name());
+                                                }));
+                                }))));
 
         // output the html
         setResponseContentType(request, response);
