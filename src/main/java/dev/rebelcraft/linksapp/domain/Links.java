@@ -16,7 +16,7 @@ public class Links {
     private final LinksRepository linksRepository;
 
     public Link createNew( URL url ) {
-        Link link = new Link(null, url, "some notes", Set.of( "tag1", "tag2"));
+        Link link = new Link(null, url, "", Set.of());
         return linksRepository.save(link);
     }
 

@@ -1,6 +1,6 @@
 package dev.rebelcraft.linksapp.web.home;
 
-import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
 import dev.rebelcraft.linksapp.domain.Link;
+import dev.rebelcraft.linksapp.domain.TagName;
 import dev.rebelcraft.linksapp.web.templates.SiteTemplate;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
@@ -34,6 +35,7 @@ public class NewLinkView extends AbstractView {
                 // get from the model
                 String updateUrl = (String) model.get("updateUrl");
                 Link link = (Link) model.get("link");
+                List<TagName> tagNames = (List<TagName>) model.get("tagNames");
 
                 // build the ui
                 DomContent html = SiteTemplate.add(model,
@@ -67,6 +69,22 @@ public class NewLinkView extends AbstractView {
                                                                                                                                 .withValue(tag)
                                                                                                                                 .withCondChecked(
                                                                                                                                                 true))),
+                                                                                select()
+                                                                                                .withName("existingTag")
+                                                                                                .with(option()
+                                                                                                                .withValue("")
+                                                                                                                .withText("Select tag"),
+                                                                                                        each( tagNames, tagName -> 
+                                                                                                                option(tagName.name())
+                                                                                                                                .withValue(tagName.name()))),
+                                                                                input()
+                                                                                                .withType("text")
+                                                                                                .withName("newTag")
+                                                                                                .withPlaceholder("New tag"),
+                                                                                button("Add tag")
+                                                                                                .withType("submit")
+                                                                                                .withName("addTag")
+                                                                                                .withValue("Add tag"),                                                
                                                                                 input()
                                                                                                 .withType("submit")
                                                                                                 .withName("updateUrl"))));
