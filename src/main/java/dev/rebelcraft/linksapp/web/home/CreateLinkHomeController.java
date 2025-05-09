@@ -34,7 +34,7 @@ public class CreateLinkHomeController {
     }
 
     @PostMapping
-    public String postLink(@RequestParam(name = "url", required = false) String url,
+    public String postLink(@RequestParam(name = "url", required = false) URL url,
             RedirectAttributes redirectAttributes) {
         Link newLink = links.createNew(url);
         redirectAttributes.addAttribute("url", newLink.url());

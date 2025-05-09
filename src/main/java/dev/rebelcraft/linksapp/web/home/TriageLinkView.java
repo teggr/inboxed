@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
+import dev.rebelcraft.linksapp.domain.Link;
 import dev.rebelcraft.linksapp.web.templates.SiteTemplate;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
@@ -17,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import static j2html.TagCreator.*;
 
 @Component
-public class CreateLinkView extends AbstractView {
+public class TriageLinkView extends AbstractView {
 
     @Override
     @Nullable
@@ -30,21 +31,26 @@ public class CreateLinkView extends AbstractView {
             @NonNull HttpServletResponse response) throws Exception {
         
         // get from the model
-        String postUrl = (String) model.get("createUrl");
+        String updateUrl = (String) model.get("updateUrl");
+        Link link = (Link) model.get("link");
 
         // build the ui
         DomContent html = SiteTemplate.add(model,
                 form()
                         .withMethod("POST")
-                        .withAction(postUrl)
+                        .withAction(updateUrl)
                         .with(
+                                input()
+                                        .withType("hidden")
+                                        .withName("id")
+                                        .withValue(link.id().toString()),
                                 input()
                                         .withType("url")
                                         .withName("url")
-                                        .withPlaceholder("Put your link here"),
+                                        .withValue(link.url().toString()),
                                 input()
                                         .withType("submit")
-                                        .withName("createUrl")));
+                                        .withName("updateUrl")));
 
         // output the response
         setResponseContentType(request, response);

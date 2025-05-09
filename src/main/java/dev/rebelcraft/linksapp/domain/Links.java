@@ -2,7 +2,7 @@ package dev.rebelcraft.linksapp.domain;
 
 import java.net.URL;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -11,25 +11,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Links {
 
-    private final LinksMapper linksMapper;
+    private final LinksRepository linksRepository;
 
-    public Link createNew( String url ) {
-        Link link = new Link(url);
-        linksMapper.insertLink(link);
-        return link;
+    public Link createNew( URL url ) {
+        Link link = new Link(null, url);
+        return linksRepository.save(link);
     }
 
     public Page<Link> getLinks() {
-        return new PageImpl<>(linksMapper.getAllLinks());
+        return linksRepository.findAll(Pageable.ofSize(10).withPage(0));
     }
 
     public Link getLink(URL url) {
-        return linksMapper.getLinkByUrl(url);
+        return linksRepository.findByUrl(url);
     }
 
     public Link update(Link link) {
-        linksMapper.updateLink(link);
-        return link;
+        return linksRepository.save(link);
     }
 
 }
