@@ -43,7 +43,7 @@ public class CreateLinkHomeController {
 
     @GetMapping("/triage-link")
     public String getTriageLink(@RequestParam("url") URL url, Model model) {
-        model.addAttribute("link", links.getLink(url));
+        model.addAttribute("link", links.getLink(url) );
         String updateUrl = fromMethodName(CreateLinkHomeController.class, "postTriageLink", null, null)
                 .build()
                 .toUriString();

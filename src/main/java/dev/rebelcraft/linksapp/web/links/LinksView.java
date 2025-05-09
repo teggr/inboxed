@@ -57,10 +57,11 @@ public class LinksView extends AbstractView {
                                 each(links.toList(), link -> {
                                         return div(
                                                 a(link.url().toString())
-                                                        .withHref(link.url().toString()),
+                                                        .withHref(link.url().toString())
+                                                        .withTarget("_blank"),
                                                 p(link.notes()),
                                                 each(link.tags(), tag -> {
-                                                        return span(tag.name());
+                                                        return span(tag);
                                                 }));
                                 }))));
 

@@ -1,5 +1,6 @@
 package dev.rebelcraft.linksapp.web.home;
 
+import java.util.Comparator;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
@@ -56,11 +57,16 @@ public class NewLinkView extends AbstractView {
                                                                                                 .withType("text")
                                                                                                 .withName("notes")
                                                                                                 .withValue(link.notes()),
-                                                                                each(link.tags(), tag -> input()
-                                                                                                .withType("checkbox")
-                                                                                                .withName("tags")
-                                                                                                .withValue(tag.name())
-                                                                                                .withCondChecked(true)),
+                                                                                each(link.tags().stream().sorted()
+                                                                                                .toList(),
+                                                                                                (index, tag) -> each(
+                                                                                                                label(tag),
+                                                                                                                input()
+                                                                                                                                .withType("checkbox")
+                                                                                                                                .withName("tags")
+                                                                                                                                .withValue(tag)
+                                                                                                                                .withCondChecked(
+                                                                                                                                                true))),
                                                                                 input()
                                                                                                 .withType("submit")
                                                                                                 .withName("updateUrl"))));

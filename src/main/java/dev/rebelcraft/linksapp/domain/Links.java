@@ -1,7 +1,6 @@
 package dev.rebelcraft.linksapp.domain;
 
 import java.net.URL;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -17,7 +16,7 @@ public class Links {
     private final LinksRepository linksRepository;
 
     public Link createNew( URL url ) {
-        Link link = new Link(null, url, "some notes", Set.of(new Tag(null, "tag1"), new Tag(null, "tag2")));
+        Link link = new Link(null, url, "some notes", Set.of( "tag1", "tag2"));
         return linksRepository.save(link);
     }
 
