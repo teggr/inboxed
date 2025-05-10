@@ -30,11 +30,12 @@ public class CreateLinkHomeController {
     private final TagNamesRepository tagNamesRepository;
 
     @GetMapping
-    public String getCreateLink(Model model) {
+    public String getCreateLink(@RequestParam(name = "url", required = false) URL url, Model model) {
         String createUrl = fromMethodName(CreateLinkHomeController.class, "postLink", null, null)
                 .build()
                 .toUriString();
         model.addAttribute("createUrl", createUrl);
+        model.addAttribute("url", url);
         return "createLinkView";
     }
 
@@ -64,16 +65,17 @@ public class CreateLinkHomeController {
             @ModelAttribute Link link, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         Set<String> allTags = new HashSet<>();
-        if (link.tags() != null) allTags.addAll(link.tags());
+        if (link.tags() != null)
+            allTags.addAll(link.tags());
         if (existingTag != null && !existingTag.isEmpty()) {
             allTags.add(existingTag);
-            if(!tagNamesRepository.existsByName(existingTag)) {
+            if (!tagNamesRepository.existsByName(existingTag)) {
                 tagNamesRepository.save(new TagName(null, existingTag));
             }
         }
         if (newTag != null && !newTag.isEmpty()) {
             allTags.add(newTag);
-            if(!tagNamesRepository.existsByName(newTag)) {
+            if (!tagNamesRepository.existsByName(newTag)) {
                 tagNamesRepository.save(new TagName(null, newTag));
             }
         }

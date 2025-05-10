@@ -1,5 +1,6 @@
 package dev.rebelcraft.linksapp.web.home;
 
+import java.net.URL;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
@@ -31,6 +32,7 @@ public class CreateLinkView extends AbstractView {
 
                 // get from the model
                 String postUrl = (String) model.get("createUrl");
+                URL url = (URL) model.get("url");
 
                 // build the ui
                 DomContent html = SiteTemplate.add(model,
@@ -44,7 +46,8 @@ public class CreateLinkView extends AbstractView {
                                                                                                 .withType("url")
                                                                                                 .withName("url")
                                                                                                 .withPlaceholder(
-                                                                                                                "Put your link here"),
+                                                                                                                "Put your link here")
+                                                                                                                .withCondValue(url != null, url != null ? url.toString() : ""),
                                                                                 input()
                                                                                                 .withType("submit")
                                                                                                 .withName("createUrl"))));

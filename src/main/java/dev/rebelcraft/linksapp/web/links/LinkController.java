@@ -21,7 +21,7 @@ public class LinkController {
     @GetMapping
     public String getLinks(Model model) {
         model.addAttribute("links", links.getLinks() );
-        String createLinkUrl = fromMethodName(CreateLinkHomeController.class, "getCreateLink", (Model) null)
+        String createLinkUrl = fromMethodName(CreateLinkHomeController.class, "getCreateLink", null, (Model) null)
                 .build()
                 .toUriString();
         model.addAttribute("createLinkUrl", createLinkUrl);
