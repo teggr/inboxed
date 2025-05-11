@@ -35,7 +35,7 @@ public class CreateLinkView extends AbstractView {
                 URL url = (URL) model.get("url");
 
                 // build the ui
-                DomContent html = SiteTemplate.add(model,
+                DomContent html = SiteTemplate.add("Create a new link", model,
                                 each(
                                                 h1("Create a new link"),
                                                 form()

@@ -38,7 +38,7 @@ public class NewLinkView extends AbstractView {
                 List<TagName> tagNames = (List<TagName>) model.get("tagNames");
 
                 // build the ui
-                DomContent html = SiteTemplate.add(model,
+                DomContent html = SiteTemplate.add( "Edit a new link", model,
                                 each(
                                                 h2("New link"),
                                                 form()

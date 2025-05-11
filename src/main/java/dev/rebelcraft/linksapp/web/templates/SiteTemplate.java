@@ -2,23 +2,43 @@ package dev.rebelcraft.linksapp.web.templates;
 
 import java.util.Map;
 
-import j2html.TagCreator;
+import dev.rebelcraft.j2html.bootstrap.BootstrapConfig;
+
+import static j2html.TagCreator.*;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.HtmlTag;
 
 public class SiteTemplate {
 
-    public static DomContent add(Map<String, ?> model, DomContent... content) {
+    public static DomContent add(String title, Map<String, ?> model, DomContent... content) {
 
         // build the view
-        HtmlTag html = TagCreator.html(
-                TagCreator.head(
+        HtmlTag html = html()
+                .withLang("en")
+                .with(
+                        head(
+                                meta()
+                                        .withCharset("UTF-8"),
+                                meta()
+                                        .withName("viewport")
+                                        .withContent("width=device-width, initial-scale=1"),
 
-                ),
-                TagCreator.body(
-                    TagCreator.each( content )
-                )
-        );
+                                title(title),
+                                link()
+                                        .withHref(BootstrapConfig.CDN_MIN_CSS_URL)
+                                        .withRel("stylesheet")
+                                        .attr("integrity", BootstrapConfig.CDN_MIN_CSS_INTEGRITY)
+                                        .attr("crossorigin", "anonymous")),
+                        body(
+                                each(content)),
+                        script()
+                                .withSrc(BootstrapConfig.POPPER_MIN_JS_URL)
+                                .attr("integrity", BootstrapConfig.POPPER_MIN_JS_INTEGRITY)
+                                .attr("crossorigin", "anonymous"),
+                        script()
+                                .withSrc(BootstrapConfig.CDN_BUNDLE_MIN_JS_URL)
+                                .attr("integrity", BootstrapConfig.CDN_BUNDLE_MIN_JS_INTEGRITY)
+                                .attr("crossorigin", "anonymous"));
 
         return html;
 
