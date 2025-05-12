@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-create-links-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: LINKS
+            columns:
+              - column:
+                  name: ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: URL
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: TAGS
+                  type: VARCHAR(255) ARRAY
+                  constraints:
+                    nullable: false
+              - column:
+                  name: NOTES
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: 2-create-tag-names-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: TAG_NAMES
+            columns:
+              - column:
+                  name: ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: NAME
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 3-create-index-on-tag-names
+      author: robin
+      changes:
+        - createIndex:
+            tableName: TAG_NAMES
+            indexName: idx_tag_name
+            columns:
+              - column:
+                  name: NAME
