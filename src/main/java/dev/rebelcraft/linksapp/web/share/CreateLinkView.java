@@ -1,4 +1,4 @@
-package dev.rebelcraft.linksapp.web.home;
+package dev.rebelcraft.linksapp.web.share;
 
 import java.net.URL;
 import java.util.Map;

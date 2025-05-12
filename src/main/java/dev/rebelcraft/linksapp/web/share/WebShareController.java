@@ -1,4 +1,4 @@
-package dev.rebelcraft.linksapp.web.home;
+package dev.rebelcraft.linksapp.web.share;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,16 +22,16 @@ import dev.rebelcraft.linksapp.domain.TagNamesRepository;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/share")
 @RequiredArgsConstructor
-public class CreateLinkHomeController {
+public class WebShareController {
 
     private final Links links;
     private final TagNamesRepository tagNamesRepository;
 
     @GetMapping
     public String getCreateLink(@RequestParam(name = "url", required = false) URL url, Model model) {
-        String createUrl = fromMethodName(CreateLinkHomeController.class, "postLink", null, null)
+        String createUrl = fromMethodName(WebShareController.class, "postLink", null, null)
                 .build()
                 .toUriString();
         model.addAttribute("createUrl", createUrl);
@@ -44,13 +44,13 @@ public class CreateLinkHomeController {
             RedirectAttributes redirectAttributes) {
         Link newLink = links.createNew(url);
         redirectAttributes.addAttribute("url", newLink.url());
-        return "redirect:/triage-link";
+        return "redirect:/share/triage-link";
     }
 
     @GetMapping("/triage-link")
     public String getTriageLink(@RequestParam("url") URL url, Model model) {
         model.addAttribute("link", links.getLink(url));
-        String updateUrl = fromMethodName(CreateLinkHomeController.class, "postTriageLink", null, null)
+        String updateUrl = fromMethodName(WebShareController.class, "postTriageLink", null, null)
                 .build()
                 .toUriString();
         model.addAttribute("updateUrl", updateUrl);
@@ -86,7 +86,7 @@ public class CreateLinkHomeController {
 
         redirectAttributes.addAttribute("url", updatedLink.url());
 
-        return "redirect:/triage-link";
+        return "redirect:/share/triage-link";
     }
 
     @PostMapping("/triage-link")
@@ -95,7 +95,7 @@ public class CreateLinkHomeController {
             link = new Link(link.id(), link.url(), link.notes(), Set.of());
         }
         Link updatedLink = links.update(link);
-        return "redirect:/links";
+        return "redirect:/";
     }
 
 }
