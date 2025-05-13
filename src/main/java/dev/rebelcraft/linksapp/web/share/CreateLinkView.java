@@ -9,6 +9,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
+
 import dev.rebelcraft.linksapp.web.templates.SiteTemplate;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import static j2html.TagCreator.*;
+import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
 
 @Component
 public class CreateLinkView extends AbstractView {
@@ -42,13 +44,27 @@ public class CreateLinkView extends AbstractView {
                                                                 .withMethod("POST")
                                                                 .withAction(postUrl)
                                                                 .with(
+                                                                                div().withClass(mb_3).with(
+
+                                                                                                label().withFor("url")
+                                                                                                                .withClass(form_label)
+                                                                                                                .withText("URL"),
+
+                                                                                                input()
+                                                                                                                .withClass(form_control)
+                                                                                                                .withId("url")
+                                                                                                                .withType("url")
+                                                                                                                .withName("url")
+                                                                                                                .withPlaceholder(
+                                                                                                                                "Put your link here")
+                                                                                                                .withCondValue(url != null,
+                                                                                                                                url != null ? url
+                                                                                                                                                .toString()
+                                                                                                                                                : "")),
+                                                                                                                                                
                                                                                 input()
-                                                                                                .withType("url")
-                                                                                                .withName("url")
-                                                                                                .withPlaceholder(
-                                                                                                                "Put your link here")
-                                                                                                                .withCondValue(url != null, url != null ? url.toString() : ""),
-                                                                                input()
+                                                                                                .withClasses(btn,
+                                                                                                                btn_primary)
                                                                                                 .withType("submit")
                                                                                                 .withName("createUrl"))));
 
