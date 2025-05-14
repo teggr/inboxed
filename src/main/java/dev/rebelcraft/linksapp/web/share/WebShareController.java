@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
 
 import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import dev.rebelcraft.linksapp.domain.Link;
 import dev.rebelcraft.linksapp.domain.Links;
 import dev.rebelcraft.linksapp.domain.TagName;
@@ -31,70 +29,20 @@ public class WebShareController {
 
     @GetMapping
     public String getCreateLink(@RequestParam(name = "url", required = false) URL url, Model model) {
-        String createUrl = fromMethodName(WebShareController.class, "postLink", null, null)
-                .build()
+        String createUrl = fromMethodName(WebShareController.class, "postCreateLink", null, null, null).build()
                 .toUriString();
         model.addAttribute("createUrl", createUrl);
         model.addAttribute("url", url);
-        return "createLinkView";
+        model.addAttribute("tagNames", tagNamesRepository.findAll());
+        return "webShareView";
     }
 
     @PostMapping
-    public String postLink(@RequestParam(name = "url", required = false) URL url,
-            RedirectAttributes redirectAttributes) {
-        Link newLink = links.createNew(url);
-        redirectAttributes.addAttribute("url", newLink.url());
-        return "redirect:/share/triage-link";
-    }
-
-    @GetMapping("/triage-link")
-    public String getTriageLink(@RequestParam("url") URL url, Model model) {
-        model.addAttribute("link", links.getLink(url));
-        String updateUrl = fromMethodName(WebShareController.class, "postTriageLink", null, null)
-                .build()
-                .toUriString();
-        model.addAttribute("updateUrl", updateUrl);
-        model.addAttribute("tagNames", tagNamesRepository.findAll());
-        return "newLinkView";
-    }
-
-    @PostMapping(path = "/triage-link", params = "addTag")
-    public String postTriageLinkAddTag(
-            @RequestParam(name = "existingTag", required = false) String existingTag,
-            @RequestParam(name = "newTag", required = false) String newTag,
-            @ModelAttribute Link link, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-
-        Set<String> allTags = new HashSet<>();
-        if (link.tags() != null)
-            allTags.addAll(link.tags());
-        if (existingTag != null && !existingTag.isEmpty()) {
-            allTags.add(existingTag);
-            if (!tagNamesRepository.existsByName(existingTag)) {
-                tagNamesRepository.save(new TagName(null, existingTag));
-            }
-        }
-        if (newTag != null && !newTag.isEmpty()) {
-            allTags.add(newTag);
-            if (!tagNamesRepository.existsByName(newTag)) {
-                tagNamesRepository.save(new TagName(null, newTag));
-            }
-        }
-
-        link = new Link(link.id(), link.url(), link.notes(), allTags);
-
-        Link updatedLink = links.update(link);
-
-        redirectAttributes.addAttribute("url", updatedLink.url());
-
-        return "redirect:/share/triage-link";
-    }
-
-    @PostMapping("/triage-link")
-    public String postTriageLink(@ModelAttribute Link link, BindingResult bindingResult) {
-        if (link.tags() == null) {
-            link = new Link(link.id(), link.url(), link.notes(), Set.of());
-        }
-        Link updatedLink = links.update(link);
+    public String postCreateLink(@ModelAttribute Link link, BindingResult bindingResult, Model model) {
+        Link newLink = links.createNew(link);
+        List<TagName> list = newLink.tags().stream().filter(t -> !tagNamesRepository.existsByName(t))
+                .map(t -> new TagName(null, t)).toList();
+        tagNamesRepository.saveAll(list);
         return "redirect:/";
     }
 

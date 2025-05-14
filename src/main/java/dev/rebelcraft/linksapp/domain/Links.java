@@ -1,7 +1,6 @@
 package dev.rebelcraft.linksapp.domain;
 
 import java.net.URL;
-import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +14,7 @@ public class Links {
 
     private final LinksRepository linksRepository;
 
-    public Link createNew( URL url ) {
-        Link link = new Link(null, url, "", Set.of());
+    public Link createNew( Link link ) {
         return linksRepository.save(link);
     }
 

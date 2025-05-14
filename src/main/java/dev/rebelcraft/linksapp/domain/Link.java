@@ -8,5 +8,12 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("LINKS")
 public record Link(@Id Long id, URL url, String notes, Set<String> tags) {
-
+  public Link {
+    if (notes == null) {
+      notes = "";
+    }
+    if (tags == null) {
+      tags = Set.of();
+    }
+  }
 }

@@ -16,6 +16,8 @@ import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import static dev.rebelcraft.j2html.bootstrap.Bootstrap.badge;
+import static dev.rebelcraft.j2html.bootstrap.Bootstrap.text_bg_secondary;
 import static j2html.TagCreator.*;
 
 @Component
@@ -42,7 +44,7 @@ public class LinksView extends AbstractView {
                         h1("Create a new link"),
                         div(
                                 form()
-                                        .withMethod("POST")
+                                        .withMethod("GET")
                                         .withAction(createLinkUrl)
                                         .with(
                                                 input()
@@ -61,7 +63,7 @@ public class LinksView extends AbstractView {
                                                         .withTarget("_blank"),
                                                 p(link.notes()),
                                                 each(link.tags(), tag -> {
-                                                        return span(tag);
+                                                        return span(tag).withClasses(badge, text_bg_secondary);
                                                 }));
                                 }))));
 
