@@ -17,6 +17,7 @@ import dev.rebelcraft.linksapp.domain.Link;
 import dev.rebelcraft.linksapp.domain.Links;
 import dev.rebelcraft.linksapp.domain.TagName;
 import dev.rebelcraft.linksapp.domain.TagNamesRepository;
+import dev.rebelcraft.linksapp.web.links.LinkController;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -31,7 +32,9 @@ public class WebShareController {
     public String getCreateLink(@RequestParam(name = "url", required = false) URL url, Model model) {
         String createUrl = fromMethodName(WebShareController.class, "postCreateLink", null, null, null).build()
                 .toUriString();
+        String cancelUrl = fromMethodName(LinkController.class, "getLinks", (Model)null).build().toUriString();
         model.addAttribute("createUrl", createUrl);
+        model.addAttribute("cancelUrl", cancelUrl);
         model.addAttribute("url", url);
         model.addAttribute("tagNames", tagNamesRepository.findAll());
         return "webShareView";

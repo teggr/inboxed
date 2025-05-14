@@ -36,8 +36,9 @@ public class WebShareView extends AbstractView {
 
                 // get from the model
                 String postUrl = (String) model.get("createUrl");
+                String cancelUrl = (String) model.get("cancelUrl");
                 URL url = (URL) model.get("url");
-                List<TagName> tagNames = (List<TagName>)model.get("tagNames");
+                List<TagName> tagNames = (List<TagName>) model.get("tagNames");
 
                 // build the ui
                 DomContent html = SiteTemplate.add("Create a new link", model, each(h1("Create a new link"),
@@ -71,10 +72,9 @@ public class WebShareView extends AbstractView {
                                                                                 .withList("datalistOptions")
                                                                                 .withPlaceholder("Type to search"),
 
-                                                                datalist().withId("datalistOptions")
-                                                                                .with(
-                                                                                        each(tagNames, tagName -> option().withValue(tagName.name()))
-                                                                                ),
+                                                                datalist().withId("datalistOptions").with(each(tagNames,
+                                                                                tagName -> option().withValue(
+                                                                                                tagName.name()))),
 
                                                                 button().withId("AddToTag").withType("button")
                                                                                 .withClasses(btn, btn_secondary)
@@ -105,12 +105,12 @@ public class WebShareView extends AbstractView {
                                                                                                                                 tagValues.forEach(tagValue => {
                                                                                                                                                 if (tagValue) {
                                                                                                                                                                 const tagContainer = document.querySelector("#tags");
-                                                                                                                                                                
+
                                                                                                                                                                 const newHidden = document.createElement("input");
                                                                                                                                                                 newHidden.type = "hidden";
                                                                                                                                                                 newHidden.value = tagValue;
                                                                                                                                                                 newHidden.name = "tags";
-                                                                                                                                                                
+
                                                                                                                                                                 const newTag = document.createElement("span");
                                                                                                                                                                 newTag.className = "badge text-bg-secondary";
                                                                                                                                                                 newTag.textContent = tagValue;
@@ -127,8 +127,13 @@ public class WebShareView extends AbstractView {
 
                                                 ),
 
+                                                a().withClasses(btn, btn_secondary).withHref(cancelUrl)
+                                                                .withText("Cancel"),
+
                                                 input().withClasses(btn, btn_primary).withType("submit")
-                                                                .withName("createUrl"))));
+                                                                .withName("createUrl")
+                                
+                                )));
 
                 // output the response
                 setResponseContentType(request, response);
