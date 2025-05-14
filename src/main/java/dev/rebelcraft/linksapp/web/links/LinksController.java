@@ -14,7 +14,7 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
-public class LinkController {
+public class LinksController {
 
     private final Links links;
 
