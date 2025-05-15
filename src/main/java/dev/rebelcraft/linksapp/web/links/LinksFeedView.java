@@ -1,5 +1,6 @@
 package dev.rebelcraft.linksapp.web.links;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class LinksFeedView extends AbstractAtomFeedView {
     // get from model
     String feedUrl = (String) model.get("feedUrl");
     String homeUrl = (String) model.get("homeUrl");
+    Instant lastUpdated = (Instant) model.get("lastUpdated");
 
     // build the feed metadata
     feed.setTitle("Links Feed");
@@ -39,7 +41,8 @@ public class LinksFeedView extends AbstractAtomFeedView {
         selfLink,
         alternativeLink));
     feed.setId(feedUrl);
-    feed.setUpdated(new java.util.Date());
+
+    feed.setUpdated(Date.from(lastUpdated));
     SyndPersonImpl author = new SyndPersonImpl();
     author.setName("RebelCraft");
     feed.setAuthors(List.of(author));

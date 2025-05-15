@@ -26,6 +26,7 @@ public class LinksFeedController {
     model.addAttribute("feedUrl", feedUrl);
     model.addAttribute("homeUrl", homeUrl);
     model.addAttribute("links", links.getLinks());
+    model.addAttribute("lastUpdated", links.getLastUpdated());
     return "linksFeedView";
   }
 
