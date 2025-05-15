@@ -1,5 +1,7 @@
 package dev.rebelcraft.linksapp.web.links;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -39,43 +41,24 @@ public class LinksView extends AbstractView {
                 String feedUrl = (String) model.get("feedUrl");
 
                 // build the ui
-                DomContent html = SiteTemplate.add("Links",
-                                model,
-                                each(
-                                                h1("Create a new link"),
-                                                div(
-                                                                form()
-                                                                                .withMethod("GET")
-                                                                                .withAction(createLinkUrl)
-                                                                                .with(
-                                                                                                input()
-                                                                                                                .withType("url")
-                                                                                                                .withName("url")
-                                                                                                                .withPlaceholder(
-                                                                                                                                "Enter a URL"),
-                                                                                                input()
-                                                                                                                .withType("submit")
-                                                                                                                .withName("createUrl"))),
-                                                div(
-                                                                h1().with(
-                                                                                join(text("Recent links"),
-                                                                                                a().withHref(feedUrl)
-                                                                                                                .with(span().withClasses(
-                                                                                                                                "bi",
-                                                                                                                                "bi-rss-fill")))),
-                                                                each(links.toList(), link -> {
-                                                                        return div(
-                                                                                        a(link.url().toString())
-                                                                                                        .withHref(link.url()
-                                                                                                                        .toString())
-                                                                                                        .withTarget("_blank"),
-                                                                                        p(link.notes()),
-                                                                                        each(link.tags(), tag -> {
-                                                                                                return span(tag).withClasses(
-                                                                                                                badge,
-                                                                                                                text_bg_secondary);
-                                                                                        }));
-                                                                }))));
+                DomContent html = SiteTemplate.add("Links", model, each(h1("Create a new link"),
+                                div(form().withMethod("GET").withAction(createLinkUrl).with(
+                                                input().withType("url").withName("url").withPlaceholder("Enter a URL"),
+                                                input().withType("submit").withName("createUrl"))),
+                                div(h1().with(join(text("Recent links"),
+                                                a().withHref(feedUrl).with(span().withClasses("bi", "bi-rss-fill")))),
+                                                each(links.toList(), link -> {
+                                                        return div(a(link.url().toString()).withHref(
+                                                                        link.url().toString()).withTarget("_blank"),
+                                                                        p(link.notes()),
+                                                                        p("Created at " + link.createdDate()
+                                                                                        .atZone(ZoneId.systemDefault())
+                                                                                        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)),
+                                                                        each(link.tags(), tag -> {
+                                                                                return span(tag).withClasses(badge,
+                                                                                                text_bg_secondary);
+                                                                        }));
+                                                }))));
 
                 // output the html
                 setResponseContentType(request, response);

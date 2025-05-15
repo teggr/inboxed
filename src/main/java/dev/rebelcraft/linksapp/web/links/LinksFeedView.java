@@ -1,5 +1,6 @@
 package dev.rebelcraft.linksapp.web.links;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public class LinksFeedView extends AbstractAtomFeedView {
 
         entry.setId(link.url().toString());
 
-        entry.setUpdated(new java.util.Date());
+        entry.setUpdated(Date.from(link.createdDate()));
 
         Content content = new Content();
         content.setValue(link.notes());

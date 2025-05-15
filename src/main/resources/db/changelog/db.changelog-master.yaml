@@ -25,6 +25,9 @@ databaseChangeLog:
               - column:
                   name: NOTES
                   type: VARCHAR(255)
+              - column:
+                  name: CREATED_DATE
+                  type: TIMESTAMP WITH TIME ZONE
 
   - changeSet:
       id: 2-create-tag-names-table
