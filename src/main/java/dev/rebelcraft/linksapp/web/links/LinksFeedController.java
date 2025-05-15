@@ -15,7 +15,7 @@ public class LinksFeedController {
 
   private final Links links;
 
-  @GetMapping
+  @GetMapping(produces = "application/atom+xml")
   public String getLinksFeed(Model model) {
     model.addAttribute("links", links.getLinks());
     return "linksFeedView";
