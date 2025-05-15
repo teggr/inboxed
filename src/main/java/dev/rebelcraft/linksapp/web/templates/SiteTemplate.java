@@ -30,7 +30,9 @@ public class SiteTemplate {
                                                                                 .withRel("stylesheet")
                                                                                 .attr("integrity",
                                                                                                 BootstrapConfig.CDN_MIN_CSS_INTEGRITY)
-                                                                                .attr("crossorigin", "anonymous")),
+                                                                                .attr("crossorigin", "anonymous"),
+                                                                link().withHref("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css")
+                                                                                .withRel("stylesheet")),
                                                 body(
                                                                 div().withClass(Bootstrap.container)
                                                                                 .with(

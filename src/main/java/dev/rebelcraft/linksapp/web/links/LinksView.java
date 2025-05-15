@@ -23,54 +23,64 @@ import static j2html.TagCreator.*;
 @Component
 public class LinksView extends AbstractView {
 
-    @Override
-    @Nullable
-    public String getContentType() {
-        return MediaType.TEXT_HTML_VALUE;
-    }
+        @Override
+        @Nullable
+        public String getContentType() {
+                return MediaType.TEXT_HTML_VALUE;
+        }
 
-    @Override
-    protected void renderMergedOutputModel(@Nullable Map<String, Object> model, @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response) throws Exception {
+        @Override
+        protected void renderMergedOutputModel(@Nullable Map<String, Object> model, @NonNull HttpServletRequest request,
+                        @NonNull HttpServletResponse response) throws Exception {
 
-        // get from the model
-        Page<Link> links = (Page<Link>) model.get("links");
-        String createLinkUrl = (String) model.get("createLinkUrl");
+                // get from the model
+                Page<Link> links = (Page<Link>) model.get("links");
+                String createLinkUrl = (String) model.get("createLinkUrl");
+                String feedUrl = (String) model.get("feedUrl");
 
-        // build the ui
-        DomContent html = SiteTemplate.add("Links",
-                model,
-                each(
-                        h1("Create a new link"),
-                        div(
-                                form()
-                                        .withMethod("GET")
-                                        .withAction(createLinkUrl)
-                                        .with(
-                                                input()
-                                                        .withType("url")
-                                                        .withName("url")
-                                                        .withPlaceholder("Enter a URL"),
-                                                input()
-                                                        .withType("submit")
-                                                        .withName("createUrl"))),
-                        div(
-                                h1("Recent links"),
-                                each(links.toList(), link -> {
-                                        return div(
-                                                a(link.url().toString())
-                                                        .withHref(link.url().toString())
-                                                        .withTarget("_blank"),
-                                                p(link.notes()),
-                                                each(link.tags(), tag -> {
-                                                        return span(tag).withClasses(badge, text_bg_secondary);
-                                                }));
-                                }))));
+                // build the ui
+                DomContent html = SiteTemplate.add("Links",
+                                model,
+                                each(
+                                                h1("Create a new link"),
+                                                div(
+                                                                form()
+                                                                                .withMethod("GET")
+                                                                                .withAction(createLinkUrl)
+                                                                                .with(
+                                                                                                input()
+                                                                                                                .withType("url")
+                                                                                                                .withName("url")
+                                                                                                                .withPlaceholder(
+                                                                                                                                "Enter a URL"),
+                                                                                                input()
+                                                                                                                .withType("submit")
+                                                                                                                .withName("createUrl"))),
+                                                div(
+                                                                h1().with(
+                                                                                join(text("Recent links"),
+                                                                                                a().withHref(feedUrl)
+                                                                                                                .with(span().withClasses(
+                                                                                                                                "bi",
+                                                                                                                                "bi-rss-fill")))),
+                                                                each(links.toList(), link -> {
+                                                                        return div(
+                                                                                        a(link.url().toString())
+                                                                                                        .withHref(link.url()
+                                                                                                                        .toString())
+                                                                                                        .withTarget("_blank"),
+                                                                                        p(link.notes()),
+                                                                                        each(link.tags(), tag -> {
+                                                                                                return span(tag).withClasses(
+                                                                                                                badge,
+                                                                                                                text_bg_secondary);
+                                                                                        }));
+                                                                }))));
 
-        // output the html
-        setResponseContentType(request, response);
-        html.render(IndentedHtml.into(response.getWriter()));
+                // output the html
+                setResponseContentType(request, response);
+                html.render(IndentedHtml.into(response.getWriter()));
 
-    }
+        }
 
 }
