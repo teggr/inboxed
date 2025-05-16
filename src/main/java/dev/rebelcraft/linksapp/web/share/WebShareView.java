@@ -112,7 +112,7 @@ public class WebShareView extends AbstractView {
                                                                                                                                                                 newHidden.name = "tags";
 
                                                                                                                                                                 const newTag = document.createElement("span");
-                                                                                                                                                                newTag.className = "badge text-bg-secondary";
+                                                                                                                                                                newTag.className = "badge text-bg-secondary me-1";
                                                                                                                                                                 newTag.textContent = tagValue;
 
                                                                                                                                                                 tagContainer.appendChild(newHidden);
