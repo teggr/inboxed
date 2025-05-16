@@ -81,3 +81,20 @@ databaseChangeLog:
               - column:
                   name: FETCH_ERROR
                   type: VARCHAR(255)
+
+  - changeSet:
+      id: 5-create-link-meta-data-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: LINK_META_DATA
+            columns:
+              - column:
+                  name: LINKS
+                  type: INT
+              - column:
+                  name: TITLE
+                  type: VARCHAR(255)
+              - column:
+                  name: CREATED_DATE
+                  type: TIMESTAMP WITH TIME ZONE

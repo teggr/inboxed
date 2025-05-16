@@ -5,6 +5,7 @@ import java.net.URL;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LinkFetcher {
 
   private final Links links;
+  private final ApplicationEventPublisher applicationEventPublisher;
 
   @Async
   @TransactionalEventListener(fallbackExecution = true)
@@ -51,7 +53,13 @@ public class LinkFetcher {
 
     Link updatedLink = createdLink.withFetchedLinkData(fetchedLinkData);
 
-    links.updateLink(updatedLink);
+    updatedLink = links.updateLink(updatedLink);
+
+    if(updatedLink.wasFetched()) {
+
+      applicationEventPublisher.publishEvent(new FetchedLinkDataCreatedEvent(updatedLink));
+
+    }
 
   }
 

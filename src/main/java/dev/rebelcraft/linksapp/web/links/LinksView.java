@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.badge;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.text_bg_secondary;
+import static dev.rebelcraft.j2html.bootstrap.Bootstrap.text_bg_success;
 import static j2html.TagCreator.*;
 
 @Component
@@ -48,18 +49,44 @@ public class LinksView extends AbstractView {
                                                 input().withType("submit").withName("createUrl"))),
                                 div(h1().with(join(text("Recent links"),
                                                 a().withHref(feedUrl).with(span().withClasses("bi", "bi-rss-fill")))),
+
                                                 each(links.toList(), link -> {
-                                                        return div(a(join(link.url().toString(), " ", i().withClasses("bi", "bi-arrow-up-right-square"))).withHref(
-                                                                        link.url().toString()).withTarget("_blank"),
-                                                                        iff(Optional.ofNullable(link.fetchedLinkData()), (data) -> p(data.title())),
+
+                                                        String title = "";
+                                                        if (link.fetchedLinkData() != null) {
+                                                                title = link.fetchedLinkData().title();
+                                                        }
+                                                        if (link.linkMetaData() != null) {
+                                                                title = link.linkMetaData().title();
+                                                        }
+
+                                                        boolean wasFetched = link.wasFetched();
+                                                        boolean wasMetaDataGenerated = link.wasMetaDataGenerated();
+
+                                                        return div(a(join(link.url().toString(), " ", i()
+                                                                        .withClasses("bi", "bi-arrow-up-right-square")))
+                                                                                        .withHref(link.url().toString())
+                                                                                        .withTarget("_blank"),
+                                                                        iff(!title.isBlank(), p(title)),
                                                                         p(link.notes()),
                                                                         p("Created at " + link.createdDate()
                                                                                         .atZone(ZoneId.systemDefault())
                                                                                         .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)),
-                                                                        each(link.tags(), tag -> {
+                                                                        div(each(link.tags(), tag -> {
                                                                                 return span(tag).withClasses(badge,
                                                                                                 text_bg_secondary);
-                                                                        }));
+                                                                        })),
+                                                                        div(iff(wasFetched || wasMetaDataGenerated,
+                                                                                        each(iff(wasFetched, span(
+                                                                                                        "Fetched").withClasses(
+                                                                                                                        badge,
+                                                                                                                        text_bg_success)),
+                                                                                                        iff(wasMetaDataGenerated,
+                                                                                                                        span("Meta data generated")
+                                                                                                                                        .withClasses(badge,
+                                                                                                                                                        text_bg_success)))))
+
+                                                );
                                                 }))));
 
                 // output the html

@@ -8,8 +8,12 @@ public record FetchedLinkData(String title, String html, Instant createdDate, St
     this(title, html, Instant.now(), null);
   }
 
-   public FetchedLinkData(String fetchError) {
+  public FetchedLinkData(String fetchError) {
     this(null, null, Instant.now(), fetchError);
+  }
+
+  public boolean wasFetchedSuccessfully() {
+    return this.fetchError == null;
   }
 
 }
