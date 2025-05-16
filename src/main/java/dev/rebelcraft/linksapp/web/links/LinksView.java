@@ -83,13 +83,17 @@ public class LinksView extends AbstractView {
                                                 p(link.notes()).withClasses(card_text), div(each(link.tags(), tag -> {
                                                         return span(tag).withClasses(badge, text_bg_secondary);
                                                 })),
-                                                div(iff(wasFetched || wasMetaDataGenerated, each(
-                                                                iff(wasFetched, span("Fetched").withClasses(badge,
-                                                                                text_bg_success)),
-                                                                iff(wasMetaDataGenerated,
+                                                div(iffElse(wasFetched,
+                                                                span("Fetched").withClasses(badge, text_bg_success),
+                                                                span("Fetching").withClasses(badge, text_bg_warning)),
+                                                                iffElse(wasMetaDataGenerated,
                                                                                 span("Meta data generated").withClasses(
-                                                                                                badge,
-                                                                                                text_bg_success))))),
+                                                                                                badge, text_bg_success),
+                                                                                span("Generating meta data")
+                                                                                                .withClasses(badge,
+                                                                                                                text_bg_warning)
+
+                                                                )),
                                                 p(small(join("Created at ", link.createdDate()
                                                                 .atZone(ZoneId.systemDefault())
                                                                 .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)))

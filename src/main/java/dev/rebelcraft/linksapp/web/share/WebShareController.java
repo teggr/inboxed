@@ -32,12 +32,29 @@ public class WebShareController {
     public String getCreateLink(@RequestParam(name = "url", required = false) URL url, Model model) {
         String createUrl = fromMethodName(WebShareController.class, "postCreateLink", null, null, null).build()
                 .toUriString();
-        String cancelUrl = fromMethodName(LinksController.class, "getLinks", (Model)null).build().toUriString();
+        String cancelUrl = fromMethodName(LinksController.class, "getLinks", (Model) null).build().toUriString();
         model.addAttribute("createUrl", createUrl);
         model.addAttribute("cancelUrl", cancelUrl);
         model.addAttribute("url", url);
         model.addAttribute("tagNames", tagNamesRepository.findAll());
+        String domain = extractDomainName(url);
+        model.addAttribute("tags", List.of(domain));
         return "webShareView";
+    }
+
+    private String extractDomainName(URL url) {
+        if (url == null) {
+            return "";
+        }
+        String host = url.getHost();
+
+        // Split the host into parts
+        String[] parts = host.split("\\.");
+        if (parts.length >= 2) {
+            // Return the second-level domain
+            return parts[parts.length - 2];
+        }
+        return host;
     }
 
     @PostMapping

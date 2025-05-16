@@ -39,6 +39,7 @@ public class WebShareView extends AbstractView {
                 String cancelUrl = (String) model.get("cancelUrl");
                 URL url = (URL) model.get("url");
                 List<TagName> tagNames = (List<TagName>) model.get("tagNames");
+                List<String> tags = (List<String>) model.get("tags");
 
                 // build the ui
                 DomContent html = SiteTemplate.add("Create a new link", model, each(h1("Create a new link"),
@@ -66,7 +67,17 @@ public class WebShareView extends AbstractView {
                                                                 label().withFor("tags").withClass(form_label)
                                                                                 .withText("Tags"),
 
-                                                                div().withId("tags").withClass(mb_3),
+                                                                div().withId("tags").withClass(mb_3)
+                                                                                .with(each(tags, tag -> {
+                                                                                        return each(input().withType(
+                                                                                                        "hidden")
+                                                                                                        .withName("tags")
+                                                                                                        .withValue(tag),
+                                                                                                        span(tag).withClasses(
+                                                                                                                        "badge",
+                                                                                                                        "text-bg-secondary",
+                                                                                                                        "me-1"));
+                                                                                })),
 
                                                                 input().withId("dataListInput").withClass(form_control)
                                                                                 .withList("datalistOptions")
@@ -132,7 +143,7 @@ public class WebShareView extends AbstractView {
 
                                                 input().withClasses(btn, btn_primary).withType("submit")
                                                                 .withName("createUrl")
-                                
+
                                 )));
 
                 // output the response
