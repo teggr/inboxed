@@ -3,6 +3,7 @@ package dev.rebelcraft.linksapp.web.links;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -48,8 +49,9 @@ public class LinksView extends AbstractView {
                                 div(h1().with(join(text("Recent links"),
                                                 a().withHref(feedUrl).with(span().withClasses("bi", "bi-rss-fill")))),
                                                 each(links.toList(), link -> {
-                                                        return div(a(link.url().toString()).withHref(
+                                                        return div(a(join(link.url().toString(), " ", i().withClasses("bi", "bi-arrow-up-right-square"))).withHref(
                                                                         link.url().toString()).withTarget("_blank"),
+                                                                        iff(Optional.ofNullable(link.fetchedLinkData()), (data) -> p(data.title())),
                                                                         p(link.notes()),
                                                                         p("Created at " + link.createdDate()
                                                                                         .atZone(ZoneId.systemDefault())
