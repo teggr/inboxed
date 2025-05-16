@@ -39,4 +39,9 @@ public class Links {
         return linksRepository.findFirstByOrderByCreatedDateDesc().map(Link::createdDate).orElse(Instant.now());
     }
 
+    public Link updateLink(Link updatedLink) {
+	    Link savedLink = linksRepository.save(updatedLink);
+        return savedLink;
+    }
+
 }

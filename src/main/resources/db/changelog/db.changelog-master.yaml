@@ -58,3 +58,26 @@ databaseChangeLog:
             columns:
               - column:
                   name: NAME
+  
+  - changeSet:
+      id: 4-create-fetched-link-data-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FETCHED_LINK_DATA
+            columns:
+              - column:
+                  name: LINKS
+                  type: INT
+              - column:
+                  name: TITLE
+                  type: VARCHAR(255)
+              - column:
+                  name: HTML
+                  type: TEXT
+              - column:
+                  name: CREATED_DATE
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: FETCH_ERROR
+                  type: VARCHAR(255)

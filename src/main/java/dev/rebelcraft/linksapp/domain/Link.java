@@ -9,7 +9,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("LINKS")
-public record Link(@Id Long id, URL url, String notes, Set<String> tags, @CreatedDate Instant createdDate) {
+public record Link(@Id Long id, URL url, String notes, Set<String> tags, @CreatedDate Instant createdDate,
+    FetchedLinkData fetchedLinkData) {
+
   public Link {
     if (notes == null) {
       notes = "";
@@ -18,4 +20,9 @@ public record Link(@Id Long id, URL url, String notes, Set<String> tags, @Create
       tags = Set.of();
     }
   }
+
+  public Link withFetchedLinkData(FetchedLinkData fetchedLinkData) {
+    return new Link(this.id, this.url, this.notes, this.tags, this.createdDate, fetchedLinkData);
+  }
+
 }
