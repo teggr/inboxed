@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomJdbcConfiguration extends AbstractJdbcConfiguration {
 
+    @SuppressWarnings("null")
     @Override
     protected List<?> userConverters() {
         return List.of(

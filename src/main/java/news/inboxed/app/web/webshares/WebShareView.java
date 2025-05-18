@@ -30,7 +30,7 @@ public class WebShareView extends AbstractView {
                 return MediaType.TEXT_HTML_VALUE;
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "null" })
         @Override
         protected void renderMergedOutputModel(@Nullable Map<String, Object> model, @NonNull HttpServletRequest request,
                         @NonNull HttpServletResponse response) throws Exception {

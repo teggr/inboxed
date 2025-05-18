@@ -21,6 +21,7 @@ import news.inboxed.app.webshares.WebShare;
 @Component("starredFeedView")
 public class StarredFeedView extends AbstractAtomFeedView {
 
+  @SuppressWarnings("null")
   @Override
   protected void buildFeedMetadata(Map<String, Object> model, Feed feed, HttpServletRequest request) {
 
@@ -49,7 +50,7 @@ public class StarredFeedView extends AbstractAtomFeedView {
 
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "null" })
   @Override
   protected List<Entry> buildFeedEntries(Map<String, Object> model, HttpServletRequest request,
       HttpServletResponse response) throws Exception {
