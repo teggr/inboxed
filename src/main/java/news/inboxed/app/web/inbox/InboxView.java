@@ -15,7 +15,7 @@ import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import news.inboxed.app.web.templates.SiteTemplate;
-import news.inboxed.app.webshares.Link;
+import news.inboxed.app.webshares.WebShare;
 
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
 import static j2html.TagCreator.*;
@@ -35,19 +35,18 @@ public class InboxView extends AbstractView {
                         @NonNull HttpServletResponse response) throws Exception {
 
                 // get from the model
-                Page<Link> links = (Page<Link>) model.get("links");
-                String createLinkUrl = (String) model.get("createLinkUrl");
-                String feedUrl = (String) model.get("feedUrl");
+                Page<WebShare> webShares = (Page<WebShare>) model.get("webShares");
+                String createWebShareUrl = (String) model.get("createWebShareUrl");
+                String starredFeedUrl = (String) model.get("starredFeedUrl");
 
                 // build the ui
-                DomContent html = SiteTemplate.add("Links", model, each(h1("Create a new link"),
-                                div(form().withMethod("GET").withAction(createLinkUrl).with(
+                DomContent html = SiteTemplate.add("Inbox", model, each(h1("Add a new link"),
+                                div(form().withMethod("GET").withAction(createWebShareUrl).with(
                                                 input().withType("url").withName("url").withPlaceholder("Enter a URL"),
-                                                input().withType("submit").withName("createUrl"))),
-                                div(h1().with(join(text("Recent links"),
-                                                a().withHref(feedUrl).with(span().withClasses("bi", "bi-rss-fill")))),
-
-                                                each(links.toList(), this::linkCard)))
+                                                input().withType("submit"))),
+                                div(h1().with(join(text("Inbox"),
+                                                a().withHref(starredFeedUrl).with(span().withClasses("bi", "bi-rss-fill")))),
+                                                each(webShares.toList(), this::webShareCard)))
 
                 );
                 // output the html
@@ -56,18 +55,18 @@ public class InboxView extends AbstractView {
 
         }
 
-        private DomContent linkCard(Link link) {
+        private DomContent webShareCard(WebShare webShare) {
 
-                String title = link.url().toString();
-                if (link.fetchedLinkData() != null) {
-                        title = link.fetchedLinkData().title();
+                String title = webShare.url().toString();
+                if (webShare.webShareData() != null) {
+                        title = webShare.webShareData().title();
                 }
-                if (link.linkMetaData() != null) {
-                        title = link.linkMetaData().title();
+                if (webShare.webShareMetaData() != null) {
+                        title = webShare.webShareMetaData().title();
                 }
 
-                boolean wasFetched = link.wasFetched();
-                boolean wasMetaDataGenerated = link.wasMetaDataGenerated();
+                boolean wasFetched = webShare.hasWebShareData();
+                boolean wasMetaDataGenerated = webShare.hasMetaData();
 
                 return div().withClasses(card, mb_3).with(div().withClasses(row, g_0).with(
                                 // div().withClasses(col_md_4).with(
@@ -75,11 +74,11 @@ public class InboxView extends AbstractView {
                                 // ),
                                 div().withClasses(col_md_8).with(div().withClasses(card_body).with(
                                                 h5(title).withClasses(card_title),
-                                                p(a(join(link.url().toString(),
+                                                p(a(join(webShare.url().toString(),
                                                                 span().withClasses("bi", "bi-arrow-up-right-square")))
-                                                                                .withHref(link.url().toString())
+                                                                                .withHref(webShare.url().toString())
                                                                                 .withTarget("_blank")),
-                                                p(link.notes()).withClasses(card_text), div(each(link.tags(), tag -> {
+                                                p(webShare.notes()).withClasses(card_text), div(each(webShare.tags(), tag -> {
                                                         return span(tag).withClasses(badge, text_bg_secondary);
                                                 })),
                                                 div(iffElse(wasFetched,
@@ -93,7 +92,7 @@ public class InboxView extends AbstractView {
                                                                                                                 text_bg_warning)
 
                                                                 )),
-                                                p(small(join("Created at ", link.createdDate()
+                                                p(small(join("Created at ", webShare.createdDate()
                                                                 .atZone(ZoneId.systemDefault())
                                                                 .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)))
                                                                                 .withClasses(text_muted)).withClasses(

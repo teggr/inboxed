@@ -7,10 +7,10 @@ import java.util.Optional;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.ListPagingAndSortingRepository;
 
-public interface LinksRepository extends ListCrudRepository<Link, Long>, ListPagingAndSortingRepository<Link, Long> {
+public interface WebShareRepository extends ListCrudRepository<WebShare, Long>, ListPagingAndSortingRepository<WebShare, Long> {
 
-    Link findByUrl(URL url);
+    WebShare findByUrl(URL url);
 
-    Optional<Link> findFirstByOrderByCreatedDateDesc();
+    Optional<WebShare> findFirstByOrderByCreatedDateDesc();
     
 }

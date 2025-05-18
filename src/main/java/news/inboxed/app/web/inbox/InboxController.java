@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
-import news.inboxed.app.web.share.LinksFeedController;
+import news.inboxed.app.web.share.StarredFeedController;
 import news.inboxed.app.web.webshares.WebShareController;
-import news.inboxed.app.webshares.Links;
+import news.inboxed.app.webshares.WebShares;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
 
@@ -17,19 +17,19 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 @RequiredArgsConstructor
 public class InboxController {
 
-    private final Links links;
+    private final WebShares webShares;
 
     @GetMapping
-    public String getLinks(Model model) {
+    public String getInbox(Model model) {
         
-        String createLinkUrl = fromMethodName(WebShareController.class, "getCreateLink", null, (Model) null)
+        String createWebShareUrl = fromMethodName(WebShareController.class, "getWebShare", null, (Model) null)
                 .build()
                 .toUriString();
-        String feedUrl = fromMethodName(LinksFeedController.class, "getLinksFeed", (Model) null).build().toUriString();
+        String starredFeedUrl = fromMethodName(StarredFeedController.class, "getStarredFeed", (Model) null).build().toUriString();
         
-        model.addAttribute("createLinkUrl", createLinkUrl);
-        model.addAttribute("feedUrl", feedUrl);
-        model.addAttribute("links", links.getLinks());
+        model.addAttribute("createWebShareUrl", createWebShareUrl);
+        model.addAttribute("starredFeedUrl", starredFeedUrl);
+        model.addAttribute("webShares", webShares.getWebShares());
 
         return "inboxView";
         

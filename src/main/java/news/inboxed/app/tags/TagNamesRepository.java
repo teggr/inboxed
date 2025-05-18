@@ -1,4 +1,4 @@
-package news.inboxed.app.webshares;
+package news.inboxed.app.tags;
 
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.ListPagingAndSortingRepository;

@@ -14,26 +14,26 @@ import java.net.URL;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import news.inboxed.app.tags.TagName;
+import news.inboxed.app.tags.TagNamesRepository;
 import news.inboxed.app.web.inbox.InboxController;
-import news.inboxed.app.webshares.Link;
-import news.inboxed.app.webshares.Links;
-import news.inboxed.app.webshares.TagName;
-import news.inboxed.app.webshares.TagNamesRepository;
+import news.inboxed.app.webshares.WebShare;
+import news.inboxed.app.webshares.WebShares;
 
 @Controller
 @RequestMapping("/share")
 @RequiredArgsConstructor
 public class WebShareController {
 
-    private final Links links;
+    private final WebShares webShares;
     private final TagNamesRepository tagNamesRepository;
 
     @GetMapping
-    public String getCreateLink(@RequestParam(name = "url", required = false) URL url, Model model) {
-        String createUrl = fromMethodName(WebShareController.class, "postCreateLink", null, null, null).build()
+    public String getWebShare(@RequestParam(name = "url", required = false) URL url, Model model) {
+        String postCreateWebShareUrl = fromMethodName(WebShareController.class, "postCreateWebShare", null, null, null).build()
                 .toUriString();
-        String cancelUrl = fromMethodName(InboxController.class, "getLinks", (Model) null).build().toUriString();
-        model.addAttribute("createUrl", createUrl);
+        String cancelUrl = fromMethodName(InboxController.class, "getInbox", (Model) null).build().toUriString();
+        model.addAttribute("postCreateWebShareUrl", postCreateWebShareUrl);
         model.addAttribute("cancelUrl", cancelUrl);
         model.addAttribute("url", url);
         model.addAttribute("tagNames", tagNamesRepository.findAll());
@@ -58,9 +58,9 @@ public class WebShareController {
     }
 
     @PostMapping
-    public String postCreateLink(@ModelAttribute Link link, BindingResult bindingResult, Model model) {
-        Link newLink = links.createNew(link);
-        List<TagName> list = newLink.tags().stream().filter(t -> !tagNamesRepository.existsByName(t))
+    public String postCreateWebShare(@ModelAttribute WebShare webShare, BindingResult bindingResult, Model model) {
+        WebShare newWebShare = webShares.createNew(webShare);
+        List<TagName> list = newWebShare.tags().stream().filter(t -> !tagNamesRepository.existsByName(t))
                 .map(t -> new TagName(null, t)).toList();
         tagNamesRepository.saveAll(list);
         return "redirect:/";

@@ -13,16 +13,16 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class LinkMetadataEnricher {
+public class WebShareMetaDataEnricher {
 
-  private final Links links;
+  private final WebShares webShares;
 
   @TransactionalEventListener(fallbackExecution = true)
-  public void handleFetchLinkDataCreated(FetchedLinkDataCreatedEvent fetchedLinkDataCreatedEvent) {
+  public void handleWebShareDataUpdatedEvent(WebShareDataUpdatedEvent webShareDataUpdatedEvent) {
 
-    Link updatedLink = (Link) fetchedLinkDataCreatedEvent.getSource();
+    WebShare updatedWebShare = (WebShare) webShareDataUpdatedEvent.getSource();
 
-    Document document = Jsoup.parse(updatedLink.fetchedLinkData().html());
+    Document document = Jsoup.parse(updatedWebShare.webShareData().html());
 
     Element head = document.head();
 
@@ -66,12 +66,12 @@ public class LinkMetadataEnricher {
 
     System.out.println("ArticleMetaData: " + articleMetaData);
 
-    LinkMetaData linkMetaData = new LinkMetaData(document.title(), null, openGraphData, twitterMetaData,
+    WebShareMetaData webShareMetaData = new WebShareMetaData(document.title(), null, openGraphData, twitterMetaData,
         articleMetaData);
 
-    updatedLink = updatedLink.withLinkMetaData(linkMetaData);
+    updatedWebShare = updatedWebShare.withWebShareMetaData(webShareMetaData);
 
-    updatedLink = links.updateLink(updatedLink);
+    updatedWebShare = webShares.updateWebShare(updatedWebShare);
 
   }
 

@@ -1,4 +1,4 @@
-package news.inboxed.app.webshares;
+package news.inboxed.app.data;
 
 public class URLToStringConverter implements org.springframework.core.convert.converter.Converter<java.net.URL, String> {
     

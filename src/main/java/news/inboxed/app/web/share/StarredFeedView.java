@@ -16,35 +16,35 @@ import com.rometools.rome.feed.synd.SyndPersonImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import news.inboxed.app.webshares.Link;
+import news.inboxed.app.webshares.WebShare;
 
-@Component("linksFeedView")
-public class LinksFeedView extends AbstractAtomFeedView {
+@Component("starredFeedView")
+public class StarredFeedView extends AbstractAtomFeedView {
 
   @Override
   protected void buildFeedMetadata(Map<String, Object> model, Feed feed, HttpServletRequest request) {
 
     // get from model
-    String feedUrl = (String) model.get("feedUrl");
+    String starredFeedUrl = (String) model.get("starredFeedUrl");
     String homeUrl = (String) model.get("homeUrl");
     Instant lastUpdated = (Instant) model.get("lastUpdated");
 
     // build the feed metadata
-    feed.setTitle("Links Feed");
+    feed.setTitle("Starred Feed");
     com.rometools.rome.feed.atom.Link selfLink = new com.rometools.rome.feed.atom.Link();
     selfLink.setRel("self");
-    selfLink.setHref(feedUrl);
+    selfLink.setHref(starredFeedUrl);
     com.rometools.rome.feed.atom.Link alternativeLink = new com.rometools.rome.feed.atom.Link();
     alternativeLink.setRel("alternative");
     alternativeLink.setHref(homeUrl);
     feed.setAlternateLinks(List.of(
         selfLink,
         alternativeLink));
-    feed.setId(feedUrl);
+    feed.setId(starredFeedUrl);
 
     feed.setUpdated(Date.from(lastUpdated));
     SyndPersonImpl author = new SyndPersonImpl();
-    author.setName("RebelCraft");
+    author.setName("Inboxed");
     feed.setAuthors(List.of(author));
 
   }
@@ -55,29 +55,29 @@ public class LinksFeedView extends AbstractAtomFeedView {
       HttpServletResponse response) throws Exception {
 
     // get from the model
-    Page<Link> links = (Page<Link>) model.get("links");
+    Page<WebShare> webShares = (Page<WebShare>) model.get("webShares");
 
     // build the feed entries
-    if (links != null) {
+    if (webShares != null) {
 
-      return links.stream().map(link -> {
+      return webShares.stream().map(webShare -> {
 
         Entry entry = new Entry();
-        entry.setTitle(link.url().toString());
+        entry.setTitle(webShare.url().toString());
 
         com.rometools.rome.feed.atom.Link alternativeLink = new com.rometools.rome.feed.atom.Link();
-        alternativeLink.setHref(link.url().toString());
+        alternativeLink.setHref(webShare.url().toString());
 
-        entry.setId(link.url().toString());
+        entry.setId(webShare.url().toString());
 
-        entry.setUpdated(Date.from(link.createdDate()));
+        entry.setUpdated(Date.from(webShare.createdDate()));
 
         Content content = new Content();
-        content.setValue(link.notes());
+        content.setValue(webShare.notes());
 
         entry.setSummary(content);
 
-        entry.setCategories(link.tags().stream().map(tag -> {
+        entry.setCategories(webShare.tags().stream().map(tag -> {
           com.rometools.rome.feed.atom.Category category = new com.rometools.rome.feed.atom.Category();
           category.setLabel(tag);
           return category;

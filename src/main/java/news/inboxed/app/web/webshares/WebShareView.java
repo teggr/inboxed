@@ -14,8 +14,8 @@ import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import news.inboxed.app.tags.TagName;
 import news.inboxed.app.web.templates.SiteTemplate;
-import news.inboxed.app.webshares.TagName;
 
 import static j2html.TagCreator.*;
 import static j2html.TagCreator.h1;
@@ -36,7 +36,7 @@ public class WebShareView extends AbstractView {
                         @NonNull HttpServletResponse response) throws Exception {
 
                 // get from the model
-                String postUrl = (String) model.get("createUrl");
+                String postCreateWebShareUrl = (String) model.get("postCreateWebShareUrl");
                 String cancelUrl = (String) model.get("cancelUrl");
                 URL url = (URL) model.get("url");
                 List<TagName> tagNames = (List<TagName>) model.get("tagNames");
@@ -44,7 +44,7 @@ public class WebShareView extends AbstractView {
 
                 // build the ui
                 DomContent html = SiteTemplate.add("Create a new link", model, each(h1("Create a new link"),
-                                form().withMethod("POST").withAction(postUrl).with(div().withClass(mb_3).with(
+                                form().withMethod("POST").withAction(postCreateWebShareUrl).with(div().withClass(mb_3).with(
 
                                                 label().withFor("url").withClass(form_label).withText("URL"),
 

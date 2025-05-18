@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 1-create-links-table
+      id: 1-create-web-share-table
       author: robin
       changes:
         - createTable:
-            tableName: LINKS
+            tableName: WEB_SHARES
             columns:
               - column:
                   name: ID
@@ -60,14 +60,14 @@ databaseChangeLog:
                   name: NAME
   
   - changeSet:
-      id: 4-create-fetched-link-data-table
+      id: 4-create-web-share-data-table
       author: robin
       changes:
         - createTable:
-            tableName: FETCHED_LINK_DATA
+            tableName: WEB_SHARE_DATA
             columns:
               - column:
-                  name: LINKS
+                  name: WEB_SHARES
                   type: INT
               - column:
                   name: TITLE
@@ -83,14 +83,14 @@ databaseChangeLog:
                   type: VARCHAR(255)
 
   - changeSet:
-      id: 5-create-link-meta-data-table
+      id: 5-create-web-share-meta-data-table
       author: robin
       changes:
         - createTable:
-            tableName: LINK_META_DATA
+            tableName: WEB_SHARE_META_DATA
             columns:
               - column:
-                  name: LINKS
+                  name: WEB_SHARES
                   type: INT
               - column:
                   name: TITLE

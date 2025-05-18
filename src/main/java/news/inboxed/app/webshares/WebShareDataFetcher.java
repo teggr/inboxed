@@ -16,22 +16,22 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class LinkFetcher {
+public class WebShareDataFetcher {
 
-  private final Links links;
+  private final WebShares webShares;
   private final ApplicationEventPublisher applicationEventPublisher;
 
   @Async
   @TransactionalEventListener(fallbackExecution = true)
-  public void handleLinkCreatedEvent(LinkCreatedEvent event) {
+  public void handleWebShareCreatedEvent(WebShareCreatedEvent event) {
 
-    Link createdLink = (Link) event.getSource();
+    WebShare createdWebShare = (WebShare) event.getSource();
 
-    FetchedLinkData fetchedLinkData = new FetchedLinkData(null, null, null, "Unknown error");
+    WebShareData fetchedWebShareData = new WebShareData(null, null, null, "Unknown error");
 
     try {
 
-      URL url = createdLink.url();
+      URL url = createdWebShare.url();
       log.info("Fetching data from URL: {}", url);
 
       // Use Jsoup to fetch the HTML content
@@ -39,23 +39,23 @@ public class LinkFetcher {
       String title = document.title();
       log.info("Fetched title: {}", title);
 
-      fetchedLinkData = new FetchedLinkData(title, document.html());
+      fetchedWebShareData = new WebShareData(title, document.html());
 
     } catch (IOException e) {
 
-      log.error("Failed to fetch data from URL: {}", createdLink.url(), e);
+      log.error("Failed to fetch data from URL: {}", createdWebShare.url(), e);
 
-      fetchedLinkData = new FetchedLinkData(e.getMessage());
+      fetchedWebShareData = new WebShareData(e.getMessage());
 
     }
 
-    Link updatedLink = createdLink.withFetchedLinkData(fetchedLinkData);
+    WebShare updatedWebShare = createdWebShare.withWebShareData(fetchedWebShareData);
 
-    updatedLink = links.updateLink(updatedLink);
+    updatedWebShare = webShares.updateWebShare(updatedWebShare);
 
-    if(updatedLink.wasFetched()) {
+    if(updatedWebShare.hasWebShareData()) {
 
-      applicationEventPublisher.publishEvent(new FetchedLinkDataCreatedEvent(updatedLink));
+      applicationEventPublisher.publishEvent(new WebShareDataUpdatedEvent(updatedWebShare));
 
     }
 
