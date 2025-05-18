@@ -49,6 +49,7 @@ public class LinksFeedView extends AbstractAtomFeedView {
 
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   protected List<Entry> buildFeedEntries(Map<String, Object> model, HttpServletRequest request,
       HttpServletResponse response) throws Exception {
