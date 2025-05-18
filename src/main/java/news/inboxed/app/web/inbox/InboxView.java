@@ -1,10 +1,8 @@
-package news.inboxed.app.web.links;
+package news.inboxed.app.web.inbox;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
@@ -16,14 +14,14 @@ import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import news.inboxed.app.domain.Link;
 import news.inboxed.app.web.templates.SiteTemplate;
+import news.inboxed.app.webshares.Link;
 
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
 import static j2html.TagCreator.*;
 
 @Component
-public class LinksView extends AbstractView {
+public class InboxView extends AbstractView {
 
         @Override
         @Nullable

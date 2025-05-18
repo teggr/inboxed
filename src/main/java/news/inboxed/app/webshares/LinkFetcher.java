@@ -1,4 +1,4 @@
-package news.inboxed.app.domain;
+package news.inboxed.app.webshares;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,8 +26,6 @@ public class LinkFetcher {
   public void handleLinkCreatedEvent(LinkCreatedEvent event) {
 
     Link createdLink = (Link) event.getSource();
-
-    // TODO: fetch the url and store the data, then move onto the next part
 
     FetchedLinkData fetchedLinkData = new FetchedLinkData(null, null, null, "Unknown error");
 

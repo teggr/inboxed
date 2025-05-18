@@ -1,4 +1,4 @@
-package news.inboxed.app.domain;
+package news.inboxed.app.webshares;
 
 import java.time.Instant;
 

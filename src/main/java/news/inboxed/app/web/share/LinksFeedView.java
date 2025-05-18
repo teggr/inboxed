@@ -1,4 +1,4 @@
-package news.inboxed.app.web.links;
+package news.inboxed.app.web.share;
 
 import java.time.Instant;
 import java.util.Date;
@@ -16,7 +16,7 @@ import com.rometools.rome.feed.synd.SyndPersonImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import news.inboxed.app.domain.Link;
+import news.inboxed.app.webshares.Link;
 
 @Component("linksFeedView")
 public class LinksFeedView extends AbstractAtomFeedView {

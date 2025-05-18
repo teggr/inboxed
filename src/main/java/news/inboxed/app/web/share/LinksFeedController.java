@@ -1,4 +1,4 @@
-package news.inboxed.app.web.links;
+package news.inboxed.app.web.share;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
-import news.inboxed.app.domain.Links;
+import news.inboxed.app.web.inbox.InboxController;
+import news.inboxed.app.webshares.Links;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
 
@@ -21,7 +22,7 @@ public class LinksFeedController {
   public String getLinksFeed(Model model) {
     String feedUrl = fromMethodName(LinksFeedController.class, "getLinksFeed", (Model) null).build()
         .toUriString();
-    String homeUrl = fromMethodName(LinksController.class, "getLinks", (Model) null).build()
+    String homeUrl = fromMethodName(InboxController.class, "getLinks", (Model) null).build()
         .toUriString();
     model.addAttribute("feedUrl", feedUrl);
     model.addAttribute("homeUrl", homeUrl);

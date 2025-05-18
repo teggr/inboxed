@@ -1,4 +1,4 @@
-package news.inboxed.app.web.share;
+package news.inboxed.app.web.webshares;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +14,11 @@ import java.net.URL;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import news.inboxed.app.domain.Link;
-import news.inboxed.app.domain.Links;
-import news.inboxed.app.domain.TagName;
-import news.inboxed.app.domain.TagNamesRepository;
-import news.inboxed.app.web.links.LinksController;
+import news.inboxed.app.web.inbox.InboxController;
+import news.inboxed.app.webshares.Link;
+import news.inboxed.app.webshares.Links;
+import news.inboxed.app.webshares.TagName;
+import news.inboxed.app.webshares.TagNamesRepository;
 
 @Controller
 @RequestMapping("/share")
@@ -32,7 +32,7 @@ public class WebShareController {
     public String getCreateLink(@RequestParam(name = "url", required = false) URL url, Model model) {
         String createUrl = fromMethodName(WebShareController.class, "postCreateLink", null, null, null).build()
                 .toUriString();
-        String cancelUrl = fromMethodName(LinksController.class, "getLinks", (Model) null).build().toUriString();
+        String cancelUrl = fromMethodName(InboxController.class, "getLinks", (Model) null).build().toUriString();
         model.addAttribute("createUrl", createUrl);
         model.addAttribute("cancelUrl", cancelUrl);
         model.addAttribute("url", url);

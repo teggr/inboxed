@@ -1,4 +1,4 @@
-package news.inboxed.app.domain;
+package news.inboxed.app.webshares;
 
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.ListPagingAndSortingRepository;

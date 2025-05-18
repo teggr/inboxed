@@ -1,4 +1,4 @@
-package news.inboxed.app.web.share;
+package news.inboxed.app.web.webshares;
 
 import java.net.URL;
 import java.util.List;
@@ -14,8 +14,8 @@ import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import news.inboxed.app.domain.TagName;
 import news.inboxed.app.web.templates.SiteTemplate;
+import news.inboxed.app.webshares.TagName;
 
 import static j2html.TagCreator.*;
 import static j2html.TagCreator.h1;
