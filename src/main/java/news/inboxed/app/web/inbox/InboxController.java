@@ -6,31 +6,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
-import news.inboxed.app.web.share.StarredFeedController;
-import news.inboxed.app.web.webshares.WebShareController;
-import news.inboxed.app.webshares.WebShares;
+import news.inboxed.app.inbox.Inbox;
+import org.springframework.data.domain.Pageable;
 
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
 
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class InboxController {
 
-    private final WebShares webShares;
+    private final Inbox inbox;
 
     @GetMapping
-    public String getInbox(Model model) {
-        
-        String createWebShareUrl = fromMethodName(WebShareController.class, "getWebShare", null, (Model) null)
-                .build()
-                .toUriString();
-        String starredFeedUrl = fromMethodName(StarredFeedController.class, "getStarredFeed", (Model) null).build().toUriString();
-        
-        model.addAttribute("createWebShareUrl", createWebShareUrl);
-        model.addAttribute("starredFeedUrl", starredFeedUrl);
-        model.addAttribute("webShares", webShares.getWebShares());
+    public String getInbox( Pageable pageable, Model model) {
 
+        model.addAttribute("inboxItems", inbox.getInboxItems(pageable));
+        
         return "inboxView";
         
     }

@@ -164,3 +164,51 @@ databaseChangeLog:
               - column:
                   name: ARTICLE_TAGS
                   type: VARCHAR(255) ARRAY
+
+  - changeSet:
+      id: 6-create-inbox-items-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: INBOX_ITEMS
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: SUBSCRIPTION_ID
+                  type: VARCHAR(255)
+              - column:
+                  name: SUBSCRIPTION_NAME
+                  type: VARCHAR(255)
+              - column:
+                  name: CANONICAL_URL
+                  type: VARCHAR(255)
+              - column:
+                  name: TITLE
+                  type: VARCHAR(1024)
+              - column:
+                  name: AUTHORS
+                  type: VARCHAR(255) ARRAY
+              - column:
+                  name: SUMMARY
+                  type: VARCHAR(2048)
+              - column:
+                  name: DATE
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: STARRED
+                  type: BOOLEAN
+              - column:
+                  name: READ
+                  type: BOOLEAN
+              - column:
+                  name: PICTURE
+                  type: VARCHAR(1024)
+              - column:
+                  name: TAGS
+                  type: VARCHAR(1024)
