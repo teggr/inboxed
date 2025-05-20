@@ -1,6 +1,7 @@
 package news.inboxed.app.web.inbox;
 
 import static j2html.TagCreator.*;
+import static j2html.TagCreator.h1;
 import static j2html.TagCreator.h2;
 import static j2html.TagCreator.h5;
 import static j2html.TagCreator.nav;
@@ -121,9 +122,53 @@ public class InboxView extends AbstractView {
         }
 
         private static DomContent inboxItems(Page<InboxItem> inboxItems) {
-                return div().withId("inbox-items").with(h3().withText("All items"),
+                return div().withId("inbox-items").with(
+                        
+                        h3().withText("All items"),
+                        each(
+                                div().withClasses(row, bg_light, border_top, py_1)
+                                        .with(
+                                                div().withClasses(col_auto, pt_1).with(
+                                                        span().withClasses(  "bi","bi-star")
+                                                ),
+                                                div().withClasses(col_2).with(
+                                                        text("Spring Blog")
+                                                ),
+                                                div().withClasses(col).with(
+                                                        strong().withText("Spring AI 1.0.0-RC now available"),
+                                                        text("Announcing the release")
+                                                ),
+                                                div().withClasses(col_auto).with(
+                                                        text("22:30")
+                                                ),
+                                                div().withClasses(col_auto, pt_1).with(
+                                                        span().withClasses( "bi","bi-box-arrow-up-right")
+                                                )
+                                        ),
+                                
+                                div().withClasses(row, bg_light, border_top, border_bottom, py_1)
+                                        .with(
+                                                div().withClasses(col_auto, pt_1).with(
+                                                        span().withClasses(  "bi","bi-star")
+                                                ),
+                                                div().withClasses(col_2).with(
+                                                        text("Robin Tegg")
+                                                ),
+                                                div().withClasses(col).with(
+                                                        strong().withText("Maven 4 Release round the corner"),
+                                                        text("Start getting ready for the release of")
+                                                ),
+                                                div().withClasses(col_auto).with(
+                                                        text("12:30")
+                                                ),
+                                                div().withClasses(col_auto, pt_1).with(
+                                                        span().withClasses( "bi","bi-box-arrow-up-right")
+                                                )
+                                        ),
+
                                 each(inboxItems.getContent(), item -> div().withClass(card).with(
-                                                div().withClass(card_body).with(h5(item.title()), p(item.summary())))));
+                                                div().withClass(card_body).with(h5(item.title()), p(item.summary()))))
+                        ));
         }
 
         private static NavTag readerNavigation() {
