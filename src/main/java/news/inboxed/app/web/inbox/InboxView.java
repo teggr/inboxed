@@ -55,8 +55,10 @@ public class InboxView extends AbstractView {
                                 inboxedNavigation(homeUrl, searchUrl, username, logoutUrl),
                                 div().withClasses(container_fluid).with(actionBar(), hr(),
                                                 div().withClass(row).with(
-                                                                div().withClass(col_2).with(readerNavigation()),
-                                                                div().withClass(col).with(inboxItems(inboxItems)))),
+                                                        div().withClass(col_2).with(
+                                                                readerNavigation()),
+                                                        div().withClass(col).with(
+                                                                inboxItems(inboxItems)))),
                                 subscriptionModal(subscribeUrl)));
 
                 // output the html
@@ -156,43 +158,88 @@ public class InboxView extends AbstractView {
                                                 button().withClasses(btn, btn_secondary).withType("button")
                                                                 .with(span().withClasses("bi", "bi-arrow-clockwise")),
 
-                                                div().withClass(btn_group).with(button()
-                                                                .withClasses(btn, btn_secondary, btn_sm,
-                                                                                dropdown_toggle)
-                                                                .attr("data-bs-toggle", "dropdown").withType("button")
-                                                                .withText("23 new items"),
-                                                                ul().withClasses(dropdown_menu).with(li().with(a()
+                                                div()
+                                                        .withClass(btn_group)
+                                                        .with(
+                                                                button()
+                                                                        .withClasses(btn, btn_secondary, btn_sm, dropdown_toggle)
+                                                                        .attr("data-bs-toggle", "dropdown")
+                                                                        .withType("button")
+                                                                        .withText("23 new items"),
+                                                                ul()
+                                                                        .withClasses(dropdown_menu)
+                                                                        .with(
+                                                                                li().with(a()
                                                                                 .withClasses(dropdown_item)
-                                                                                .withHref("#").withText("All items")))),
+                                                                                .withHref("#").withText("All items")),
+                                                                                li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("23 new items"))
+                                                                        )),
 
-                                                div().withClass(btn_group)
-                                                                .with(button().withClasses(btn, btn_secondary, btn_sm,
-                                                                                dropdown_toggle)
-                                                                                .attr("data-bs-toggle", "dropdown")
-                                                                                .withType("button").withText("Refresh"),
-                                                                                ul().withClasses(dropdown_menu).with(
-                                                                                                li().with(a().withClasses(
-                                                                                                                dropdown_item)
-                                                                                                                .withHref("#")
-                                                                                                                .withText("All items")))),
-
-                                                div().withClass(btn_group).with(button()
-                                                                .withClasses(btn, btn_secondary, btn_sm,
-                                                                                dropdown_toggle)
-                                                                .attr("data-bs-toggle", "dropdown").withType("button")
+                                                div().withClass(btn_group).with(
+                                                        button()
+                                                                .withClasses(btn, btn_secondary, btn_sm)
                                                                 .withText("Mark all as read"),
-                                                                ul().withClasses(dropdown_menu).with(li().with(a()
-                                                                                .withClasses(dropdown_item)
-                                                                                .withHref("#").withText("All items")))),
+                                                        button()
+                                                                .withClasses(btn, btn_secondary, btn_sm,
+                                                                                dropdown_toggle, dropdown_toggle_split)
+                                                                .attr("data-bs-toggle", "dropdown").withType("button")
+                                                                .with(
+                                                                        span().withClasses(visually_hidden).withText("Toggle Dropdown")
+                                                                ),
+                                                        ul().withClasses(dropdown_menu).with(
+                                                                li().with(a()
+                                                                        .withClasses(dropdown_item)
+                                                                        .withHref("#").withText("All items")),
+                                                                li().with(a()
+                                                                        .withClasses(dropdown_item)
+                                                                        .withHref("#").withText("Items older than a day")),
+                                                                li().with(a()
+                                                                        .withClasses(dropdown_item)
+                                                                        .withHref("#").withText("Items older than a week")),
+                                                                li().with(a()
+                                                                        .withClasses(dropdown_item)
+                                                                        .withHref("#").withText("Items older than two weeks"))
+                                                                )),
 
                                                 div().withClass(btn_group).with(button()
                                                                 .withClasses(btn, btn_secondary, btn_sm,
                                                                                 dropdown_toggle)
                                                                 .attr("data-bs-toggle", "dropdown").withType("button")
                                                                 .withText("View settings"),
-                                                                ul().withClasses(dropdown_menu).with(li().with(a()
+                                                                ul().withClasses(dropdown_menu).with(
+                                                                        li().with(a()
                                                                                 .withClasses(dropdown_item)
-                                                                                .withHref("#").withText("All items")))),
+                                                                                .withHref("#").withText("Sort by newest")),
+                                                                        li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("Sort by oldest")),
+                                                                        li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("Sort by magic")),
+                                                                        li().with(
+                                                                                hr().withClasses(dropdown_divider)
+                                                                        ),
+                                                                        li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("Set as start page")),
+                                                                        li().with(
+                                                                                hr().withClasses(dropdown_divider)
+                                                                        ),
+                                                                        li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("View details and statistics")),
+                                                                        li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("Translate into my language")),
+                                                                        li().with(
+                                                                                hr().withClasses(dropdown_divider)
+                                                                        ),
+                                                                        li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("View in Reader Play"))
+                                                                )),
 
                                                 button().withClasses(btn, btn_secondary).withType("button")
                                                                 .with(span().withClasses("bi", "bi-card-list")),
