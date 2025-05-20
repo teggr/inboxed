@@ -39,9 +39,7 @@ public class InboxView extends AbstractView {
 
         @SuppressWarnings({ "unchecked", "null" })
         @Override
-        protected void renderMergedOutputModel(
-                        @Nullable Map<String, Object> model,
-                        @NonNull HttpServletRequest request,
+        protected void renderMergedOutputModel(@Nullable Map<String, Object> model, @NonNull HttpServletRequest request,
                         @NonNull HttpServletResponse response) throws Exception {
 
                 // get from the model
@@ -50,21 +48,16 @@ public class InboxView extends AbstractView {
                 String searchUrl = (String) model.get("searchUrl");
                 String username = (String) model.get("username");
                 String logoutUrl = (String) model.get("logoutUrl");
+                String subscribeUrl = (String) model.get("logoutUrl");
 
                 // build the ui
-                DomContent html = SiteLayout.add(
-                                "Inboxed | Reader",
-                                model,
-                                each(
-                                                inboxedNavigation(homeUrl, searchUrl, username, logoutUrl),
-                                                div().withClasses(container_fluid).with(
-                                                                actionBar(),
-                                                                hr(),
-                                                                div().withClass(row).with(
-                                                                                div().withClass(col_2).with(
-                                                                                                readerNavigation()),
-                                                                                div().withClass(col).with(
-                                                                                                inboxItems(inboxItems))))));
+                DomContent html = SiteLayout.add("Inboxed | Reader", model, each(
+                                inboxedNavigation(homeUrl, searchUrl, username, logoutUrl),
+                                div().withClasses(container_fluid).with(actionBar(), hr(),
+                                                div().withClass(row).with(
+                                                                div().withClass(col_2).with(readerNavigation()),
+                                                                div().withClass(col).with(inboxItems(inboxItems)))),
+                                subscriptionModal(subscribeUrl)));
 
                 // output the html
                 setResponseContentType(request, response);
@@ -72,136 +65,148 @@ public class InboxView extends AbstractView {
 
         }
 
+        private static DomContent subscriptionModal(String subscribeUrl) {
+
+                return div()
+                        .withClasses(modal, fade)
+                        .withId("subscription-modal")
+                        .withTabindex(-1)
+                        .attr("aria-labelledby", "subscription-modal-label")
+                        .attr("aria-hidden", "true")
+                        .with(
+                                form()
+                                        .withMethod("POST")
+                                        .withAction(subscribeUrl)
+                                        .with(
+                                                div().withClasses(modal_dialog).with(
+                                                        div().withClasses(modal_content).with(
+                                                                div().withClasses(modal_header).with(
+                                                                        h1()
+                                                                                .withClasses(modal_title, fs_5)
+                                                                                .withId("subscription-modal-label")
+                                                                                .withText("Subscribe"),
+                                                                        button()
+                                                                                .withType("button")
+                                                                                .withClasses(btn_close)
+                                                                                .attr("data-bs-dismiss", "modal")
+                                                                                .attr("aria-label", "close")
+                                                                ),
+                                                                div().withClasses(modal_body).with(
+                                                                        p()
+                                                                                .withText("Enter a search term to find feeds or paste a feed url."),
+                                                                        input()
+                                                                                .withType("text")
+                                                                                .withClasses(form_control),
+                                                                        p()
+                                                                                .withText("e.g. robintegg.com or Robin Tegg")                
+                                                                ),
+                                                                div().withClasses(modal_footer).with(
+                                                                        button()
+                                                                                .withType("button")
+                                                                                .withClasses(btn, btn_secondary)
+                                                                                .attr("data-bs-dismiss", "modal")
+                                                                                .withText("Close"),
+                                                                        button()
+                                                                                .withType("submit")
+                                                                                .withClasses(btn, btn_primary)
+                                                                                .withText("Add")
+                                                                )
+                                                        )
+                                                )
+                                        )
+                        );
+ 
+        }
+
         private static DomContent inboxItems(Page<InboxItem> inboxItems) {
-                return div().withId("inbox-items").with(
-                        h3().withText("All items"),
-                        each(
-                                inboxItems.getContent(),
-                                item -> div().withClass(
-                                                card)
-                                                .with(
-                                                                div().withClass(card_body)
-                                                                                .with(
-                                                                                                h5(item.title()),
-                                                                                                p(item.summary())))));
+                return div().withId("inbox-items").with(h3().withText("All items"),
+                                each(inboxItems.getContent(), item -> div().withClass(card).with(
+                                                div().withClass(card_body).with(h5(item.title()), p(item.summary())))));
         }
 
         private static NavTag readerNavigation() {
-                return nav()
-                                .with(
-                                                ul().withClasses(
-                                                                nav,
-                                                                flex_column)
-                                                                .with(
+                return nav().with(ul().withClasses(nav, flex_column).with(
 
-                                                                                li().withClass(nav_item)
-                                                                                                .with(button()
-                                                                                                                .withClasses(btn,
-                                                                                                                                btn_primary,
-                                                                                                                                mx_3,
-                                                                                                                                mb_4)
-                                                                                                                .withType("button")
-                                                                                                                .withText("Subscribe")),
+                                li().withClass(nav_item)
+                                                .with(button()
+                                                        .withClasses(btn, btn_primary, mx_3, mb_4)
+                                                        .attr("data-bs-toggle", "modal")
+                                                        .attr("data-bs-target", "#subscription-modal")
+                                                        .withType("button")
+                                                        .withText("Subscribe")),
 
-                                                                                li().withClass(nav_item)
-                                                                                                .with(a("Home").withClasses(
-                                                                                                                nav_link,
-                                                                                                                active)
-                                                                                                                .withHref("#")),
+                                li().withClass(nav_item).with(a("Home").withClasses(nav_link, active).withHref("#")),
 
-                                                                                li().withClass(nav_item)
-                                                                                                .with(a("All Items (23)")
-                                                                                                                .withClasses(nav_link,
-                                                                                                                                active)
-                                                                                                                .withHref("#")),
+                                li().withClass(nav_item)
+                                                .with(a("All Items (23)").withClasses(nav_link, active).withHref("#")),
 
-                                                                                li().withClass(nav_item)
-                                                                                                .with(a("Subscriptions")
-                                                                                                                .withClass(nav_link)
-                                                                                                                .withHref("#")))
+                                li().withClass(nav_item).with(a("Subscriptions").withClass(nav_link).withHref("#")))
 
-                                );
+                );
         }
 
         private static HeaderTag actionBar() {
 
                 return header().withClasses(row).with(
 
-                                div().withClass(col_2).with(
-                                                h2("Reader").withClasses(px_3)),
+                                div().withClass(col_2).with(h2("Reader").withClasses(px_3)),
 
                                 div().withClass(col).with(
 
-                                                button().withClasses(btn, btn_secondary)
-                                                                .withType("button")
+                                                button().withClasses(btn, btn_secondary).withType("button")
                                                                 .with(span().withClasses("bi", "bi-arrow-clockwise")),
 
-                                                div().withClass(btn_group).with(
-                                                                button().withClasses(btn, btn_secondary, btn_sm,
+                                                div().withClass(btn_group).with(button()
+                                                                .withClasses(btn, btn_secondary, btn_sm,
+                                                                                dropdown_toggle)
+                                                                .attr("data-bs-toggle", "dropdown").withType("button")
+                                                                .withText("23 new items"),
+                                                                ul().withClasses(dropdown_menu).with(li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("All items")))),
+
+                                                div().withClass(btn_group)
+                                                                .with(button().withClasses(btn, btn_secondary, btn_sm,
                                                                                 dropdown_toggle)
                                                                                 .attr("data-bs-toggle", "dropdown")
-                                                                                .withType("button")
-                                                                                .withText("23 new items"),
-                                                                ul().withClasses(dropdown_menu).with(
-                                                                                li().with(
-                                                                                                a().withClasses(dropdown_item)
+                                                                                .withType("button").withText("Refresh"),
+                                                                                ul().withClasses(dropdown_menu).with(
+                                                                                                li().with(a().withClasses(
+                                                                                                                dropdown_item)
                                                                                                                 .withHref("#")
                                                                                                                 .withText("All items")))),
 
-                                                div().withClass(btn_group).with(
-                                                                button().withClasses(btn, btn_secondary, btn_sm,
+                                                div().withClass(btn_group).with(button()
+                                                                .withClasses(btn, btn_secondary, btn_sm,
                                                                                 dropdown_toggle)
-                                                                                .attr("data-bs-toggle", "dropdown")
-                                                                                .withType("button")
-                                                                                .withText("Refresh"),
-                                                                ul().withClasses(dropdown_menu).with(
-                                                                                li().with(
-                                                                                                a().withClasses(dropdown_item)
-                                                                                                                .withHref("#")
-                                                                                                                .withText("All items")))),
+                                                                .attr("data-bs-toggle", "dropdown").withType("button")
+                                                                .withText("Mark all as read"),
+                                                                ul().withClasses(dropdown_menu).with(li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("All items")))),
 
-                                                div().withClass(btn_group).with(
-                                                                button().withClasses(btn, btn_secondary, btn_sm,
+                                                div().withClass(btn_group).with(button()
+                                                                .withClasses(btn, btn_secondary, btn_sm,
                                                                                 dropdown_toggle)
-                                                                                .attr("data-bs-toggle", "dropdown")
-                                                                                .withType("button")
-                                                                                .withText("Mark all as read"),
-                                                                ul().withClasses(dropdown_menu).with(
-                                                                                li().with(
-                                                                                                a().withClasses(dropdown_item)
-                                                                                                                .withHref("#")
-                                                                                                                .withText("All items")))),
+                                                                .attr("data-bs-toggle", "dropdown").withType("button")
+                                                                .withText("View settings"),
+                                                                ul().withClasses(dropdown_menu).with(li().with(a()
+                                                                                .withClasses(dropdown_item)
+                                                                                .withHref("#").withText("All items")))),
 
-                                                div().withClass(btn_group).with(
-                                                                button().withClasses(btn, btn_secondary, btn_sm,
-                                                                                dropdown_toggle)
-                                                                                .attr("data-bs-toggle", "dropdown")
-                                                                                .withType("button")
-                                                                                .withText("View settings"),
-                                                                ul().withClasses(dropdown_menu).with(
-                                                                                li().with(
-                                                                                                a().withClasses(dropdown_item)
-                                                                                                                .withHref("#")
-                                                                                                                .withText("All items")))),
-
-                                                button().withClasses(btn, btn_secondary)
-                                                                .withType("button")
+                                                button().withClasses(btn, btn_secondary).withType("button")
                                                                 .with(span().withClasses("bi", "bi-card-list")),
 
-                                                button().withClasses(btn, btn_secondary)
-                                                                .withType("button")
+                                                button().withClasses(btn, btn_secondary).withType("button")
                                                                 .with(span().withClasses("bi", "bi-card-text")),
 
-                                                button().withClasses(btn, btn_secondary)
-                                                                .withType("button")
+                                                button().withClasses(btn, btn_secondary).withType("button")
                                                                 .with(span().withClasses("bi", "bi-chevron-up")),
 
-                                                button().withClasses(btn, btn_secondary)
-                                                                .withType("button")
+                                                button().withClasses(btn, btn_secondary).withType("button")
                                                                 .with(span().withClasses("bi", "bi-chevron-down")),
 
-                                                button().withClasses(btn, btn_secondary)
-                                                                .withType("button")
+                                                button().withClasses(btn, btn_secondary).withType("button")
                                                                 .with(span().withClasses("bi", "bi-gear"))
 
                                 ));
