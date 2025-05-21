@@ -49,14 +49,15 @@ public class InboxView extends AbstractView {
                 String logoutUrl = (String) model.get("logoutUrl");
                 String subscribeUrl = (String) model.get("subscribeUrl");
                 String refreshUrl = (String) model.get("refreshUrl");
+                int newItemCount = (int)model.get("newItemCount");
 
                 // build the ui
                 DomContent html = SiteLayout.add("Inboxed | Reader", model, each(
                                 inboxedNavigation(homeUrl, searchUrl, username, logoutUrl),
-                                div().withClasses(container_fluid).with(ReaderActionBar.readerActionBar(refreshUrl), hr(),
+                                div().withClasses(container_fluid).with(ReaderActionBar.readerActionBar(newItemCount, refreshUrl), hr(),
                                                 div().withClass(row).with(
                                                         div().withClass(col_2).with(
-                                                                ReaderNavigation.readerNavigation()),
+                                                                ReaderNavigation.readerNavigation(newItemCount)),
                                                         div().withClass(col).with(
                                                                 InboxList.inboxItems(inboxItems)))),
                                 AddSubscriptionModal.subscriptionModal(subscribeUrl)));

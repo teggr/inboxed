@@ -28,7 +28,7 @@ import j2html.tags.specialized.HeaderTag;
 
 public class ReaderActionBar {
 
-    public static HeaderTag readerActionBar(String refreshUrl) {
+    public static HeaderTag readerActionBar(int newItemCount, String refreshUrl) {
     
             return header().withClasses(row).with(
     
@@ -49,7 +49,7 @@ public class ReaderActionBar {
                                                                     .withClasses(btn, btn_secondary, btn_sm, dropdown_toggle)
                                                                     .attr("data-bs-toggle", "dropdown")
                                                                     .withType("button")
-                                                                    .withText("23 new items"),
+                                                                    .withText(newItemCount + " new items"),
                                                             ul()
                                                                     .withClasses(dropdown_menu)
                                                                     .with(
@@ -58,7 +58,7 @@ public class ReaderActionBar {
                                                                             .withHref("#").withText("All items")),
                                                                             li().with(a()
                                                                             .withClasses(dropdown_item)
-                                                                            .withHref("#").withText("23 new items"))
+                                                                            .withHref("#").withText(newItemCount + " new items"))
                                                                     )),
     
                                             div().withClass(btn_group).with(

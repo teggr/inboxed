@@ -24,6 +24,9 @@ public class InboxController {
         String refreshUrl = fromMethodName(InboxController.class, "getInbox", pageable, model).build().toUriString();
         model.addAttribute("refreshUrl", refreshUrl);
 
+        int newItemCount = inbox.getNewItemCount();
+        model.addAttribute("newItemCount", newItemCount);
+
         model.addAttribute("inboxItems", inbox.getInboxItems(pageable));
 
         return "inboxView";

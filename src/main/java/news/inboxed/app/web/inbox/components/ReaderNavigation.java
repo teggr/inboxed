@@ -19,7 +19,7 @@ import j2html.tags.specialized.NavTag;
 
 public class ReaderNavigation {
 
-  public static NavTag readerNavigation() {
+  public static NavTag readerNavigation(int newItemCount) {
           return nav().with(ul().withClasses(nav, flex_column).with(
   
                           li().withClass(nav_item)
@@ -33,7 +33,7 @@ public class ReaderNavigation {
                           li().withClass(nav_item).with(a("Home").withClasses(nav_link, active).withHref("#")),
   
                           li().withClass(nav_item)
-                                          .with(a("All Items (23)").withClasses(nav_link, active).withHref("#")),
+                                          .with(a("All Items (" + newItemCount + ")").withClasses(nav_link, active).withHref("#")),
   
                           li().withClass(nav_item).with(a("Subscriptions").withClass(nav_link).withHref("#")))
   

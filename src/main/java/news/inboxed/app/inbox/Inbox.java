@@ -30,4 +30,10 @@ public class Inbox {
   
   }
 
+  public int getNewItemCount() {
+
+    return inboxItemRepository.countByReadFalse();
+
+  }
+
 }
