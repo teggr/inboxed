@@ -32,7 +32,7 @@ public class WebShareController {
     public String getWebShare(@RequestParam(name = "url", required = false) URL url, Model model) {
         String postCreateWebShareUrl = fromMethodName(WebShareController.class, "postCreateWebShare", null, null, null).build()
                 .toUriString();
-        String cancelUrl = fromMethodName(InboxController.class, "getInbox", (Model) null).build().toUriString();
+        String cancelUrl = fromMethodName(InboxController.class, "getInbox", null, (Model) null).build().toUriString();
         model.addAttribute("postCreateWebShareUrl", postCreateWebShareUrl);
         model.addAttribute("cancelUrl", cancelUrl);
         model.addAttribute("url", url);
@@ -59,7 +59,7 @@ public class WebShareController {
 
     @PostMapping
     public String postCreateWebShare(@ModelAttribute WebShare webShare, BindingResult bindingResult, Model model) {
-        WebShare newWebShare = webShares.createNew(webShare);
+        WebShare newWebShare = webShares.addWebShare(webShare);
         List<TagName> list = newWebShare.tags().stream().filter(t -> !tagNamesRepository.existsByName(t))
                 .map(t -> new TagName(null, t)).toList();
         tagNamesRepository.saveAll(list);

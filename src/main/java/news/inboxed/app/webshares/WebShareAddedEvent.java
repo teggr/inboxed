@@ -2,9 +2,9 @@ package news.inboxed.app.webshares;
 
 import org.springframework.context.ApplicationEvent;
 
-public class WebShareCreatedEvent extends ApplicationEvent {
+public class WebShareAddedEvent extends ApplicationEvent {
 
-  public WebShareCreatedEvent(WebShare webShare) {
+  public WebShareAddedEvent(WebShare webShare) {
     super(webShare);
   }
 

@@ -6,6 +6,7 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class WebShareMetaDataEnricher {
 
   private final WebShares webShares;
+  private final ApplicationEventPublisher applicationEventPublisher;
 
   @TransactionalEventListener(fallbackExecution = true)
   public void handleWebShareDataUpdatedEvent(WebShareDataUpdatedEvent webShareDataUpdatedEvent) {
@@ -72,6 +74,8 @@ public class WebShareMetaDataEnricher {
     updatedWebShare = updatedWebShare.withWebShareMetaData(webShareMetaData);
 
     updatedWebShare = webShares.updateWebShare(updatedWebShare);
+
+    applicationEventPublisher.publishEvent(new WebShareMetaDataUpdatedEvent(updatedWebShare));
 
   }
 

@@ -5,7 +5,7 @@ import static j2html.TagCreator.*;
 
 import j2html.tags.specialized.NavTag;
 
-public class Navigation {
+public class InboxedNavigation {
 
     public static NavTag inboxedNavigation(String homeUrl, String searchUrl, String username, String logoutUrl) {
 

@@ -23,15 +23,15 @@ public class WebShareDataFetcher {
 
   @Async
   @TransactionalEventListener(fallbackExecution = true)
-  public void handleWebShareCreatedEvent(WebShareCreatedEvent event) {
+  public void handleWebShareAddedEvent(WebShareAddedEvent event) {
 
-    WebShare createdWebShare = (WebShare) event.getSource();
+    WebShare newWebShare = (WebShare) event.getSource();
 
-    WebShareData fetchedWebShareData = new WebShareData(null, null, null, "Unknown error");
+    WebShareData webShareData = new WebShareData(null, null, null, "Unknown error");
 
     try {
 
-      URL url = createdWebShare.url();
+      URL url = newWebShare.url();
       log.info("Fetching data from URL: {}", url);
 
       // Use Jsoup to fetch the HTML content
@@ -39,17 +39,17 @@ public class WebShareDataFetcher {
       String title = document.title();
       log.info("Fetched title: {}", title);
 
-      fetchedWebShareData = new WebShareData(title, document.html());
+      webShareData = new WebShareData(title, document.html());
 
     } catch (IOException e) {
 
-      log.error("Failed to fetch data from URL: {}", createdWebShare.url(), e);
+      log.error("Failed to fetch data from URL: {}", newWebShare.url(), e);
 
-      fetchedWebShareData = new WebShareData(e.getMessage());
+      webShareData = new WebShareData(e.getMessage());
 
     }
 
-    WebShare updatedWebShare = createdWebShare.withWebShareData(fetchedWebShareData);
+    WebShare updatedWebShare = newWebShare.withWebShareData(webShareData);
 
     updatedWebShare = webShares.updateWebShare(updatedWebShare);
 

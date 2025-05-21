@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import news.inboxed.app.inbox.Inbox;
 import org.springframework.data.domain.Pageable;
 
+import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
 
 @Controller
 @RequestMapping("/")
@@ -18,12 +19,15 @@ public class InboxController {
     private final Inbox inbox;
 
     @GetMapping
-    public String getInbox( Pageable pageable, Model model) {
+    public String getInbox(Pageable pageable, Model model) {
+
+        String refreshUrl = fromMethodName(InboxController.class, "getInbox", pageable, model).build().toUriString();
+        model.addAttribute("refreshUrl", refreshUrl);
 
         model.addAttribute("inboxItems", inbox.getInboxItems(pageable));
-        
+
         return "inboxView";
-        
+
     }
 
 }

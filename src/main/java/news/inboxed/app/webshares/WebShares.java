@@ -17,14 +17,14 @@ public class WebShares {
     private final WebShareRepository webShareRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public WebShare createNew(WebShare webShare) {
+    public WebShare addWebShare(WebShare webShare) {
         WebShare savedWebShare = webShareRepository.save(webShare);
-        publishEvent(savedWebShare);
+        publishWebShareAddedEvent(savedWebShare);
         return savedWebShare;
     }
 
-    private void publishEvent(WebShare webShare) {
-        applicationEventPublisher.publishEvent(new WebShareCreatedEvent(webShare));
+    private void publishWebShareAddedEvent(WebShare webShare) {
+        applicationEventPublisher.publishEvent(new WebShareAddedEvent(webShare));
     }
 
     public Page<WebShare> getWebShares() {
