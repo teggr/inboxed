@@ -1,7 +1,5 @@
 package news.inboxed.app.web.feeds;
 
-import java.net.URL;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -16,8 +14,8 @@ import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import news.inboxed.app.feeds.Feed;
-import news.inboxed.app.tags.TagName;
 import news.inboxed.app.web.site.SiteLayout;
+import news.inboxed.app.web.utils.TimeUtils;
 
 import static j2html.TagCreator.*;
 import static j2html.TagCreator.h1;
@@ -38,21 +36,44 @@ public class FeedsView extends AbstractView {
       @NonNull HttpServletResponse response) throws Exception {
 
     // get from the model
-    Page<Feed> feeds = (Page<Feed>) model.get("feeeds");
+    Page<Feed> feeds = (Page<Feed>) model.get("feeds");
+    String addFeedUrl = (String) model.get("addFeedUrl");
 
     // build the ui
     // @formatter:off
     DomContent html = SiteLayout.add("Create a new link", model,
 
-        each(div().withClasses(container_fluid).with(
+        each(
 
-            div().withClasses(row).with(
+            div().withClasses(container_fluid).with(
 
-                h1("Feeds"),
+                div().withClasses(row).with(div().withClasses(col).with(
 
-                text("something")
+                    h1("Feeds")
 
-            ))
+                ),
+
+                    div().withClasses(col).with(
+
+                        form().withMethod("post").withAction(addFeedUrl).withClasses(row).with(
+
+                            div().withClasses(col).with(input().withType("url").withName("url")),
+
+                            div().withClasses(col)
+                                .with(button().withType("submit").withClasses(btn, btn_primary).withText("Add")))))),
+
+            div().withClasses(container_fluid).with(
+
+                each(feeds.getContent(), feed -> {
+
+                  return div().withClasses(row).with(div().withClasses(col).with(text(feed.url().toString())),
+                      div().withClasses(col).with(text(TimeUtils.formatInstant(feed.createdDate())))
+
+                );
+
+                })
+
+            )
 
         ));
     // @formatter: on

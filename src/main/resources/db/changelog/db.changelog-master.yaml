@@ -232,3 +232,6 @@ databaseChangeLog:
               - column:
                   name: URL
                   type: VARCHAR(255)
+              - column:
+                  name: CREATED_DATE
+                  type: TIMESTAMP WITH TIME ZONE
