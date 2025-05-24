@@ -15,13 +15,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import news.inboxed.app.feeds.Feed;
 import news.inboxed.app.web.feeds.components.FeedsActionBar;
+import news.inboxed.app.web.feeds.components.FeedsList;
 import news.inboxed.app.web.site.SiteLayout;
 import news.inboxed.app.web.utils.TimeUtils;
 
 import static j2html.TagCreator.*;
 import static j2html.TagCreator.h1;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
-
+import static dev.rebelcraft.j2html.bootstrap.Bootstrap.col;
 import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 @Component
@@ -51,30 +52,27 @@ public class FeedsView extends AbstractView {
     // build the ui
     DomContent html = SiteLayout.add("Inboxed | Admin Feeds", model,
 
-        each(
+      each(
 
-            inboxedNavigation(homeUrl, searchUrl, adminFeedsUrl, username, logoutUrl),
+          inboxedNavigation(homeUrl, searchUrl, adminFeedsUrl, username, logoutUrl),
 
-            div().withClasses(container_fluid).with(
+          div().withClasses(container_fluid).with(
 
-                FeedsActionBar.feedsActionBar(refreshUrl, addFeedUrl)
+              FeedsActionBar.feedsActionBar(refreshUrl, addFeedUrl),
 
-            ),
+              hr(),
 
-            div().withClasses(container_fluid).with(
+              div().withClasses(row).with(
 
-                each(feeds.getContent(), feed -> {
+                div().withClasses(col).with(
+                  FeedsList.feeds(feeds)
+                )
 
-                  return div().withClasses(row).with(div().withClasses(col).with(text(feed.url().toString())),
-                      div().withClasses(col).with(text(TimeUtils.formatInstant(feed.createdDate())))
+              )
 
-                );
+          )
 
-                })
-
-            )
-
-        ));
+      ));
 
     // output the response
     setResponseContentType(request, response);

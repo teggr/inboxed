@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import news.inboxed.app.inbox.InboxItem;
 import news.inboxed.app.web.inbox.components.ReaderActionBar;
 import news.inboxed.app.web.inbox.components.AddSubscriptionModal;
-import news.inboxed.app.web.inbox.components.InboxList;
+import news.inboxed.app.web.inbox.components.InboxItemsList;
 import news.inboxed.app.web.inbox.components.ReaderNavigation;
 import news.inboxed.app.web.site.SiteLayout;
 
@@ -52,15 +52,33 @@ public class InboxView extends AbstractView {
                 String adminFeedsUrl = (String) model.get("adminFeedsUrl");
 
                 // build the ui
-                DomContent html = SiteLayout.add("Inboxed | Reader", model, each(
-                                inboxedNavigation(homeUrl, searchUrl, adminFeedsUrl, username, logoutUrl),
-                                div().withClasses(container_fluid).with(ReaderActionBar.readerActionBar(newItemCount, refreshUrl), hr(),
-                                                div().withClass(row).with(
-                                                        div().withClass(col_2).with(
-                                                                ReaderNavigation.readerNavigation(newItemCount)),
-                                                        div().withClass(col).with(
-                                                                InboxList.inboxItems(inboxItems)))),
-                                AddSubscriptionModal.subscriptionModal(subscribeUrl)));
+                DomContent html = SiteLayout.add("Inboxed | Reader", model, 
+                  
+                  each(
+                    
+                    inboxedNavigation(homeUrl, searchUrl, adminFeedsUrl, username, logoutUrl),
+                    
+                    div().withClasses(container_fluid).with(
+                      
+                      ReaderActionBar.readerActionBar(newItemCount, refreshUrl), 
+                      
+                      hr(),
+
+                      div().withClass(row).with(
+                        
+                        div().withClass(col_2).with(
+                                      ReaderNavigation.readerNavigation(newItemCount)),
+                        
+                        div().withClasses(col, px_2).with(
+                                      InboxItemsList.inboxItems(inboxItems))
+                                      
+                      )
+                                      
+                    ),
+                      
+                    AddSubscriptionModal.subscriptionModal(subscribeUrl)
+                    
+                  ));
 
                 // output the html
                 setResponseContentType(request, response);
