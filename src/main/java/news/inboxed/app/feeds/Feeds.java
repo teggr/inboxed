@@ -2,6 +2,7 @@ package news.inboxed.app.feeds;
 
 import java.net.URL;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class Feeds {
 
   private final FeedRepository feedRepository;
+  private final ApplicationEventPublisher applicationEventPublisher;
 
   public Page<Feed> getFeeds(Pageable pageable) {
     return feedRepository.findAll(pageable);
@@ -34,6 +36,8 @@ public class Feeds {
       Feed feed = new Feed(null, feedId, feedUrl, null);
 
       feed = feedRepository.save(feed);
+
+      publishFeedAddedEvent(feed);
       
       return feedId;
 
@@ -41,6 +45,10 @@ public class Feeds {
       throw new RuntimeException(e);
     }
 
+  }
+
+  private void publishFeedAddedEvent(Feed feed) {
+    applicationEventPublisher.publishEvent(new FeedAddedEvent(feed));
   }
 
 }

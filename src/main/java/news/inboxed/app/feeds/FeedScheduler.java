@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -24,7 +25,13 @@ public class FeedScheduler {
     // previously published? subscription start date
     // 6. need to publish (to where?)
 
-    public void add(String feedUrl)  { // this should be a qualified URL
+    @TransactionalEventListener(fallbackExecution = true)
+    public void handleFeedAddedEvent(FeedAddedEvent addedEvent)  { 
+
+        Feed feed = (Feed) addedEvent.getSource();
+
+        // create a schedule for the feed
+        // create an offline store for the feed
 
         // todo: keep a list of feeds that need fetching
 
