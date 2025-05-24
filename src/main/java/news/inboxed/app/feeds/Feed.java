@@ -3,7 +3,8 @@ package news.inboxed.app.feeds;
 import com.rometools.rome.feed.synd.SyndFeed;
 
 public class Feed {
-private FeedId id;
+
+    private FeedId id;
     private String url;
     private SyndFeed syndFeed;
 
@@ -24,4 +25,5 @@ private FeedId id;
     public SyndFeed getSyndFeed() {
         return syndFeed;
     }
+    
 }

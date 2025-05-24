@@ -1,17 +1,20 @@
 package news.inboxed.app.feeds.store;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Properties;
-
 import org.springframework.stereotype.Component;
 
+import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.SyndFeedOutput;
 
 import news.inboxed.app.feeds.Feed;
+import news.inboxed.app.feeds.FeedId;
 
 @Component
 public class FileSystemFeedStore implements FeedStore {
@@ -32,8 +35,6 @@ public class FileSystemFeedStore implements FeedStore {
     public String save(Feed feed) {
 
         try {
-
-            // TODO: save the feed to the file system
 
             // lookup the key
             String feedKey = FileSystemFeedStoreKey.fromFeedId(feed.getId());
@@ -88,9 +89,47 @@ public class FileSystemFeedStore implements FeedStore {
     }
 
     @Override
-    public Feed get(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+    public Feed get(FeedId id) {
+
+        String feedKey = FileSystemFeedStoreKey.fromFeedId(id);
+
+        File rssDirectoy = new File( localStore, feedKey );
+
+        return readFeed(rssDirectoy);
+
+    }
+
+    private static Feed readFeed(File rssDirectory) {
+
+        try {
+
+            File cachedFile = new File(rssDirectory, "cached-feed.xml");
+
+            if (!cachedFile.exists()) {
+                return null;
+            }
+
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(cachedFile);
+
+            File propertiesFile = new File(rssDirectory, "feed.properties");
+
+            Properties properties = new Properties();
+            try(FileReader fr = new FileReader(propertiesFile)) {
+            properties.load(fr);
+            }
+
+            FeedId feedId = new FeedId( properties.getProperty("feedId") );
+            String feedUrl = properties.getProperty("feedUrl");
+
+            return new Feed( feedId, feedUrl, feed );
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (FeedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }
