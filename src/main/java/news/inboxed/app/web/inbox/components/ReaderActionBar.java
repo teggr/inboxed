@@ -11,6 +11,7 @@ import static dev.rebelcraft.j2html.bootstrap.Bootstrap.dropdown_item;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.dropdown_menu;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.dropdown_toggle;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.dropdown_toggle_split;
+import static dev.rebelcraft.j2html.bootstrap.Bootstrap.pt_1;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.px_3;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.row;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.visually_hidden;
@@ -34,11 +35,10 @@ public class ReaderActionBar {
     
                             div().withClass(col_2).with(h2("Reader").withClasses(px_3)),
     
-                            div().withClass(col).with(
+                            div().withClasses(col, pt_1).with(
     
                                             a()
                                                 .withClasses(btn, btn_secondary)
-                                                .withType("button")
                                                 .with(span().withClasses("bi", "bi-arrow-clockwise"))
                                                 .withHref(refreshUrl),
     

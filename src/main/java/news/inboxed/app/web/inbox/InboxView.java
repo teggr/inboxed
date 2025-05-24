@@ -1,7 +1,6 @@
 package news.inboxed.app.web.inbox;
 
 import static j2html.TagCreator.*;
-import static j2html.TagCreator.nav;
 import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 import java.util.Map;
@@ -50,10 +49,11 @@ public class InboxView extends AbstractView {
                 String subscribeUrl = (String) model.get("subscribeUrl");
                 String refreshUrl = (String) model.get("refreshUrl");
                 int newItemCount = (int)model.get("newItemCount");
+                String adminFeedsUrl = (String) model.get("adminFeedsUrl");
 
                 // build the ui
                 DomContent html = SiteLayout.add("Inboxed | Reader", model, each(
-                                inboxedNavigation(homeUrl, searchUrl, username, logoutUrl),
+                                inboxedNavigation(homeUrl, searchUrl, adminFeedsUrl, username, logoutUrl),
                                 div().withClasses(container_fluid).with(ReaderActionBar.readerActionBar(newItemCount, refreshUrl), hr(),
                                                 div().withClass(row).with(
                                                         div().withClass(col_2).with(

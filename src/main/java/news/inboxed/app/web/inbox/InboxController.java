@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import news.inboxed.app.inbox.Inbox;
+import news.inboxed.app.web.feeds.FeedsController;
+
 import org.springframework.data.domain.Pageable;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
@@ -23,6 +25,10 @@ public class InboxController {
 
         String refreshUrl = fromMethodName(InboxController.class, "getInbox", pageable, model).build().toUriString();
         model.addAttribute("refreshUrl", refreshUrl);
+        model.addAttribute("homeUrl", refreshUrl);
+
+        String adminFeedsUrl = fromMethodName(FeedsController.class, "getFeeds", null, null).build().toUriString();
+        model.addAttribute("adminFeedsUrl", adminFeedsUrl);
 
         int newItemCount = inbox.getNewItemCount();
         model.addAttribute("newItemCount", newItemCount);

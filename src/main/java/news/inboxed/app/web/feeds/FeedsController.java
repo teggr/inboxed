@@ -22,33 +22,40 @@ import java.net.URL;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @Controller
 @RequestMapping("/feeds")
 @RequiredArgsConstructor
 public class FeedsController {
 
-    private final Feeds feeds;
+  private final Feeds feeds;
 
-    @GetMapping
-    public String getFeeds( Pageable pageable, Model model) {
+  @GetMapping
+  public String getFeeds(Pageable pageable, Model model) {
 
-        String addFeedUrl = fromMethodName(FeedsController.class, "postFeed", null, null).build().toUriString();
-        model.addAttribute("addFeedUrl", addFeedUrl);
+    String homeUrl = fromMethodName(InboxController.class, "getInbox", pageable, model).build().toUriString();
+    model.addAttribute("homeUrl", homeUrl);
 
-        model.addAttribute("feeds", feeds.getFeeds(pageable) );
-        return "feedsView";
-    }
+    String adminFeedsUrl = fromMethodName(FeedsController.class, "getFeeds", pageable, model).build().toUriString();
+    model.addAttribute("adminFeedsUrl", adminFeedsUrl);
+    model.addAttribute("refreshUrl", adminFeedsUrl);
 
-    @PostMapping
-    public String postFeed(@RequestParam(value = "url", required = false) URL url, RedirectAttributes redirectAttributes) {
-        
-        FeedId feedId = feeds.add(url);
+    String addFeedUrl = fromMethodName(FeedsController.class, "postFeed", null, null).build().toUriString();
+    model.addAttribute("addFeedUrl", addFeedUrl);
 
-        redirectAttributes.addAttribute("feedId", feedId.id());
+    model.addAttribute("feeds", feeds.getFeeds(pageable));
+    return "feedsView";
+  }
 
-        return "redirect:/feeds";
+  @PostMapping
+  public String postFeed(@RequestParam(value = "url", required = false) URL url,
+      RedirectAttributes redirectAttributes) {
 
-    }
-    
+    FeedId feedId = feeds.add(url);
+
+    // redirectAttributes.addAttribute("feedId", feedId.id());
+
+    return "redirect:/feeds";
+
+  }
+
 }

@@ -14,12 +14,15 @@ import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import news.inboxed.app.feeds.Feed;
+import news.inboxed.app.web.feeds.components.FeedsActionBar;
 import news.inboxed.app.web.site.SiteLayout;
 import news.inboxed.app.web.utils.TimeUtils;
 
 import static j2html.TagCreator.*;
 import static j2html.TagCreator.h1;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
+
+import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 @Component
 public class FeedsView extends AbstractView {
@@ -38,29 +41,25 @@ public class FeedsView extends AbstractView {
     // get from the model
     Page<Feed> feeds = (Page<Feed>) model.get("feeds");
     String addFeedUrl = (String) model.get("addFeedUrl");
+    String homeUrl = (String) model.get("homeUrl");
+    String searchUrl = (String) model.get("searchUrl");
+    String username = (String) model.get("username");
+    String logoutUrl = (String) model.get("logoutUrl");
+    String adminFeedsUrl = (String) model.get("adminFeedsUrl");
+    String refreshUrl = (String) model.get("refreshUrl");
 
     // build the ui
-    // @formatter:off
-    DomContent html = SiteLayout.add("Create a new link", model,
+    DomContent html = SiteLayout.add("Inboxed | Admin Feeds", model,
 
         each(
 
+            inboxedNavigation(homeUrl, searchUrl, adminFeedsUrl, username, logoutUrl),
+
             div().withClasses(container_fluid).with(
 
-                div().withClasses(row).with(div().withClasses(col).with(
+                FeedsActionBar.feedsActionBar(refreshUrl, addFeedUrl)
 
-                    h1("Feeds")
-
-                ),
-
-                    div().withClasses(col).with(
-
-                        form().withMethod("post").withAction(addFeedUrl).withClasses(row).with(
-
-                            div().withClasses(col).with(input().withType("url").withName("url")),
-
-                            div().withClasses(col)
-                                .with(button().withType("submit").withClasses(btn, btn_primary).withText("Add")))))),
+            ),
 
             div().withClasses(container_fluid).with(
 
@@ -76,7 +75,6 @@ public class FeedsView extends AbstractView {
             )
 
         ));
-    // @formatter: on
 
     // output the response
     setResponseContentType(request, response);
