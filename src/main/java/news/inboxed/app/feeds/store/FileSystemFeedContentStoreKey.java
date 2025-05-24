@@ -2,7 +2,7 @@ package news.inboxed.app.feeds.store;
 
 import news.inboxed.app.feeds.FeedId;
 
-class FileSystemFeedStoreKey {
+class FileSystemFeedContentStoreKey {
 
 /**
      * Converts an arbitrary string to a valid filesystem directory name by replacing

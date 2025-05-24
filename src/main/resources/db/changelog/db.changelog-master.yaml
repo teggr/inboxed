@@ -212,3 +212,23 @@ databaseChangeLog:
               - column:
                   name: TAGS
                   type: VARCHAR(1024)
+
+  - changeSet:
+      id: 7-create-feeds-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEEDS
+            columns:
+              - column:
+                  name: ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: FEED_ID
+                  type: VARCHAR(255)
+              - column:
+                  name: URL
+                  type: VARCHAR(255)

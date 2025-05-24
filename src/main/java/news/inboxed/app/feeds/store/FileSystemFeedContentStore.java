@@ -13,15 +13,15 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.SyndFeedOutput;
 
-import news.inboxed.app.feeds.Feed;
+import news.inboxed.app.feeds.FeedContent;
 import news.inboxed.app.feeds.FeedId;
 
 @Component
-public class FileSystemFeedStore implements FeedStore {
+public class FileSystemFeedContentStore implements FeedContentStore {
 
     private final File localStore;
 
-    public FileSystemFeedStore() {
+    public FileSystemFeedContentStore() {
 
         File workingDirectory = new File("").getAbsoluteFile();
 
@@ -32,12 +32,12 @@ public class FileSystemFeedStore implements FeedStore {
     }
 
     @Override
-    public String save(Feed feed) {
+    public String save(FeedContent feed) {
 
         try {
 
             // lookup the key
-            String feedKey = FileSystemFeedStoreKey.fromFeedId(feed.getId());
+            String feedKey = FileSystemFeedContentStoreKey.fromFeedId(feed.getId());
 
             System.out.println("Save: " + feed.getId() + " using key: " + feedKey);
 
@@ -89,9 +89,9 @@ public class FileSystemFeedStore implements FeedStore {
     }
 
     @Override
-    public Feed get(FeedId id) {
+    public FeedContent get(FeedId id) {
 
-        String feedKey = FileSystemFeedStoreKey.fromFeedId(id);
+        String feedKey = FileSystemFeedContentStoreKey.fromFeedId(id);
 
         File rssDirectoy = new File( localStore, feedKey );
 
@@ -99,7 +99,7 @@ public class FileSystemFeedStore implements FeedStore {
 
     }
 
-    private static Feed readFeed(File rssDirectory) {
+    private static FeedContent readFeed(File rssDirectory) {
 
         try {
 
@@ -122,7 +122,7 @@ public class FileSystemFeedStore implements FeedStore {
             FeedId feedId = new FeedId( properties.getProperty("feedId") );
             String feedUrl = properties.getProperty("feedUrl");
 
-            return new Feed( feedId, feedUrl, feed );
+            return new FeedContent( feedId, feedUrl, feed );
 
         } catch (IOException e) {
             throw new RuntimeException(e);
