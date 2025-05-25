@@ -6,10 +6,10 @@ import j2html.tags.DomContent;
 import j2html.tags.specialized.DivTag;
 import j2html.tags.specialized.TrTag;
 import news.inboxed.app.feeds.Feed;
-import news.inboxed.app.inbox.InboxItem;
 
 import static j2html.TagCreator.*;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
+import static news.inboxed.app.web.utils.TimeUtils.formatInstant;
 
 public class FeedsList {
 
@@ -28,6 +28,7 @@ public class FeedsList {
               tr().with(
 
                 th("Feed URL"),
+                th("Next Scheduled Date"),
                 th("Created Date"),
                 th("View")
 
@@ -52,9 +53,10 @@ public class FeedsList {
     return tr().with(
 
         td().with(text(feed.url().toString())),
+        td().with(text( feed.schedule() != null ? formatInstant(feed.schedule().nextUpdate()) : "")),
         // div().withClasses(col).with(strong().withText(feed.title()),
         // span(feed.summary()).withClasses()),
-        td().with(text(news.inboxed.app.web.utils.TimeUtils.formatInstant(feed.createdDate()))),
+        td().with(text(formatInstant(feed.createdDate()))),
         td().with(span().withClasses("bi", "bi-box-arrow-up-right"))
       
        );

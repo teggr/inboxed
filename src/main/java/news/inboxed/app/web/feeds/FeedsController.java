@@ -39,6 +39,9 @@ public class FeedsController {
     String addFeedUrl = fromMethodName(FeedsController.class, "postFeed", null, null).build().toUriString();
     model.addAttribute("addFeedUrl", addFeedUrl);
 
+    String updateFeedsUrl = fromMethodName(UpdateFeedsController.class, "postUpdateFeeds").build().toUriString();
+    model.addAttribute("updateFeedsUrl", updateFeedsUrl);
+
     model.addAttribute("feeds", feeds.getFeeds(pageable));
     return "feedsView";
   }

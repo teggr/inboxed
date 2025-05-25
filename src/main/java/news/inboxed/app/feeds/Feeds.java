@@ -1,6 +1,8 @@
 package news.inboxed.app.feeds;
 
 import java.net.URL;
+import java.time.Instant;
+import java.util.List;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -33,7 +35,7 @@ public class Feeds {
 
       FeedId feedId = new FeedId(feedUrl.toString());
 
-      Feed feed = new Feed(null, feedId, feedUrl, null);
+      Feed feed = new Feed(null, feedId, feedUrl, null, null);
 
       feed = feedRepository.save(feed);
 
@@ -49,6 +51,14 @@ public class Feeds {
 
   private void publishFeedAddedEvent(Feed feed) {
     applicationEventPublisher.publishEvent(new FeedAddedEvent(feed));
+  }
+
+  public Feed update(Feed feed) {
+    return feedRepository.save(feed);
+  }
+
+  public List<Feed> getNextSchdeuledFeeds(Instant scheduledWindow) {
+    return feedRepository.findAllByScheduleNextUpdateLessThan(scheduledWindow);
   }
 
 }

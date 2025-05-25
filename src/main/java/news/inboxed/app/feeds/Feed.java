@@ -14,5 +14,18 @@ public record Feed(
     @Id Long id, 
     @Embedded(prefix = "FEED_", onEmpty = OnEmpty.USE_NULL) FeedId feedId, 
     URL url,
-    @CreatedDate Instant createdDate
-) {}
+    @CreatedDate Instant createdDate,
+    @Embedded(prefix = "SCHEDULE_", onEmpty = OnEmpty.USE_NULL) Schedule schedule
+) {
+
+    public Feed withSchedule(Schedule schedule) {
+      return new Feed(
+        this.id,
+        this.feedId,
+        this.url,
+        this.createdDate,
+        schedule
+      );
+    }
+  
+}

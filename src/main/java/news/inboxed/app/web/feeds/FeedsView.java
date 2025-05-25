@@ -48,6 +48,7 @@ public class FeedsView extends AbstractView {
     String logoutUrl = (String) model.get("logoutUrl");
     String adminFeedsUrl = (String) model.get("adminFeedsUrl");
     String refreshUrl = (String) model.get("refreshUrl");
+    String updateFeedsUrl = (String) model.get("updateFeedsUrl");
 
     // build the ui
     DomContent html = SiteLayout.add("Inboxed | Admin Feeds", model,
@@ -58,7 +59,7 @@ public class FeedsView extends AbstractView {
 
           div().withClasses(container_fluid).with(
 
-              FeedsActionBar.feedsActionBar(refreshUrl, addFeedUrl),
+              FeedsActionBar.feedsActionBar(refreshUrl, addFeedUrl, updateFeedsUrl),
 
               hr(),
 
