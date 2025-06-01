@@ -3,7 +3,6 @@ package news.inboxed.app.web.feeds.components;
 import org.springframework.data.domain.Page;
 
 import j2html.tags.DomContent;
-import j2html.tags.specialized.DivTag;
 import j2html.tags.specialized.TrTag;
 import news.inboxed.app.feeds.Feed;
 
@@ -29,6 +28,7 @@ public class FeedsList {
 
                 th("Feed URL"),
                 th("Created Date"),
+                th("Scheduler"),
                 th("Next Scheduled Date"),
                 th("Last Scheduled Date"),
                 th("Last Scheduled Result"),
@@ -56,6 +56,7 @@ public class FeedsList {
 
         td().with(text(feed.url().toString())),
         td().with(text(formatInstant(feed.createdDate()))),
+        td().with(text( feed.scheduler().toString() )),
         td().with(text( feed.schedule() != null ? formatInstant(feed.schedule().nextUpdate()) : "")),
         // div().withClasses(col).with(strong().withText(feed.title()),
         // span(feed.summary()).withClasses()),

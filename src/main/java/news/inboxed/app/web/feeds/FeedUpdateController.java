@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequestMapping("/update-feeds")
 @RequiredArgsConstructor
-public class UpdateFeedsController {
+public class FeedUpdateController {
 
   private final FeedUpdateJob feedUpdateJob;
 

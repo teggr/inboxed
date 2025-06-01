@@ -2,7 +2,6 @@ package news.inboxed.app.web.site;
 
 import java.util.Map;
 
-import dev.rebelcraft.j2html.bootstrap.Bootstrap;
 import dev.rebelcraft.j2html.bootstrap.BootstrapConfig;
 
 import static j2html.TagCreator.*;

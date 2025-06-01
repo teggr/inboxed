@@ -1,6 +1,7 @@
 package news.inboxed.app.feeds;
 
 import java.net.URL;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class Feeds {
 
       FeedId feedId = new FeedId(feedUrl.toString());
 
-      Feed feed = new Feed(null, feedId, feedUrl, null, null, null);
+      Feed feed = new Feed(null, feedId, feedUrl, null,  Duration.ofDays(1),null, null);
 
       feed = feedRepository.save(feed);
 

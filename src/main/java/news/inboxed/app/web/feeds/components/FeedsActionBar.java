@@ -28,7 +28,7 @@ public class FeedsActionBar {
             
             form().withMethod("post").withAction(updateFeedsUrl).withClasses(d_inline_flex, mb_0).with(
 
-                button().withType("submit").withClasses(btn, btn_primary).withText("Update Feeds"))
+                button().withType("submit").withClasses(btn, btn_primary).withText("Run Update Job"))
 
         ));
 

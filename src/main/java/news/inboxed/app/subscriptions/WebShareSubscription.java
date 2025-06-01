@@ -1,6 +1,5 @@
 package news.inboxed.app.subscriptions;
 
-import org.springframework.data.annotation.Id;
 
 public record WebShareSubscription(   ) {
 

@@ -17,10 +17,8 @@ import news.inboxed.app.feeds.Feed;
 import news.inboxed.app.web.feeds.components.FeedsActionBar;
 import news.inboxed.app.web.feeds.components.FeedsList;
 import news.inboxed.app.web.site.SiteLayout;
-import news.inboxed.app.web.utils.TimeUtils;
 
 import static j2html.TagCreator.*;
-import static j2html.TagCreator.h1;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.col;
 import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;

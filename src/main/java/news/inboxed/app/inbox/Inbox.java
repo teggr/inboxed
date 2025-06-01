@@ -1,7 +1,5 @@
 package news.inboxed.app.inbox;
 
-import static dev.rebelcraft.j2html.bootstrap.Bootstrap.initialism;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

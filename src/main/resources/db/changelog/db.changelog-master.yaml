@@ -236,6 +236,9 @@ databaseChangeLog:
                   name: CREATED_DATE
                   type: TIMESTAMP WITH TIME ZONE
               - column:
+                  name: SCHEDULER
+                  type: VARCHAR(255)
+              - column:
                   name: SCHEDULE_NEXT_UPDATE
                   type: TIMESTAMP WITH TIME ZONE
               - column:

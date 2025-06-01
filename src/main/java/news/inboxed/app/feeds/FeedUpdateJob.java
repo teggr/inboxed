@@ -26,7 +26,7 @@ public class FeedUpdateJob {
 
       log.info("Updating feed {}", feed.id());
 
-      feed = feed.withSchedule(new Schedule(Instant.now()))
+      feed = feed.withSchedule(new Schedule(Instant.now().plus(feed.scheduler())))
           .withLastScheduledRun(new ScheduledRun(current.nextUpdate(), ScheduledRunResult.SUCCESS));
 
       feed = feeds.update(feed);
