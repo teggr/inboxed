@@ -1,8 +1,8 @@
-package news.inboxed.app.feeds.store;
+package news.inboxed.app.feeds.content;
 
 import news.inboxed.app.feeds.FeedId;
 
-class FileSystemFeedContentStoreKey {
+class FileSystemFeedContentRepositoryKey {
 
 /**
      * Converts an arbitrary string to a valid filesystem directory name by replacing

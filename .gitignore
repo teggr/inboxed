@@ -34,3 +34,4 @@ build/
 
 ### Application Folders ###
 .data/
+.feeds/

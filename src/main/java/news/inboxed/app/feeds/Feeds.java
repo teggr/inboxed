@@ -58,7 +58,7 @@ public class Feeds {
     return feedRepository.save(feed);
   }
 
-  public List<Feed> getNextSchdeuledFeeds(Instant scheduledWindow) {
+  public List<Feed> getNextScheduledFeeds(Instant scheduledWindow) {
     return feedRepository.findAllByScheduleNextUpdateLessThan(scheduledWindow);
   }
 
