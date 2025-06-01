@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class FeedScheduler {
 
   private final Feeds feeds;
+  private final FeedUpdateJob feedUpdateJob;
 
   @TransactionalEventListener(fallbackExecution = true)
   public void handleFeedAddedEvent(FeedAddedEvent addedEvent) {
@@ -23,6 +24,9 @@ public class FeedScheduler {
     // TODO: could create the job here (quartz/jobrunr), rather than just use spring
 
     feed = feeds.update(feed);
+
+    // schedule an immediate fetch
+    feedUpdateJob.run();
 
   }
 
