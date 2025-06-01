@@ -1,4 +1,4 @@
-package news.inboxed.app.web.inbox.components;
+package news.inboxed.app.web.subscriptions.components;
 
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.btn;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.btn_close;
@@ -56,6 +56,7 @@ public class AddSubscriptionModal {
                                                                             .withText("Enter a search term to find feeds or paste a feed url."),
                                                                     input()
                                                                             .withType("text")
+                                                                            .withName("subscription")
                                                                             .withClasses(form_control),
                                                                     p()
                                                                             .withText("e.g. robintegg.com or Robin Tegg")                

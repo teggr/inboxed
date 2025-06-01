@@ -45,9 +45,9 @@ public class FeedUpdateJob {
 
       feed = feeds.update(feed);
 
-      applicationEventPublisher.publishEvent(new FeedUpdatedEvent(feed));
-
     }
+
+    applicationEventPublisher.publishEvent(new FeedsUpdatedEvent(scheduledFeeds));
 
   }
 

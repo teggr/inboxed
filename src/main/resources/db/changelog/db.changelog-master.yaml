@@ -247,3 +247,56 @@ databaseChangeLog:
               - column:
                   name: LAST_SCHEDULED_RUN_RESULT
                   type: VARCHAR(255)
+  - changeSet:
+      id: 8-create-feed-subscription-list-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEED_SUBSCRIPTION_LIST
+            columns:
+              - column:
+                  name: ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+  
+  - changeSet:
+      id: 9-create-feed-subscription-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEED_SUBSCRIPTION
+            columns:
+               - column:
+                  name: FEED_SUBSCRIPTION_LIST
+                  type: INT
+               - column:
+                  name: FEED_ID
+                  type: VARCHAR(255)
+               - column:
+                  name: LAST_UPDATED
+                  type: TIMESTAMP WITH TIME ZONE
+
+  - changeSet:
+      id: 10-create-subscriptions-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: SUBSCRIPTIONS
+            columns:
+               - column:
+                  name: ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+               - column:
+                  name: TYPE
+                  type: VARCHAR(255)
+               - column:
+                  name: SUBSCRIPTION_ID
+                  type: VARCHAR(255)
+               - column:
+                  name: CREATED_DATE
+                  type: TIMESTAMP WITH TIME ZONE

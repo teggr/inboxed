@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import news.inboxed.app.feeds.FeedId;
 import news.inboxed.app.feeds.Feeds;
 import news.inboxed.app.web.inbox.InboxController;
+import news.inboxed.app.web.subscriptions.SubscriptionsController;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
 
@@ -29,12 +30,8 @@ public class FeedsController {
   @GetMapping
   public String getFeeds(Pageable pageable, Model model) {
 
-    String homeUrl = fromMethodName(InboxController.class, "getInbox", pageable, model).build().toUriString();
-    model.addAttribute("homeUrl", homeUrl);
-
-    String adminFeedsUrl = fromMethodName(FeedsController.class, "getFeeds", pageable, model).build().toUriString();
-    model.addAttribute("adminFeedsUrl", adminFeedsUrl);
-    model.addAttribute("refreshUrl", adminFeedsUrl);
+    String refreshUrl = fromMethodName(FeedsController.class, "getFeeds", pageable, model).build().toUriString();
+    model.addAttribute("refreshUrl", refreshUrl);
 
     String addFeedUrl = fromMethodName(FeedsController.class, "postFeed", null, null).build().toUriString();
     model.addAttribute("addFeedUrl", addFeedUrl);
@@ -43,6 +40,7 @@ public class FeedsController {
     model.addAttribute("updateFeedsUrl", updateFeedsUrl);
 
     model.addAttribute("feeds", feeds.getFeeds(pageable));
+    
     return "feedsView";
   }
 

@@ -21,69 +21,62 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import news.inboxed.app.inbox.InboxItem;
 import news.inboxed.app.web.inbox.components.ReaderActionBar;
-import news.inboxed.app.web.inbox.components.AddSubscriptionModal;
 import news.inboxed.app.web.inbox.components.InboxItemsList;
 import news.inboxed.app.web.inbox.components.ReaderNavigation;
 import news.inboxed.app.web.site.SiteLayout;
+import news.inboxed.app.web.subscriptions.components.AddSubscriptionModal;
 
 @Component
 public class InboxView extends AbstractView {
 
-        @Override
-        @Nullable
-        public String getContentType() {
-                return MediaType.TEXT_HTML_VALUE;
-        }
+  @Override
+  @Nullable
+  public String getContentType() {
+    return MediaType.TEXT_HTML_VALUE;
+  }
 
-        @SuppressWarnings({ "unchecked", "null" })
-        @Override
-        protected void renderMergedOutputModel(@Nullable Map<String, Object> model, @NonNull HttpServletRequest request,
-                        @NonNull HttpServletResponse response) throws Exception {
+  @SuppressWarnings({ "unchecked", "null" })
+  @Override
+  protected void renderMergedOutputModel(@Nullable Map<String, Object> model, @NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response) throws Exception {
 
-                // get from the model
-                Page<InboxItem> inboxItems = (Page<InboxItem>) model.get("inboxItems");
-                String homeUrl = (String) model.get("homeUrl");
-                String searchUrl = (String) model.get("searchUrl");
-                String username = (String) model.get("username");
-                String logoutUrl = (String) model.get("logoutUrl");
-                String subscribeUrl = (String) model.get("subscribeUrl");
-                String refreshUrl = (String) model.get("refreshUrl");
-                int newItemCount = (int)model.get("newItemCount");
-                String adminFeedsUrl = (String) model.get("adminFeedsUrl");
+    // get from the model
+    Page<InboxItem> inboxItems = (Page<InboxItem>) model.get("inboxItems");
+    String subscribeUrl = (String) model.get("subscribeUrl");
+    String refreshUrl = (String) model.get("refreshUrl");
+    int newItemCount = (int) model.get("newItemCount");
 
-                // build the ui
-                DomContent html = SiteLayout.add("Inboxed | Reader", model, 
-                  
-                  each(
-                    
-                    inboxedNavigation(homeUrl, searchUrl, adminFeedsUrl, username, logoutUrl),
-                    
-                    div().withClasses(container_fluid).with(
-                      
-                      ReaderActionBar.readerActionBar(newItemCount, refreshUrl), 
-                      
-                      hr(),
+    // build the ui
+    DomContent html = SiteLayout.add("Inboxed | Reader", model,
 
-                      div().withClass(row).with(
-                        
-                        div().withClass(col_2).with(
-                                      ReaderNavigation.readerNavigation(newItemCount)),
-                        
-                        div().withClasses(col, px_2).with(
-                                      InboxItemsList.inboxItems(inboxItems))
-                                      
-                      )
-                                      
-                    ),
-                      
-                    AddSubscriptionModal.subscriptionModal(subscribeUrl)
-                    
-                  ));
+        each(
 
-                // output the html
-                setResponseContentType(request, response);
-                html.render(IndentedHtml.into(response.getWriter()));
+            inboxedNavigation(model),
 
-        }
+            div().withClasses(container_fluid).with(
+
+                ReaderActionBar.readerActionBar(newItemCount, refreshUrl),
+
+                hr(),
+
+                div().withClass(row).with(
+
+                    div().withClass(col_2).with(ReaderNavigation.readerNavigation(newItemCount)),
+
+                    div().withClasses(col, px_2).with(InboxItemsList.inboxItems(inboxItems))
+
+                )
+
+            ),
+
+            AddSubscriptionModal.subscriptionModal(subscribeUrl)
+
+        ));
+
+    // output the html
+    setResponseContentType(request, response);
+    html.render(IndentedHtml.into(response.getWriter()));
+
+  }
 
 }

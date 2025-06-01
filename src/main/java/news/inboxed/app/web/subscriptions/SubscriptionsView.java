@@ -1,4 +1,4 @@
-package news.inboxed.app.web.feeds;
+package news.inboxed.app.web.subscriptions;
 
 import java.util.Map;
 
@@ -13,18 +13,17 @@ import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import news.inboxed.app.feeds.Feed;
-import news.inboxed.app.web.feeds.components.FeedsActionBar;
-import news.inboxed.app.web.feeds.components.FeedsList;
+import news.inboxed.app.subscriptions.Subscription;
 import news.inboxed.app.web.site.SiteLayout;
+import news.inboxed.app.web.subscriptions.components.SubscriptionsActionBar;
+import news.inboxed.app.web.subscriptions.components.SubscriptionsList;
 
 import static j2html.TagCreator.*;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
-import static dev.rebelcraft.j2html.bootstrap.Bootstrap.col;
 import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 @Component
-public class FeedsView extends AbstractView {
+public class SubscriptionsView extends AbstractView {
 
   @Override
   @Nullable
@@ -38,39 +37,41 @@ public class FeedsView extends AbstractView {
       @NonNull HttpServletResponse response) throws Exception {
 
     // get from the model
-    Page<Feed> feeds = (Page<Feed>) model.get("feeds");
-    String addFeedUrl = (String) model.get("addFeedUrl");
-    String refreshUrl = (String) model.get("refreshUrl");
-    String updateFeedsUrl = (String) model.get("updateFeedsUrl");
+    Page<Subscription> subscriptions = (Page<Subscription>) model.get("subscriptions");
+    String refreshUrl = (String) model.get("subscriptionsUrl");
+
+    String addSubscriptionUrl = (String) model.get("addSubscriptionUrl");
 
     // build the ui
-    DomContent html = SiteLayout.add("Inboxed | Admin Feeds", model,
-
-      each(
+    DomContent html = SiteLayout.add("Inboxed | Subscriptions", model, 
+    
+        each(
 
           inboxedNavigation(model),
 
           div().withClasses(container_fluid).with(
 
-              FeedsActionBar.feedsActionBar(refreshUrl, addFeedUrl, updateFeedsUrl),
+              SubscriptionsActionBar.subscriptionsActionBar(refreshUrl, addSubscriptionUrl),
 
               hr(),
 
               div().withClasses(row).with(
 
                 div().withClasses(col).with(
-                  FeedsList.feeds(feeds)
+                  SubscriptionsList.subscriptionsList(subscriptions)
                 )
 
               )
 
           )
 
-      ));
+      )
+    
+    );
 
-    // output the response
+    // output the html
     setResponseContentType(request, response);
-    each(document(), html).render(IndentedHtml.into(response.getWriter()));
+    html.render(IndentedHtml.into(response.getWriter()));
 
   }
 

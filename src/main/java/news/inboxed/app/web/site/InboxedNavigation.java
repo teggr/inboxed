@@ -2,12 +2,23 @@ package news.inboxed.app.web.site;
 
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
 import static j2html.TagCreator.*;
+import static j2html.TagCreator.nav;
+
+import java.util.Map;
 
 import j2html.tags.specialized.NavTag;
 
 public class InboxedNavigation {
 
-  public static NavTag inboxedNavigation(String homeUrl, String searchUrl, String adminFeedsUrl, String username, String logoutUrl) {
+  public static NavTag inboxedNavigation(Map<String, Object> model) {
+
+    // get urls from the model
+    String homeUrl = (String) model.get("homeUrl");
+    String searchUrl = (String) model.get("searchUrl");
+    String username = (String) model.get("username");
+    String logoutUrl = (String) model.get("logoutUrl");
+    String adminFeedsUrl = (String) model.get("adminFeedsUrl");
+    String subscriptionsUrl = (String) model.get("subscriptionsUrl");
 
     return nav().withClasses(navbar, navbar_expand_lg, bg_primary_subtle, mb_4).with(
 
@@ -40,6 +51,12 @@ public class InboxedNavigation {
                                 .attr("aria-expanded", "false"),
 
                             ul().withClasses(dropdown_menu).with(
+
+                                li().with(a().withClasses(dropdown_item).withHref(homeUrl).withText("Reader")),
+
+                                li().with(a().withClasses(dropdown_item).withHref(subscriptionsUrl).withText("Subscriptions")),
+
+                                li().withClasses(dropdown_divider),
 
                                 li().with(a().withClasses(dropdown_item).withHref(adminFeedsUrl).withText("Feeds")),
 
