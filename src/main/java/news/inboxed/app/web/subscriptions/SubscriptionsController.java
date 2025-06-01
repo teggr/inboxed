@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import news.inboxed.app.subscriptions.Subscriptions;
-import news.inboxed.app.web.feeds.FeedsController;
-import news.inboxed.app.web.inbox.InboxController;
-
 import org.springframework.web.bind.annotation.GetMapping;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;

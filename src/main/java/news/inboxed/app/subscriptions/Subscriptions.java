@@ -1,13 +1,13 @@
 package news.inboxed.app.subscriptions;
 
-import java.time.Instant;
-import java.util.UUID;
-
+import java.net.URL;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import news.inboxed.app.subscriptions.services.SubscriptionService;
 
 /**
  * SubscriptionManager
@@ -16,31 +16,35 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Subscriptions {
 
-    private final SubscriptionRepository subscriptionRepository;
+  private final SubscriptionRepository subscriptionRepository;
+  private final List<SubscriptionService> subscriptionServices;
 
-    public void subscribe(String subscriptionId) {
+  public Subscription subscribe(URL subscriptionUrl) {
 
-      // get a subscription reference
-     // String subscriberId = UUID.randomUUID().toString();
+    Subscription subscription = null;
 
-     // Subscriber subscriber = subscriberRepository.findAll().getFirst();
+    for (SubscriptionService service : subscriptionServices) {
 
-    //  subscriber = subscriber.withSubscription( );
+      subscription = service.subscribe(subscriptionUrl);
 
-     // subscriber = subscriberRepository.save(subscriber);
-
-     Subscription subscription = subscriptionRepository.save( new Subscription( null, SubscriptionType.FEED, subscriptionId, null ));
-
-	
-      // do any providers support this subscription
-      // if so, start subscription
-      // get a reference to store with the subscription details
-      // then let the good times rolls
+      if (subscription != null) {
+        break;
+      }
 
     }
 
-    public Page<Subscription> getSubscriptions(Pageable pageable) {
-      return subscriptionRepository.findAll(pageable);
+    if(subscription == null) {
+      return null;
     }
+
+    subscription = subscriptionRepository.save(subscription);
+
+    return subscription;
+
+  }
+
+  public Page<Subscription> getSubscriptions(Pageable pageable) {
+    return subscriptionRepository.findAll(pageable);
+  }
 
 }

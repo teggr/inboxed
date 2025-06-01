@@ -11,9 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.RequiredArgsConstructor;
 import news.inboxed.app.feeds.FeedId;
 import news.inboxed.app.feeds.Feeds;
-import news.inboxed.app.web.inbox.InboxController;
-import news.inboxed.app.web.subscriptions.SubscriptionsController;
-
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
 
 import java.net.URL;

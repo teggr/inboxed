@@ -28,7 +28,7 @@ public class SubscriptionsList {
               tr().with(
 
                 th("Type"),
-                th("Id"),
+                th("Subscription Url"),
                 th("Created Date")
 
               )   
@@ -52,7 +52,7 @@ public class SubscriptionsList {
     return tr().with(
 
         td().with(text(subscription.type().toString())),
-        td().with(text(subscription.subscriptionId())),
+        td().with(text(subscription.subscriptionUrl().toString())),
         td().with(text(formatInstant(subscription.createdDate())))
       
        );

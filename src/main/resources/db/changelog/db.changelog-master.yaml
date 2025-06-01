@@ -295,7 +295,7 @@ databaseChangeLog:
                   name: TYPE
                   type: VARCHAR(255)
                - column:
-                  name: SUBSCRIPTION_ID
+                  name: SUBSCRIPTION_URL
                   type: VARCHAR(255)
                - column:
                   name: CREATED_DATE
