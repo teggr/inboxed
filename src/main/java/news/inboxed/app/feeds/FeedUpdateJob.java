@@ -3,6 +3,7 @@ package news.inboxed.app.feeds;
 import java.time.Instant;
 import java.util.List;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ public class FeedUpdateJob {
 
   private final Feeds feeds;
   private final FeedSync feedSync;
+  private final ApplicationEventPublisher applicationEventPublisher;
 
   // todo: given the scheduled feeds and id, do what needs doing
   public void run() {
@@ -42,6 +44,8 @@ public class FeedUpdateJob {
       }
 
       feed = feeds.update(feed);
+
+      applicationEventPublisher.publishEvent(new FeedUpdatedEvent(feed));
 
     }
 
