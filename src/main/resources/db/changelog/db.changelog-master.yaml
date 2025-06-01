@@ -238,3 +238,9 @@ databaseChangeLog:
               - column:
                   name: SCHEDULE_NEXT_UPDATE
                   type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: LAST_SCHEDULED_RUN_SCHEDULED_UPDATE
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: LAST_SCHEDULED_RUN_RESULT
+                  type: VARCHAR(255)

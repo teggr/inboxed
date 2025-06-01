@@ -35,7 +35,7 @@ public class Feeds {
 
       FeedId feedId = new FeedId(feedUrl.toString());
 
-      Feed feed = new Feed(null, feedId, feedUrl, null, null);
+      Feed feed = new Feed(null, feedId, feedUrl, null, null, null);
 
       feed = feedRepository.save(feed);
 

@@ -28,8 +28,10 @@ public class FeedsList {
               tr().with(
 
                 th("Feed URL"),
-                th("Next Scheduled Date"),
                 th("Created Date"),
+                th("Next Scheduled Date"),
+                th("Last Scheduled Date"),
+                th("Last Scheduled Result"),
                 th("View")
 
               )   
@@ -53,10 +55,12 @@ public class FeedsList {
     return tr().with(
 
         td().with(text(feed.url().toString())),
+        td().with(text(formatInstant(feed.createdDate()))),
         td().with(text( feed.schedule() != null ? formatInstant(feed.schedule().nextUpdate()) : "")),
         // div().withClasses(col).with(strong().withText(feed.title()),
         // span(feed.summary()).withClasses()),
-        td().with(text(formatInstant(feed.createdDate()))),
+        td().with(text( feed.lastScheduledRun() != null ? formatInstant(feed.lastScheduledRun().scheduledUpdate()) : "" )),
+        td().with(text( feed.lastScheduledRun() != null ? feed.lastScheduledRun().result().toString() : "" )),
         td().with(span().withClasses("bi", "bi-box-arrow-up-right"))
       
        );

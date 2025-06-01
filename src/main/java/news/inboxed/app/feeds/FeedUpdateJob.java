@@ -15,56 +15,60 @@ public class FeedUpdateJob {
 
   private final Feeds feeds;
 
-    // todo: given the scheduled feeds and id, do what needs doing
-    public void run() {
+  // todo: given the scheduled feeds and id, do what needs doing
+  public void run() {
 
-      List<Feed> scheduleFeeds = feeds.getNextSchdeuledFeeds(Instant.now());
+    List<Feed> scheduleFeeds = feeds.getNextSchdeuledFeeds(Instant.now());
 
-      for(Feed feed : scheduleFeeds) {
+    for (Feed feed : scheduleFeeds) {
 
-        log.info("Updating feed {}", feed.id() );
+      Schedule current = feed.schedule();
 
-        feed = feed.withSchedule(new Schedule( Instant.now() ));
+      log.info("Updating feed {}", feed.id());
 
-        feed = feeds.update(feed);
+      feed = feed.withSchedule(new Schedule(Instant.now()))
+          .withLastScheduledRun(new ScheduledRun(current.nextUpdate(), ScheduledRunResult.SUCCESS));
 
-      }
+      feed = feeds.update(feed);
 
-        // if first time (fetch without last updated)
-        // fetch the feed(up to last updated)
-        // store the feed
-        // publish feed updated event
+    }
 
-    } 
+    // if first time (fetch without last updated)
+    // fetch the feed(up to last updated)
+    // store the feed
+    // publish feed updated event
 
+  }
 
   public void fetchFeed() {
 
     // todo: keep a listf feeds that need fetching
 
-        try {
+    try {
 
-            // FeedId feedId = new FeedId(feedUrl);
+      // FeedId feedId = new FeedId(feedUrl);
 
-            // TODO: this could be done offline, queued list of things to load
+      // TODO: this could be done offline, queued list of things to load
 
-            // SyndFeed syndFeed = new SyndFeedInput().build(new XmlReader(new URL(feedUrl)));
+      // SyndFeed syndFeed = new SyndFeedInput().build(new XmlReader(new
+      // URL(feedUrl)));
 
-            // List<SyndEntry> entries = syndFeed.getEntries();
+      // List<SyndEntry> entries = syndFeed.getEntries();
 
-            // List<SyndLink> links = syndFeed.getLinks();
+      // List<SyndLink> links = syndFeed.getLinks();
 
-            // System.out.println(syndFeed.getTitle() + " " + entries.size() + " " + links.size());
+      // System.out.println(syndFeed.getTitle() + " " + entries.size() + " " +
+      // links.size());
 
-            // Feed feed = new Feed(feedId, feedUrl, syndFeed);
+      // Feed feed = new Feed(feedId, feedUrl, syndFeed);
 
-            // return feedRepository.save( feed );
+      // return feedRepository.save( feed );
 
-        } catch (Exception e) {
+    } catch (Exception e) {
 
-            throw new RuntimeException(e);
+      throw new RuntimeException(e);
 
-        }
+    }
 
   }
 
