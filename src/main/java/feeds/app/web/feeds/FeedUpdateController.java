@@ -1,4 +1,4 @@
-package news.inboxed.app.web.feeds;
+package feeds.app.web.feeds;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

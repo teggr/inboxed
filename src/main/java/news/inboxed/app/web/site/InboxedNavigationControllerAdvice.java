@@ -4,7 +4,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import news.inboxed.app.web.feeds.FeedsController;
+import feeds.app.web.feeds.FeedsController;
 import news.inboxed.app.web.inbox.InboxController;
 import news.inboxed.app.web.subscriptions.SubscriptionsController;
 

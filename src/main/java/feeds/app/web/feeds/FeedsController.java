@@ -1,4 +1,4 @@
-package news.inboxed.app.web.feeds;
+package feeds.app.web.feeds;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import java.net.URL;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@RequestMapping("/feeds")
+@RequestMapping("/feeds-app/feeds")
 @RequiredArgsConstructor
 public class FeedsController {
 

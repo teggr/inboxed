@@ -1,4 +1,4 @@
-package news.inboxed.app.web.feeds;
+package feeds.app.web.feeds;
 
 import java.util.Map;
 
@@ -14,8 +14,8 @@ import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import news.inboxed.app.feeds.Feed;
-import news.inboxed.app.web.feeds.components.FeedsActionBar;
-import news.inboxed.app.web.feeds.components.FeedsList;
+import feeds.app.web.feeds.components.FeedsActionBar;
+import feeds.app.web.feeds.components.FeedsList;
 import news.inboxed.app.web.site.SiteLayout;
 
 import static j2html.TagCreator.*;

@@ -1,4 +1,4 @@
-package news.inboxed.app.web.feeds.components;
+package feeds.app.web.feeds.components;
 
 import j2html.tags.specialized.HeaderTag;
 
