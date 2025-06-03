@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.feedhub.app.feeds.FeedConfigurations;
 import dev.feedhub.app.feeds.FeedId;
+import dev.feedhub.app.feeds.Feeds;
 import dev.feedhub.app.fetch.FetchFeedJobScheduler;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +27,7 @@ public class FeedsController {
 
   private final FeedConfigurations feedConfigurations;
   private final FetchFeedJobScheduler feedUpdateJobScheduler;
+  private final Feeds feeds;
 
   @GetMapping
   public String getFeeds(Pageable pageable, Model model) {
@@ -41,6 +43,7 @@ public class FeedsController {
 
     model.addAttribute("feedConfigurations", feedConfigurations.getFeedConfigurations(pageable));
     model.addAttribute("scheduledFetchFeedJobs", feedUpdateJobScheduler.getScheduledFetchFeedJobs());
+     model.addAttribute("feeds", feeds.getFeeds());
     
     return "feedsView";
   }

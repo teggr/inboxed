@@ -10,6 +10,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
+import dev.feedhub.app.feeds.Feed;
 import dev.feedhub.app.feeds.FeedConfiguration;
 import dev.feedhub.app.scheduler.ScheduledJob;
 import dev.feedhub.app.web.feeds.components.FeedsActionBar;
@@ -42,6 +43,8 @@ public class FeedsView extends AbstractView {
     // get from the model
     Page<FeedConfiguration> feedConfigurations = (Page<FeedConfiguration>) model.get("feedConfigurations");
     List<ScheduledJob> scheduledFetchFeedJobs = (List<ScheduledJob>) model.get("scheduledFetchFeedJobs");
+    List<Feed> feeds = (List<Feed>) model.get("feeds");
+    
     String addFeedUrl = (String) model.get("addFeedUrl");
     String refreshUrl = (String) model.get("refreshUrl");
     String updateFeedsUrl = (String) model.get("updateFeedsUrl");
@@ -62,7 +65,7 @@ public class FeedsView extends AbstractView {
               div().withClasses(row).with(
 
                 div().withClasses(col).with(
-                  FeedsList.feeds(feedConfigurations, scheduledFetchFeedJobs)
+                  FeedsList.feeds(feedConfigurations, scheduledFetchFeedJobs, feeds)
                 )
 
               )

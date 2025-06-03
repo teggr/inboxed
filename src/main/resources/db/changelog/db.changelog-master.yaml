@@ -253,8 +253,8 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                    name: FEED_ID
-                    type: VARCHAR(255)
+                  name: FEED_ID
+                  type: VARCHAR(255)
               - column:
                   name: NEXT_SCHEDULED_RUN
                   type: TIMESTAMP WITH TIME ZONE
@@ -269,6 +269,46 @@ databaseChangeLog:
                   type: TIMESTAMP WITH TIME ZONE
               - column:
                   name: SCHEDULE
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: 9-create-feedhub-feeds-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEEDHUB_FEEDS
+            columns:
+              - column:
+                  name: ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: FEED_ID
+                  type: VARCHAR(255)
+              - column:
+                  name: TITLE
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: 10-create-feedhub-feeditems-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEEDHUB_FEED_ITEMS
+            columns:
+              - column:
+                  name: ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: FEED_ID
+                  type: VARCHAR(255)
+              - column:
+                  name: TITLE
                   type: VARCHAR(255)
 
   - changeSet:
