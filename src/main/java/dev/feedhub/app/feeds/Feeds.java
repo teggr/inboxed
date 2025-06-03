@@ -11,9 +11,18 @@ import lombok.RequiredArgsConstructor;
 public class Feeds {
 
   private final FeedRepository feedRepository;
+  private final FeedItemRepository feedItemRepository;
 
   public List<Feed> getFeeds() {
     return feedRepository.findAll();
+  }
+
+  public void update(Feed feed, List<FeedItem> feedItems) {
+
+    feedRepository.save(feed);
+
+    feedItemRepository.saveAll(feedItems);
+
   }
 
 }

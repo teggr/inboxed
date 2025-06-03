@@ -1,20 +1,19 @@
-package news.inboxed.app.scheduler.feeds;
+package dev.feedhub.app.fetch;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import dev.feedhub.app.fetch.FetchFeedJob;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class ScheduledFeedUpdate {
+public class ScheduledFetchFeedJobRunner {
 
-  private final FetchFeedJob feedUpdateJob;
+  private final FetchFeedJobScheduler fetchFeedJobScheduler;
 
   @Scheduled(cron="0 0 * * * *") // every hour
   public void runFeedUpdateJob() {
-    feedUpdateJob.run();
+    fetchFeedJobScheduler.run();
   }
 
 }

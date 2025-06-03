@@ -58,4 +58,8 @@ public class FeedConfigurations {
         return feedConfigurationRepository.save(feed);
     }
 
+    public FeedConfiguration getFeedConfiguration(FeedId feedId) {
+      return feedConfigurationRepository.findByFeedId(feedId);
+    }
+
 }

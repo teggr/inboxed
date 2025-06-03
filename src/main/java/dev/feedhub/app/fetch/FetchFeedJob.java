@@ -1,7 +1,21 @@
 package dev.feedhub.app.fetch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.feed.synd.SyndLink;
+import com.rometools.rome.io.SyndFeedInput;
+import com.rometools.rome.io.XmlReader;
+
+import dev.feedhub.app.feeds.Feed;
+import dev.feedhub.app.feeds.FeedConfiguration;
+import dev.feedhub.app.feeds.FeedConfigurations;
+import dev.feedhub.app.feeds.FeedId;
+import dev.feedhub.app.feeds.FeedItem;
 import dev.feedhub.app.feeds.Feeds;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,38 +25,39 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FetchFeedJob {
 
+  private final FeedConfigurations feedConfigurations;
   private final Feeds feeds;
 
-  // todo: given the scheduled feeds and id, do what needs doing
-  public void run() {
+  public void run(FeedId feedId) {
 
-    // List<FeedConfig> scheduledFeeds = feeds.getNextScheduledFeeds(Instant.now());
+    log.info("Refresing feed {}", feedId);
 
-    // for (FeedConfig feed : scheduledFeeds) {
+    FeedConfiguration configuration = feedConfigurations.getFeedConfiguration(feedId);
 
-    //   Schedule current = feed.schedule();
+    try {
 
-    //   log.info("Updating feed {}", feed.id());
+      SyndFeed syndFeed = new SyndFeedInput().build(new XmlReader(configuration.url()));
 
-    //   try {
+      List<SyndEntry> entries = syndFeed.getEntries();
 
-    //     feedSync.refreshFeed(feed);
+      List<SyndLink> links = syndFeed.getLinks();
 
-    //     feed = feed.withSchedule(new Schedule(Instant.now().plus(feed.scheduler())))
-    //         .withLastScheduledRun(new ScheduledRun(current.nextUpdate(), ScheduledRunResult.SUCCESS));
+      log.info("Feed found: {} with {} enties and {} links", syndFeed.getTitle(), entries.size(), links.size());
 
-    //   } catch (Exception e) {
+      Feed feed = new Feed(null, feedId, syndFeed.getTitle());
 
-    //     feed = feed.withSchedule(new Schedule(Instant.now().plus(feed.scheduler())))
-    //         .withLastScheduledRun(new ScheduledRun(current.nextUpdate(), ScheduledRunResult.FAILURE));
+      List<FeedItem> feedItems = new ArrayList<>();
+      entries.forEach( e -> {
+        feedItems.add( new FeedItem(null, feedId, e.getTitle()) );
+      });
 
-    //   }
+      feeds.update(feed, feedItems);
 
-    //   feed = feeds.update(feed);
+    } catch (Exception e) {
 
-    // }
+      throw new RuntimeException(e);
 
-    // applicationEventPublisher.publishEvent(new FeedsUpdatedEvent(scheduledFeeds));
+    }
 
   }
 

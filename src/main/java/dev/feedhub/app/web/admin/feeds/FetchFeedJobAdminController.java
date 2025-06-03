@@ -1,4 +1,4 @@
-package dev.feedhub.app.web.feeds;
+package dev.feedhub.app.web.admin.feeds;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequestMapping("/fetch-feeds")
 @RequiredArgsConstructor
-public class FetchFeedJobController {
+public class FetchFeedJobAdminController {
 
   private final FetchFeedJobScheduler fetchFeedJobScheduler;
 
   @PostMapping
   public String postRunJob() {
     fetchFeedJobScheduler.run();
-    return "redirect:/feedhub/feeds";
+    return "redirect:/feedhub/admin/feeds";
   }
 
 }

@@ -42,7 +42,7 @@ public class FetchFeedJobScheduler {
 
     Instant jobStartTime = Instant.now();
 
-    fetchFeedJob.run();
+    fetchFeedJob.run(scheduledJob.feedId());
 
     scheduledJob = new ScheduledJob(scheduledJob.id(), scheduledJob.feedId(), scheduledJob.nextScheduledRun().plus(scheduledJob.schedule()), jobStartTime, ScheduledRunResult.SUCCESS, scheduledJob.createdDate(), scheduledJob.schedule());
 
@@ -59,7 +59,7 @@ public class FetchFeedJobScheduler {
     List<ScheduledJob> jobsToBeRun = scheduledJobRepository.findAllByNextScheduledRunLessThan(Instant.now());
 
     jobsToBeRun.forEach(this::runScheduledJob);
-    
+
   }
 
 }

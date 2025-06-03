@@ -1,4 +1,4 @@
-package dev.feedhub.app.web.feeds;
+package dev.feedhub.app.web.admin.feeds;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ import static dev.rebelcraft.j2html.bootstrap.Bootstrap.col;
 import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 @Component
-public class FeedsView extends AbstractView {
+public class FeedsAdminView extends AbstractView {
 
   @Override
   @Nullable

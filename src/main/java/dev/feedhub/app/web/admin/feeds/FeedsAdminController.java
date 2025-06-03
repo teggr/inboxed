@@ -1,4 +1,4 @@
-package dev.feedhub.app.web.feeds;
+package dev.feedhub.app.web.admin.feeds;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -21,9 +21,9 @@ import java.net.URL;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@RequestMapping("/feedhub/feeds")
+@RequestMapping("/feedhub/admin/feeds")
 @RequiredArgsConstructor
-public class FeedsController {
+public class FeedsAdminController {
 
   private final FeedConfigurations feedConfigurations;
   private final FetchFeedJobScheduler feedUpdateJobScheduler;
@@ -32,20 +32,20 @@ public class FeedsController {
   @GetMapping
   public String getFeeds(Pageable pageable, Model model) {
 
-    String refreshUrl = fromMethodName(FeedsController.class, "getFeeds", pageable, model).build().toUriString();
+    String refreshUrl = fromMethodName(FeedsAdminController.class, "getFeeds", pageable, model).build().toUriString();
     model.addAttribute("refreshUrl", refreshUrl);
 
-    String addFeedUrl = fromMethodName(FeedsController.class, "postFeed", null, null).build().toUriString();
+    String addFeedUrl = fromMethodName(FeedsAdminController.class, "postFeed", null, null).build().toUriString();
     model.addAttribute("addFeedUrl", addFeedUrl);
 
-    String runFetchFeedJobUrl = fromMethodName(FetchFeedJobController.class, "postRunJob").build().toUriString();
+    String runFetchFeedJobUrl = fromMethodName(FetchFeedJobAdminController.class, "postRunJob").build().toUriString();
     model.addAttribute("runFetchFeedJobUrl", runFetchFeedJobUrl);
 
     model.addAttribute("feedConfigurations", feedConfigurations.getFeedConfigurations(pageable));
     model.addAttribute("scheduledFetchFeedJobs", feedUpdateJobScheduler.getScheduledFetchFeedJobs());
      model.addAttribute("feeds", feeds.getFeeds());
     
-    return "feedsView";
+    return "feedsAdminView";
   }
 
   @PostMapping
@@ -56,7 +56,7 @@ public class FeedsController {
 
     // redirectAttributes.addAttribute("feedId", feedId.id());
 
-    return "redirect:/feedhub/feeds";
+    return "redirect:/feedhub/admin/feeds";
 
   }
 
