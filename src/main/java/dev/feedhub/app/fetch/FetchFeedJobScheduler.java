@@ -54,4 +54,12 @@ public class FetchFeedJobScheduler {
     return scheduledJobRepository.findAll();
   }
 
+  public void run() {
+
+    List<ScheduledJob> jobsToBeRun = scheduledJobRepository.findAllByNextScheduledRunLessThan(Instant.now());
+
+    jobsToBeRun.forEach(this::runScheduledJob);
+    
+  }
+
 }

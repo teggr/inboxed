@@ -38,8 +38,8 @@ public class FeedsController {
     String addFeedUrl = fromMethodName(FeedsController.class, "postFeed", null, null).build().toUriString();
     model.addAttribute("addFeedUrl", addFeedUrl);
 
-    String updateFeedsUrl = fromMethodName(FeedUpdateController.class, "postUpdateFeeds").build().toUriString();
-    model.addAttribute("updateFeedsUrl", updateFeedsUrl);
+    String runFetchFeedJobUrl = fromMethodName(FetchFeedJobController.class, "postRunJob").build().toUriString();
+    model.addAttribute("runFetchFeedJobUrl", runFetchFeedJobUrl);
 
     model.addAttribute("feedConfigurations", feedConfigurations.getFeedConfigurations(pageable));
     model.addAttribute("scheduledFetchFeedJobs", feedUpdateJobScheduler.getScheduledFetchFeedJobs());

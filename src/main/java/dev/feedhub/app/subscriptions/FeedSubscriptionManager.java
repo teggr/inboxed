@@ -1,8 +1,6 @@
 package dev.feedhub.app.subscriptions;
 
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
-
 // import dev.feedhub.app.fetch.FeedsUpdatedEvent;
 import lombok.RequiredArgsConstructor;
 
