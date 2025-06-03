@@ -19,12 +19,7 @@ import java.util.stream.Collectors;
 
 public class FeedsList {
 
-  public static DomContent feeds(Page<FeedConfiguration> feedConfigurations, List<ScheduledJob> scheduledFetchFeedJobs,
-      List<Feed> feeds) {
-
-    Map<FeedId, ScheduledJob> scheduledFetchFeedJobsByFeedId = scheduledFetchFeedJobs.stream()
-        .collect(Collectors.toMap(ScheduledJob::feedId, job -> job));
-    Map<FeedId, Feed> feedsByFeedId = feeds.stream().collect(Collectors.toMap(Feed::feedId, feed -> feed));
+  public static DomContent feeds(Page<Feed> feeds) {
 
     return div().withId("feeds").withClasses("mx-2").with(
 
@@ -40,19 +35,7 @@ public class FeedsList {
 
                         th("Feed URL"), 
 
-                        th("Title"), 
-                        
-                        th("Created Date"), 
-                        
-                        th("Scheduler"), 
-                        
-                        th("Next Scheduled Date"),
-
-                        th("Last Scheduled Date"), 
-                        
-                        th("Last Scheduled Result"), 
-                        
-                        th("View")
+                        th("Title")
 
                     )
 
@@ -60,11 +43,9 @@ public class FeedsList {
 
                 tbody().with(
 
-                    each(feedConfigurations.getContent(),
-                        feedConfiguration -> feedRow(
-                          feedConfiguration, 
-                          feedsByFeedId.get(feedConfiguration.feedId()), 
-                          scheduledFetchFeedJobsByFeedId.get(feedConfiguration.feedId())))
+                    each(feeds.getContent(),
+                        feed -> feedRow(
+                          feed))
 
                 )
 
@@ -75,23 +56,11 @@ public class FeedsList {
     );
   }
 
-  private static TrTag feedRow(FeedConfiguration feedConfiguration, Feed feed, ScheduledJob scheduledFetchFeedJob) {
+  private static TrTag feedRow(Feed feed) {
     return tr().with(
 
-        td().with(text(feedConfiguration.url().toString())), 
-        td().with(text(feed != null ? feed.title() : "")),
-        td().with(text(formatInstant(feedConfiguration.createdDate()))),
-        td().with(text(feedConfiguration.schedule().toString())),
-        td().with(text(scheduledFetchFeedJob != null ? formatInstant(scheduledFetchFeedJob.nextScheduledRun()) : "")),
-        // div().withClasses(col).with(strong().withText(feed.title()),
-        // span(feed.summary()).withClasses()),
-        td().with(text(scheduledFetchFeedJob != null && scheduledFetchFeedJob.lastScheduledRun() != null
-            ? formatInstant(scheduledFetchFeedJob.lastScheduledRun())
-            : "")),
-        td().with(text(scheduledFetchFeedJob != null && scheduledFetchFeedJob.lastScheduledRunResult() != null
-            ? scheduledFetchFeedJob.lastScheduledRunResult().toString()
-            : "")),
-        td().with(span().withClasses("bi", "bi-box-arrow-up-right"))
+        td().with(text(feed.url().toString())), 
+        td().with(text(feed != null ? feed.title() : ""))
 
     );
   }

@@ -44,7 +44,7 @@ public class FetchFeedJob {
 
       log.info("Feed found: {} with {} enties and {} links", syndFeed.getTitle(), entries.size(), links.size());
 
-      Feed feed = new Feed(null, feedId, syndFeed.getTitle());
+      Feed feed = new Feed(null, feedId, configuration.url(), syndFeed.getTitle());
 
       List<FeedItem> feedItems = new ArrayList<>();
       entries.forEach( e -> {

@@ -288,6 +288,9 @@ databaseChangeLog:
                   name: FEED_ID
                   type: VARCHAR(255)
               - column:
+                  name: URL
+                  type: VARCHAR(255)
+              - column:
                   name: TITLE
                   type: VARCHAR(255)
 

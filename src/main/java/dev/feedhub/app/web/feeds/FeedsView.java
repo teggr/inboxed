@@ -1,4 +1,4 @@
-package dev.feedhub.app.web.admin.feeds;
+package dev.feedhub.app.web.feeds;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +15,8 @@ import dev.feedhub.app.feeds.FeedConfiguration;
 import dev.feedhub.app.scheduler.ScheduledJob;
 import dev.feedhub.app.web.admin.feeds.components.FeedsAdminActionBar;
 import dev.feedhub.app.web.admin.feeds.components.FeedsAdminList;
+import dev.feedhub.app.web.feeds.components.FeedsActionBar;
+import dev.feedhub.app.web.feeds.components.FeedsList;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +29,7 @@ import static dev.rebelcraft.j2html.bootstrap.Bootstrap.col;
 import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 @Component
-public class FeedsAdminView extends AbstractView {
+public class FeedsView extends AbstractView {
 
   @Override
   @Nullable
@@ -41,16 +43,12 @@ public class FeedsAdminView extends AbstractView {
       @NonNull HttpServletResponse response) throws Exception {
 
     // get from the model
-    Page<FeedConfiguration> feedConfigurations = (Page<FeedConfiguration>) model.get("feedConfigurations");
-    List<ScheduledJob> scheduledFetchFeedJobs = (List<ScheduledJob>) model.get("scheduledFetchFeedJobs");
-    List<Feed> feeds = (List<Feed>) model.get("feeds");
+    Page<Feed> feeds = (Page<Feed>) model.get("feeds");
     
-    String addFeedUrl = (String) model.get("addFeedUrl");
     String refreshUrl = (String) model.get("refreshUrl");
-    String runFetchFeedJobUrl = (String) model.get("runFetchFeedJobUrl");
 
     // build the ui
-    DomContent html = SiteLayout.add("Inboxed | Admin Feeds", model,
+    DomContent html = SiteLayout.add("Inboxed | Feeds", model,
 
       each(
 
@@ -58,14 +56,14 @@ public class FeedsAdminView extends AbstractView {
 
           div().withClasses(container_fluid).with(
 
-              FeedsAdminActionBar.feedsActionBar(refreshUrl, addFeedUrl, runFetchFeedJobUrl),
+              FeedsActionBar.feedsActionBar(refreshUrl),
 
               hr(),
 
               div().withClasses(row).with(
 
                 div().withClasses(col).with(
-                  FeedsAdminList.feeds(feedConfigurations, scheduledFetchFeedJobs, feeds)
+                  FeedsList.feeds(feeds)
                 )
 
               )
