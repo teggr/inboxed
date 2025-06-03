@@ -20,46 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Feeds {
 
-  private final FeedRepository feedRepository;
-  private final ApplicationEventPublisher applicationEventPublisher;
-
-  public Page<Feed> getFeeds(Pageable pageable) {
-    return feedRepository.findAll(pageable);
-  }
-
-  public FeedId add(URL feedUrl) {
-
-    try {
-
-      // is this actually a feed url?
-      SyndFeed syndFeed = new SyndFeedInput().build(new XmlReader(feedUrl));
-
-      FeedId feedId = new FeedId(feedUrl.toString());
-
-      Feed feed = new Feed(null, feedId, feedUrl, null,  Duration.ofDays(1),null, null);
-
-      feed = feedRepository.save(feed);
-
-      publishFeedAddedEvent(feed);
-      
-      return feedId;
-
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-
-  }
-
-  private void publishFeedAddedEvent(Feed feed) {
-    applicationEventPublisher.publishEvent(new FeedAddedEvent(feed));
-  }
-
-  public Feed update(Feed feed) {
-    return feedRepository.save(feed);
-  }
-
-  public List<Feed> getNextScheduledFeeds(Instant scheduledWindow) {
-    return feedRepository.findAllByScheduleNextUpdateLessThan(scheduledWindow);
-  }
+  
 
 }

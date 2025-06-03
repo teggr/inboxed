@@ -3,7 +3,7 @@ package dev.feedhub.app.web.feeds;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import dev.feedhub.app.fetch.FeedUpdateJob;
+import dev.feedhub.app.fetch.FetchFeedJob;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class FeedUpdateController {
 
-  private final FeedUpdateJob feedUpdateJob;
+  private final FetchFeedJob feedUpdateJob;
 
   @PostMapping
   public String postUpdateFeeds() {

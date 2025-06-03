@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import dev.feedhub.app.feeds.FeedConfigurations;
 import dev.feedhub.app.feeds.FeedId;
 import dev.feedhub.app.feeds.Feeds;
+import dev.feedhub.app.fetch.FetchFeedJobScheduler;
 import lombok.RequiredArgsConstructor;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
@@ -23,7 +25,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class FeedsController {
 
-  private final Feeds feeds;
+  private final FeedConfigurations feedConfigurations;
+  private final FetchFeedJobScheduler feedUpdateJobScheduler;
 
   @GetMapping
   public String getFeeds(Pageable pageable, Model model) {
@@ -37,7 +40,8 @@ public class FeedsController {
     String updateFeedsUrl = fromMethodName(FeedUpdateController.class, "postUpdateFeeds").build().toUriString();
     model.addAttribute("updateFeedsUrl", updateFeedsUrl);
 
-    model.addAttribute("feeds", feeds.getFeeds(pageable));
+    model.addAttribute("feedConfigurations", feedConfigurations.getFeedConfigurations(pageable));
+    model.addAttribute("scheduledFetchFeedJobs", feedUpdateJobScheduler.getScheduledFetchFeedJobs());
     
     return "feedsView";
   }
@@ -46,7 +50,7 @@ public class FeedsController {
   public String postFeed(@RequestParam(value = "url", required = false) URL url,
       RedirectAttributes redirectAttributes) {
 
-    FeedId feedId = feeds.add(url);
+    FeedId feedId = feedConfigurations.createFeedConfiguration(url);
 
     // redirectAttributes.addAttribute("feedId", feedId.id());
 

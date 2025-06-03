@@ -1,4 +1,4 @@
-package dev.feedhub.app.feeds;
+package dev.feedhub.app.fetch;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import com.rometools.rome.feed.synd.SyndLink;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
+import dev.feedhub.app.feeds.FeedConfiguration;
 import dev.feedhub.app.feeds.content.FeedContent;
 import dev.feedhub.app.feeds.content.FeedContentRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class FeedSync {
 
   private final FeedContentRepository feedContentStore;
 
-  public void refreshFeed(Feed feed) {
+  public void refreshFeed(FeedConfiguration feed) {
 
     try {
 

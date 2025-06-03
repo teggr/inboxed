@@ -1,5 +1,6 @@
 package dev.feedhub.app.web.feeds;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -9,7 +10,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
-import dev.feedhub.app.feeds.Feed;
+import dev.feedhub.app.feeds.FeedConfiguration;
+import dev.feedhub.app.scheduler.ScheduledJob;
 import dev.feedhub.app.web.feeds.components.FeedsActionBar;
 import dev.feedhub.app.web.feeds.components.FeedsList;
 import j2html.rendering.IndentedHtml;
@@ -38,7 +40,8 @@ public class FeedsView extends AbstractView {
       @NonNull HttpServletResponse response) throws Exception {
 
     // get from the model
-    Page<Feed> feeds = (Page<Feed>) model.get("feeds");
+    Page<FeedConfiguration> feedConfigurations = (Page<FeedConfiguration>) model.get("feedConfigurations");
+    List<ScheduledJob> scheduledFetchFeedJobs = (List<ScheduledJob>) model.get("scheduledFetchFeedJobs");
     String addFeedUrl = (String) model.get("addFeedUrl");
     String refreshUrl = (String) model.get("refreshUrl");
     String updateFeedsUrl = (String) model.get("updateFeedsUrl");
@@ -59,7 +62,7 @@ public class FeedsView extends AbstractView {
               div().withClasses(row).with(
 
                 div().withClasses(col).with(
-                  FeedsList.feeds(feeds)
+                  FeedsList.feeds(feedConfigurations, scheduledFetchFeedJobs)
                 )
 
               )
