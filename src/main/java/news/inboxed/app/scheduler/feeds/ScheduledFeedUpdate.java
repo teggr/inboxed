@@ -3,8 +3,8 @@ package news.inboxed.app.scheduler.feeds;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import dev.feedhub.app.feeds.FeedUpdateJob;
 import lombok.RequiredArgsConstructor;
-import news.inboxed.app.feeds.FeedUpdateJob;
 
 @Component
 @RequiredArgsConstructor

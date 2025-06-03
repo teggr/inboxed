@@ -17,8 +17,11 @@ public class InboxedNavigation {
     String searchUrl = (String) model.get("searchUrl");
     String username = (String) model.get("username");
     String logoutUrl = (String) model.get("logoutUrl");
-    String adminFeedsUrl = (String) model.get("adminFeedsUrl");
     String subscriptionsUrl = (String) model.get("subscriptionsUrl");
+
+    // external services
+    String feedHubUrl = (String) model.get("feedHubUrl");
+    String webSharesUrl = (String) model.get("webSharesUrl");
 
     return nav().withClasses(navbar, navbar_expand_lg, bg_primary_subtle, mb_4).with(
 
@@ -58,7 +61,8 @@ public class InboxedNavigation {
 
                                 li().withClasses(dropdown_divider),
 
-                                li().with(a().withClasses(dropdown_item).withHref(adminFeedsUrl).withText("Feeds")),
+                                li().with(a().withClasses(dropdown_item).withHref(feedHubUrl).withText("FeedHub")),
+                                li().with(a().withClasses(dropdown_item).withHref(webSharesUrl).withText("WebShares")),
 
                                 li().withClasses(dropdown_divider),
 

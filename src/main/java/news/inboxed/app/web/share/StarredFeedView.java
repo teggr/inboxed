@@ -14,9 +14,9 @@ import com.rometools.rome.feed.atom.Entry;
 import com.rometools.rome.feed.atom.Feed;
 import com.rometools.rome.feed.synd.SyndPersonImpl;
 
+import dev.webshares.app.webshares.WebShare;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import news.inboxed.app.webshares.WebShare;
 
 @Component("starredFeedView")
 public class StarredFeedView extends AbstractAtomFeedView {
