@@ -29,7 +29,7 @@ import static dev.rebelcraft.j2html.bootstrap.Bootstrap.col;
 import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 @Component
-public class FeedsView extends AbstractView {
+public class FeedView extends AbstractView {
 
   @Override
   @Nullable
@@ -50,7 +50,7 @@ public class FeedsView extends AbstractView {
     FeedUrlBuilder feedUrlBuilder = (FeedUrlBuilder) model.get("feedUrlBuilder");
 
     // build the ui
-    DomContent html = SiteLayout.add("Inboxed | Feeds", model,
+    DomContent html = SiteLayout.add("Inboxed | Feed", model,
 
       each(
 
@@ -58,17 +58,7 @@ public class FeedsView extends AbstractView {
 
           div().withClasses(container_fluid).with(
 
-              FeedsActionBar.feedsActionBar(refreshUrl),
-
-              hr(),
-
-              div().withClasses(row).with(
-
-                div().withClasses(col).with(
-                  FeedsList.feeds(feeds, feedUrlBuilder)
-                )
-
-              )
+              text("A Feed title")
 
           )
 

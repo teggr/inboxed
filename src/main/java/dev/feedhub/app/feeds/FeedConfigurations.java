@@ -34,7 +34,7 @@ public class FeedConfigurations {
             // is this actually a feed url?
             SyndFeed syndFeed = new SyndFeedInput().build(new XmlReader(feedUrl));
 
-            FeedId feedId = new FeedId(feedUrl.toString()); // this will be the common key for the feed
+            FeedId feedId = FeedIdGenerator.generateFeedId(); // this will be the common key for the feed
 
             FeedConfiguration feedConfiguration = new FeedConfiguration(null, feedId, feedUrl, null, Duration.ofDays(1));
 

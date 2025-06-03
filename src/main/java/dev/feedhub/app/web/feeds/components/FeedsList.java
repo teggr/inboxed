@@ -6,6 +6,7 @@ import dev.feedhub.app.feeds.Feed;
 import dev.feedhub.app.feeds.FeedConfiguration;
 import dev.feedhub.app.feeds.FeedId;
 import dev.feedhub.app.scheduler.ScheduledJob;
+import dev.feedhub.app.web.feeds.FeedUrlBuilder;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.TrTag;
 
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class FeedsList {
 
-  public static DomContent feeds(Page<Feed> feeds) {
+  public static DomContent feeds(Page<Feed> feeds, FeedUrlBuilder feedUrlBuilder) {
 
     return div().withId("feeds").withClasses("mx-2").with(
 
@@ -45,7 +46,7 @@ public class FeedsList {
 
                     each(feeds.getContent(),
                         feed -> feedRow(
-                          feed))
+                          feed, feedUrlBuilder))
 
                 )
 
@@ -56,11 +57,11 @@ public class FeedsList {
     );
   }
 
-  private static TrTag feedRow(Feed feed) {
+  private static TrTag feedRow(Feed feed, FeedUrlBuilder feedUrlBuilder) {
     return tr().with(
 
         td().with(text(feed.url().toString())), 
-        td().with(text(feed != null ? feed.title() : ""))
+        td().with(a().withHref( feedUrlBuilder.build(feed.feedId()) ).withText(feed != null ? feed.title() : ""))
 
     );
   }
