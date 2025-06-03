@@ -18,7 +18,7 @@ public class FeedUpdateController {
   @PostMapping
   public String postUpdateFeeds() {
     feedUpdateJob.run();
-    return "redirect:/feeds";
+    return "redirect:/feedhub/feeds";
   }
 
 }

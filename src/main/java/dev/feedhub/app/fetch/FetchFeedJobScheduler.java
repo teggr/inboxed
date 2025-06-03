@@ -29,16 +29,22 @@ public class FetchFeedJobScheduler {
 
     // given the created date, create next schedule for immediately]
     ScheduledJob scheduledJob = new ScheduledJob(null, feedConfiguration.feedId(), feedConfiguration.createdDate(),
-        null, null, null);
+        null, null, null, feedConfiguration.schedule());
 
     scheduledJob = scheduledJobRepository.save(scheduledJob);
 
-    Instant immediateRun = Instant.now();
-
     // schedule an immediate fetch
+    runScheduledJob(scheduledJob);
+
+  }
+
+  private void runScheduledJob(ScheduledJob scheduledJob) {
+
+    Instant jobStartTime = Instant.now();
+
     fetchFeedJob.run();
 
-    scheduledJob = new ScheduledJob(scheduledJob.id(), scheduledJob.feedId(), scheduledJob.nextScheduledRun().plus(feedConfiguration.schedule()), immediateRun, ScheduledRunResult.SUCCESS, scheduledJob.createdDate());
+    scheduledJob = new ScheduledJob(scheduledJob.id(), scheduledJob.feedId(), scheduledJob.nextScheduledRun().plus(scheduledJob.schedule()), jobStartTime, ScheduledRunResult.SUCCESS, scheduledJob.createdDate(), scheduledJob.schedule());
 
     scheduledJob = scheduledJobRepository.save(scheduledJob);
 

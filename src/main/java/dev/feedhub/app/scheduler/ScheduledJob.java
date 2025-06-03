@@ -1,5 +1,6 @@
 package dev.feedhub.app.scheduler;
 
+import java.time.Duration;
 import java.time.Instant;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -16,6 +17,7 @@ public record ScheduledJob(
     Instant nextScheduledRun,
     Instant lastScheduledRun,
     ScheduledRunResult lastScheduledRunResult,
-    @CreatedDate Instant createdDate) {
+    @CreatedDate Instant createdDate,
+    Duration schedule) {
 
 }

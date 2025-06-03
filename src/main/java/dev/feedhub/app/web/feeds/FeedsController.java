@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.feedhub.app.feeds.FeedConfigurations;
 import dev.feedhub.app.feeds.FeedId;
-import dev.feedhub.app.feeds.Feeds;
 import dev.feedhub.app.fetch.FetchFeedJobScheduler;
 import lombok.RequiredArgsConstructor;
 
