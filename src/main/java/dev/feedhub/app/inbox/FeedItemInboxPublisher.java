@@ -1,4 +1,4 @@
-package dev.feedhub.app.feeds.inbox;
+package dev.feedhub.app.inbox;
 
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;

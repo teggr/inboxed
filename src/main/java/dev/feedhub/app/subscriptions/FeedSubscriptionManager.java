@@ -1,4 +1,4 @@
-package dev.feedhub.app.feeds.subscriptions;
+package dev.feedhub.app.subscriptions;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
