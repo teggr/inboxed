@@ -10,6 +10,9 @@ import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.relational.core.mapping.Embedded.OnEmpty;
 
+import dev.feedhub.app.scheduler.Schedule;
+import dev.feedhub.app.scheduler.ScheduledRun;
+
 @Table("FEEDS")
 public record Feed(
     @Id Long id, 

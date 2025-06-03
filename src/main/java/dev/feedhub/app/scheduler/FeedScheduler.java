@@ -1,8 +1,12 @@
-package dev.feedhub.app.feeds;
+package dev.feedhub.app.scheduler;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import dev.feedhub.app.feeds.Feed;
+import dev.feedhub.app.feeds.FeedAddedEvent;
+import dev.feedhub.app.feeds.Feeds;
+import dev.feedhub.app.fetch.FeedUpdateJob;
 import lombok.RequiredArgsConstructor;
 
 @Service

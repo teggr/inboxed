@@ -1,4 +1,4 @@
-package dev.feedhub.app.feeds;
+package dev.feedhub.app.fetch;
 
 import java.time.Instant;
 import java.util.List;
@@ -6,6 +6,13 @@ import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
+import dev.feedhub.app.feeds.Feed;
+import dev.feedhub.app.feeds.FeedSync;
+import dev.feedhub.app.feeds.Feeds;
+import dev.feedhub.app.feeds.FeedsUpdatedEvent;
+import dev.feedhub.app.scheduler.Schedule;
+import dev.feedhub.app.scheduler.ScheduledRun;
+import dev.feedhub.app.scheduler.ScheduledRunResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

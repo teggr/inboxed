@@ -1,4 +1,4 @@
-package dev.feedhub.app.feeds;
+package dev.feedhub.app.scheduler;
 
 import java.time.Instant;
 
