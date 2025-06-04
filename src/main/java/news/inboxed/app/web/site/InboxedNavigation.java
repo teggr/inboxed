@@ -27,8 +27,12 @@ public class InboxedNavigation {
 
         div().withClasses(container_fluid).with(
 
-            a().withClasses(navbar_brand, px_3).withText("Inboxed").withHref(homeUrl),
-
+            a().withClasses(navbar_brand, px_3).withHref(homeUrl)
+              .with(
+                span().withClasses("bi", "bi-inbox-fill"),
+                text("Inboxed")
+              ), 
+            
             button().withClass(navbar_toggler).withType("button").attr("data-bs-toggle", "collapse")
                 .attr("data-bs-target", "#navbarToggler").attr("aria-controls", "navbarToggler")
                 .attr("aria-expanded", "false").attr("aria-label", "Toggle Navigation")
