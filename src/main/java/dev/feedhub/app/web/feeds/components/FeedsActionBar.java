@@ -10,7 +10,7 @@ import static j2html.TagCreator.h2;
 
 public class FeedsActionBar {
 
-  public static HeaderTag feedsActionBar(String refreshUrl) {
+  public static HeaderTag feedsActionBar(String refreshUrl, String feedsAdminUrl) {
 
     return header().withClasses(row).with(
 
@@ -19,7 +19,10 @@ public class FeedsActionBar {
         div().withClasses(col, pt_1).with(
 
             a().withClasses(btn, btn_secondary).with(span().withClasses("bi", "bi-arrow-clockwise"))
-                .withHref(refreshUrl)
+                .withHref(refreshUrl),
+
+            a().withClasses(btn, btn_secondary).withText("Manage Feeds")
+                .withHref(feedsAdminUrl)
 
         ));
 

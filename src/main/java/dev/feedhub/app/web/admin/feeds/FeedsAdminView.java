@@ -15,6 +15,7 @@ import dev.feedhub.app.feeds.FeedConfiguration;
 import dev.feedhub.app.scheduler.ScheduledJob;
 import dev.feedhub.app.web.admin.feeds.components.FeedsAdminActionBar;
 import dev.feedhub.app.web.admin.feeds.components.FeedsAdminList;
+import dev.feedhub.app.web.feeds.FeedUrlBuilder;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,6 +49,8 @@ public class FeedsAdminView extends AbstractView {
     String addFeedUrl = (String) model.get("addFeedUrl");
     String refreshUrl = (String) model.get("refreshUrl");
     String runFetchFeedJobUrl = (String) model.get("runFetchFeedJobUrl");
+    String feedsUrl = (String) model.get("feedsUrl");
+    FeedUrlBuilder feedUrlBuilder = (FeedUrlBuilder) model.get("feedUrlBuilder");
 
     // build the ui
     DomContent html = SiteLayout.add("Inboxed | Admin Feeds", model,
@@ -58,14 +61,14 @@ public class FeedsAdminView extends AbstractView {
 
           div().withClasses(container_fluid).with(
 
-              FeedsAdminActionBar.feedsActionBar(refreshUrl, addFeedUrl, runFetchFeedJobUrl),
+              FeedsAdminActionBar.feedsActionBar(refreshUrl, addFeedUrl, runFetchFeedJobUrl, feedsUrl),
 
               hr(),
 
               div().withClasses(row).with(
 
                 div().withClasses(col).with(
-                  FeedsAdminList.feeds(feedConfigurations, scheduledFetchFeedJobs, feeds)
+                  FeedsAdminList.feeds(feedConfigurations, scheduledFetchFeedJobs, feeds, feedUrlBuilder)
                 )
 
               )

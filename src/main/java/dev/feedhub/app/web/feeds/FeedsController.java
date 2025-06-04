@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import dev.feedhub.app.feeds.FeedId;
 import dev.feedhub.app.feeds.Feeds;
+import dev.feedhub.app.web.admin.feeds.FeedsAdminController;
+import dev.feedhub.app.web.admin.feeds.components.FeedsAdminActionBar;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,9 @@ public class FeedsController {
 
   @GetMapping
   public String getFeeds(Pageable pageable, Model model) {
+
+    String feedsAdminUrl = fromMethodName(FeedsAdminController.class, "getFeeds", pageable, model).build().toUriString();
+    model.addAttribute("feedsAdminUrl", feedsAdminUrl);
 
     String refreshUrl = fromMethodName(FeedsController.class, "getFeeds", pageable, model).build().toUriString();
     model.addAttribute("refreshUrl", refreshUrl);

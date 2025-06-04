@@ -12,6 +12,8 @@ import dev.feedhub.app.feeds.FeedConfigurations;
 import dev.feedhub.app.feeds.FeedId;
 import dev.feedhub.app.feeds.Feeds;
 import dev.feedhub.app.fetch.FetchFeedJobScheduler;
+import dev.feedhub.app.web.feeds.FeedUrlBuilder;
+import dev.feedhub.app.web.feeds.FeedsController;
 import lombok.RequiredArgsConstructor;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.*;
@@ -40,6 +42,16 @@ public class FeedsAdminController {
 
     String runFetchFeedJobUrl = fromMethodName(FetchFeedJobAdminController.class, "postRunJob").build().toUriString();
     model.addAttribute("runFetchFeedJobUrl", runFetchFeedJobUrl);
+
+    String feedsUrl = fromMethodName(FeedsController.class, "getFeeds", null, null).build().toUriString();
+    model.addAttribute("feedsUrl", feedsUrl);
+
+    model.addAttribute("feedUrlBuilder", new FeedUrlBuilder() {
+      @Override
+      public String build(FeedId feedId) {
+        return fromMethodName(FeedsController.class, "getFeed", feedId.id(), null, null).build().toUriString();
+      }
+    });
 
     model.addAttribute("feedConfigurations", feedConfigurations.getFeedConfigurations(pageable));
     model.addAttribute("scheduledFetchFeedJobs", feedUpdateJobScheduler.getScheduledFetchFeedJobs());

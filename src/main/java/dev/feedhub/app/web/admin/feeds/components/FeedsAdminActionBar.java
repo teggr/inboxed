@@ -9,7 +9,7 @@ import static j2html.TagCreator.h2;
 
 public class FeedsAdminActionBar {
 
-  public static HeaderTag feedsActionBar(String refreshUrl, String addFeedUrl, String runFetchFeedJobUrl) {
+  public static HeaderTag feedsActionBar(String refreshUrl, String addFeedUrl, String runFetchFeedJobUrl, String feedsUrl) {
 
     return header().withClasses(row).with(
 
@@ -28,7 +28,10 @@ public class FeedsAdminActionBar {
             
             form().withMethod("post").withAction(runFetchFeedJobUrl).withClasses(d_inline_flex, mb_0).with(
 
-                button().withType("submit").withClasses(btn, btn_primary).withText("Run Update Job"))
+                button().withType("submit").withClasses(btn, btn_primary).withText("Run Update Job")),
+            
+            a().withClasses(btn, btn_secondary).withText("Browse Feeds")
+                .withHref(feedsUrl)
 
         ));
 

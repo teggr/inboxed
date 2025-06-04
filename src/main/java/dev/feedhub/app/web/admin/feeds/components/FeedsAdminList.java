@@ -6,6 +6,7 @@ import dev.feedhub.app.feeds.Feed;
 import dev.feedhub.app.feeds.FeedConfiguration;
 import dev.feedhub.app.feeds.FeedId;
 import dev.feedhub.app.scheduler.ScheduledJob;
+import dev.feedhub.app.web.feeds.FeedUrlBuilder;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.TrTag;
 
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class FeedsAdminList {
 
   public static DomContent feeds(Page<FeedConfiguration> feedConfigurations, List<ScheduledJob> scheduledFetchFeedJobs,
-      List<Feed> feeds) {
+      List<Feed> feeds, FeedUrlBuilder feedUrlBuilder) {
 
     Map<FeedId, ScheduledJob> scheduledFetchFeedJobsByFeedId = scheduledFetchFeedJobs.stream()
         .collect(Collectors.toMap(ScheduledJob::feedId, job -> job));
@@ -64,7 +65,8 @@ public class FeedsAdminList {
                         feedConfiguration -> feedRow(
                           feedConfiguration, 
                           feedsByFeedId.get(feedConfiguration.feedId()), 
-                          scheduledFetchFeedJobsByFeedId.get(feedConfiguration.feedId())))
+                          scheduledFetchFeedJobsByFeedId.get(feedConfiguration.feedId()),
+                          feedUrlBuilder))
 
                 )
 
@@ -75,7 +77,7 @@ public class FeedsAdminList {
     );
   }
 
-  private static TrTag feedRow(FeedConfiguration feedConfiguration, Feed feed, ScheduledJob scheduledFetchFeedJob) {
+  private static TrTag feedRow(FeedConfiguration feedConfiguration, Feed feed, ScheduledJob scheduledFetchFeedJob, FeedUrlBuilder feedUrlBuilder) {
     return tr().with(
 
         td().with(text(feedConfiguration.url().toString())), 
@@ -91,7 +93,7 @@ public class FeedsAdminList {
         td().with(text(scheduledFetchFeedJob != null && scheduledFetchFeedJob.lastScheduledRunResult() != null
             ? scheduledFetchFeedJob.lastScheduledRunResult().toString()
             : "")),
-        td().with(span().withClasses("bi", "bi-box-arrow-up-right"))
+        td().with(a().withHref(feedUrlBuilder.build(feedConfiguration.feedId())).with(span().withClasses("bi", "bi-box-arrow-up-right")))
 
     );
   }
