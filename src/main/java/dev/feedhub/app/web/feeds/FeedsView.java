@@ -1,6 +1,5 @@
 package dev.feedhub.app.web.feeds;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -11,22 +10,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
 import dev.feedhub.app.feeds.Feed;
-import dev.feedhub.app.feeds.FeedConfiguration;
-import dev.feedhub.app.scheduler.ScheduledJob;
-import dev.feedhub.app.web.admin.feeds.components.FeedsAdminActionBar;
-import dev.feedhub.app.web.admin.feeds.components.FeedsAdminList;
 import dev.feedhub.app.web.feeds.components.FeedsActionBar;
 import dev.feedhub.app.web.feeds.components.FeedsList;
+import dev.feedhub.app.web.site.FeedHubNavigation;
+import dev.feedhub.app.web.site.FeedHubSiteLayout;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import news.inboxed.app.web.site.SiteLayout;
 
 import static j2html.TagCreator.*;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.col;
-import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 @Component
 public class FeedsView extends AbstractView {
@@ -51,11 +46,11 @@ public class FeedsView extends AbstractView {
     FeedUrlBuilder feedUrlBuilder = (FeedUrlBuilder) model.get("feedUrlBuilder");
 
     // build the ui
-    DomContent html = SiteLayout.add("Inboxed | Feeds", model,
+    DomContent html = FeedHubSiteLayout.add("FeedHub | Feeds", model,
 
       each(
 
-          inboxedNavigation(model),
+          FeedHubNavigation.feedHubNavigation(model),
 
           div().withClasses(container_fluid).with(
 

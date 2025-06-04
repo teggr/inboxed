@@ -13,7 +13,7 @@ import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import news.inboxed.app.web.site.SiteLayout;
+import news.inboxed.app.web.site.InboxedSiteLayout;
 
 @Component
 public class SearchView extends AbstractView {
@@ -32,7 +32,7 @@ public class SearchView extends AbstractView {
     // get from the model
 
     // build the ui
-    DomContent html = SiteLayout.add("Inboxed | Reader", model, TagCreator.text("Search"));
+    DomContent html = InboxedSiteLayout.add("Inboxed | Reader", model, TagCreator.text("Search"));
 
     // output the html
     setResponseContentType(request, response);

@@ -23,7 +23,7 @@ import news.inboxed.app.inbox.InboxItem;
 import news.inboxed.app.web.inbox.components.ReaderActionBar;
 import news.inboxed.app.web.inbox.components.InboxItemsList;
 import news.inboxed.app.web.inbox.components.ReaderNavigation;
-import news.inboxed.app.web.site.SiteLayout;
+import news.inboxed.app.web.site.InboxedSiteLayout;
 import news.inboxed.app.web.subscriptions.components.AddSubscriptionModal;
 
 @Component
@@ -47,7 +47,7 @@ public class InboxView extends AbstractView {
     int newItemCount = (int) model.get("newItemCount");
 
     // build the ui
-    DomContent html = SiteLayout.add("Inboxed | Reader", model,
+    DomContent html = InboxedSiteLayout.add("Inboxed | Reader", model,
 
         each(
 

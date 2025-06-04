@@ -13,18 +13,18 @@ import dev.feedhub.app.feeds.Feed;
 import dev.feedhub.app.feeds.FeedItem;
 import dev.feedhub.app.web.feeds.components.FeedActionBar;
 import dev.feedhub.app.web.feeds.components.FeedItemsList;
+import dev.feedhub.app.web.site.FeedHubNavigation;
+import dev.feedhub.app.web.site.FeedHubSiteLayout;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import news.inboxed.app.web.site.SiteLayout;
 import news.inboxed.app.web.utils.TimeUtils;
 
 import static j2html.TagCreator.*;
 import static j2html.TagCreator.h5;
 import static j2html.TagCreator.small;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
-import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 @Component
 public class FeedView extends AbstractView {
@@ -47,11 +47,11 @@ public class FeedView extends AbstractView {
     String feedsUrl = (String) model.get("feedsUrl");
 
     // build the ui
-    DomContent html = SiteLayout.add("Inboxed | Feed", model,
+    DomContent html = FeedHubSiteLayout.add("FeedHub | Feed", model,
 
       each(
 
-          inboxedNavigation(model),
+          FeedHubNavigation.feedHubNavigation(model),
 
           FeedActionBar.feedActionBar(feed, feedsUrl),
 

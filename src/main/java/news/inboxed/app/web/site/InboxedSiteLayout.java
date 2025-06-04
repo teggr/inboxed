@@ -8,7 +8,7 @@ import static j2html.TagCreator.*;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.HtmlTag;
 
-public class SiteLayout {
+public class InboxedSiteLayout {
 
         public static DomContent add(String title, Map<String, ?> model, DomContent... content) {
 

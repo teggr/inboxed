@@ -14,7 +14,7 @@ import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import news.inboxed.app.subscriptions.Subscription;
-import news.inboxed.app.web.site.SiteLayout;
+import news.inboxed.app.web.site.InboxedSiteLayout;
 import news.inboxed.app.web.subscriptions.components.SubscriptionsActionBar;
 import news.inboxed.app.web.subscriptions.components.SubscriptionsList;
 
@@ -43,7 +43,7 @@ public class SubscriptionsView extends AbstractView {
     String addSubscriptionUrl = (String) model.get("addSubscriptionUrl");
 
     // build the ui
-    DomContent html = SiteLayout.add("Inboxed | Subscriptions", model, 
+    DomContent html = InboxedSiteLayout.add("Inboxed | Subscriptions", model, 
     
         each(
 
