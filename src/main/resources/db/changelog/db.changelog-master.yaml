@@ -54,7 +54,7 @@ databaseChangeLog:
       changes:
         - createIndex:
             tableName: TAG_NAMES
-            indexName: idx_tag_name
+            indexName: idx_tag_names_name
             columns:
               - column:
                   name: NAME
@@ -293,9 +293,20 @@ databaseChangeLog:
               - column:
                   name: TITLE
                   type: VARCHAR(255)
+ 
+  - changeSet:
+      id: 10-create-index-on-feedhub-feeds-feedid
+      author: robin
+      changes:
+        - createIndex:
+            tableName: FEEDHUB_FEEDS
+            indexName: idx_feedhub_feeds_feed_id
+            columns:
+              - column:
+                  name: FEED_ID
 
   - changeSet:
-      id: 10-create-feedhub-feeditems-table
+      id: 11-create-feedhub-feeditems-table
       author: robin
       changes:
         - createTable:
@@ -313,6 +324,17 @@ databaseChangeLog:
               - column:
                   name: TITLE
                   type: VARCHAR(255)
+
+  - changeSet:
+      id: 12-create-index-on-feedhub-feeditems-feedid
+      author: robin
+      changes:
+        - createIndex:
+            tableName: FEEDHUB_FEED_ITEMS
+            indexName: idx_feedhub_feeditems_feed_id
+            columns:
+              - column:
+                  name: FEED_ID
 
   - changeSet:
       id: 8-create-feed-subscription-list-table

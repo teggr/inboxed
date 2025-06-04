@@ -12,9 +12,12 @@ import org.springframework.web.servlet.view.AbstractView;
 
 import dev.feedhub.app.feeds.Feed;
 import dev.feedhub.app.feeds.FeedConfiguration;
+import dev.feedhub.app.feeds.FeedItem;
 import dev.feedhub.app.scheduler.ScheduledJob;
 import dev.feedhub.app.web.admin.feeds.components.FeedsAdminActionBar;
 import dev.feedhub.app.web.admin.feeds.components.FeedsAdminList;
+import dev.feedhub.app.web.feeds.components.FeedActionBar;
+import dev.feedhub.app.web.feeds.components.FeedItemsList;
 import dev.feedhub.app.web.feeds.components.FeedsActionBar;
 import dev.feedhub.app.web.feeds.components.FeedsList;
 import j2html.rendering.IndentedHtml;
@@ -43,11 +46,10 @@ public class FeedView extends AbstractView {
       @NonNull HttpServletResponse response) throws Exception {
 
     // get from the model
-    Page<Feed> feeds = (Page<Feed>) model.get("feeds");
+    Feed feed = (Feed) model.get("feed");
+    Page<FeedItem> feedItems = (Page<FeedItem>) model.get("feedItems");
     
-    String refreshUrl = (String) model.get("refreshUrl");
-
-    FeedUrlBuilder feedUrlBuilder = (FeedUrlBuilder) model.get("feedUrlBuilder");
+    String feedsUrl = (String) model.get("feedsUrl");
 
     // build the ui
     DomContent html = SiteLayout.add("Inboxed | Feed", model,
@@ -56,9 +58,13 @@ public class FeedView extends AbstractView {
 
           inboxedNavigation(model),
 
+          FeedActionBar.feedActionBar(feed, feedsUrl),
+
+          hr(),
+
           div().withClasses(container_fluid).with(
 
-              text("A Feed title")
+              FeedItemsList.feeds(feedItems)
 
           )
 

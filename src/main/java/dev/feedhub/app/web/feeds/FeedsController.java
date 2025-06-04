@@ -29,7 +29,7 @@ public class FeedsController {
     model.addAttribute("feedUrlBuilder", new FeedUrlBuilder() {
       @Override
       public String build(FeedId feedId) {
-        return fromMethodName(FeedsController.class, "getFeed", feedId.id(), null).build().toUriString();
+        return fromMethodName(FeedsController.class, "getFeed", feedId.id(), null, null).build().toUriString();
       }
     });
 
@@ -40,9 +40,15 @@ public class FeedsController {
   }
 
   @GetMapping("/{feedId}")
-  public String getFeed(@PathVariable("feedId") String feedId, Model model) {
+  public String getFeed(@PathVariable("feedId") String feedIdValue, Pageable pageable, Model model) {
 
-    FeedId feedId2 = new FeedId(feedId);
+    FeedId feedId = new FeedId(feedIdValue);
+
+    String feedsUrl = fromMethodName(FeedsController.class, "getFeeds", null, null).build().toUriString();
+    model.addAttribute("feedsUrl", feedsUrl);
+
+    model.addAttribute("feed", feeds.getFeed(feedId));
+    model.addAttribute("feedItems", feeds.getFeedItems(feedId, pageable));
 
     return "feedView";
 

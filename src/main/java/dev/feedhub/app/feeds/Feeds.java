@@ -35,4 +35,12 @@ public class Feeds {
 
   }
 
+  public Feed getFeed(FeedId feedId) {
+    return feedRepository.findByFeedId(feedId);
+  }
+
+  public Page<FeedItem> getFeedItems(FeedId feedId, Pageable pageable) {
+    return feedItemRepository.findAllByFeedId(feedId, pageable);
+  }
+
 }
