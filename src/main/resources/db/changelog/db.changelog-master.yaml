@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1-create-web-share-table
+      id: create-web-share-table
       author: robin
       changes:
         - createTable:
@@ -30,7 +30,7 @@ databaseChangeLog:
                   type: TIMESTAMP WITH TIME ZONE
 
   - changeSet:
-      id: 2-create-tag-names-table
+      id: create-tag-names-table
       author: robin
       changes:
         - createTable:
@@ -49,7 +49,7 @@ databaseChangeLog:
                     nullable: false
 
   - changeSet:
-      id: 3-create-index-on-tag-names
+      id: create-index-on-tag-names
       author: robin
       changes:
         - createIndex:
@@ -60,7 +60,7 @@ databaseChangeLog:
                   name: NAME
   
   - changeSet:
-      id: 4-create-web-share-data-table
+      id: create-web-share-data-table
       author: robin
       changes:
         - createTable:
@@ -83,7 +83,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
 
   - changeSet:
-      id: 5-create-web-share-meta-data-table
+      id: create-web-share-meta-data-table
       author: robin
       changes:
         - createTable:
@@ -166,7 +166,7 @@ databaseChangeLog:
                   type: VARCHAR(255) ARRAY
 
   - changeSet:
-      id: 6-create-inbox-items-table
+      id: create-inbox-items-table
       author: robin
       changes:
         - createTable:
@@ -214,7 +214,7 @@ databaseChangeLog:
                   type: VARCHAR(1024)
 
   - changeSet:
-      id: 7-create-feedhub-feed-configurations-table
+      id: create-feedhub-feed-configurations-table
       author: robin
       changes:
         - createTable:
@@ -240,7 +240,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
 
   - changeSet:
-      id: 8-create-feedhub-scheduled-jobs-table
+      id: create-feedhub-scheduled-jobs-table
       author: robin
       changes:
         - createTable:
@@ -272,7 +272,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
 
   - changeSet:
-      id: 9-create-feedhub-feeds-table
+      id: create-feedhub-feeds-table
       author: robin
       changes:
         - createTable:
@@ -291,11 +291,26 @@ databaseChangeLog:
                   name: URL
                   type: VARCHAR(255)
               - column:
+                  name: CATEGORIES
+                  type: VARCHAR(255) ARRAY
+              - column:
+                  name: DESCRIPTION
+                  type: TEXT
+              - column:
+                  name: FEED_TYPE
+                  type: VARCHAR(255)
+              - column:
+                  name: PUBLISHED_DATE
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
                   name: TITLE
+                  type: VARCHAR(255)
+              - column:
+                  name: URI
                   type: VARCHAR(255)
  
   - changeSet:
-      id: 10-create-index-on-feedhub-feeds-feedid
+      id: create-index-on-feedhub-feeds-feedid
       author: robin
       changes:
         - createIndex:
@@ -306,7 +321,50 @@ databaseChangeLog:
                   name: FEED_ID
 
   - changeSet:
-      id: 11-create-feedhub-feeditems-table
+      id: create-feedhub-feeds-authors-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEED_HUB_FEED_AUTHORS
+            columns:
+              - column:
+                  name: FEEDHUB_FEEDS
+                  type: INT
+              - column:
+                  name: NAME
+                  type: VARCHAR(255)
+              - column:
+                  name: URI
+                  type: VARCHAR(255)
+              - column:
+                  name: EMAIL
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: create-feedhub-feeds-links-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEED_HUB_FEED_LINKS
+            columns:
+              - column:
+                  name: FEEDHUB_FEEDS
+                  type: INT
+              - column:
+                  name: HREF
+                  type: VARCHAR(255)
+              - column:
+                  name: REL
+                  type: VARCHAR(255)
+              - column:
+                  name: TYPE
+                  type: VARCHAR(255)
+              - column:
+                  name: TITLE
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: create-feedhub-feeditems-table
       author: robin
       changes:
         - createTable:
@@ -322,11 +380,26 @@ databaseChangeLog:
                   name: FEED_ID
                   type: VARCHAR(255)
               - column:
+                  name: CATEGORIES
+                  type: VARCHAR(255) ARRAY
+              - column:
+                  name: DESCRIPTION
+                  type: TEXT
+              - column:
+                  name: PUBLISHED_DATE
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
                   name: TITLE
                   type: VARCHAR(255)
+              - column:
+                  name: URI
+                  type: VARCHAR(255)
+              - column:
+                  name: UPDATED_DATE
+                  type: TIMESTAMP WITH TIME ZONE
 
   - changeSet:
-      id: 12-create-index-on-feedhub-feeditems-feedid
+      id: create-index-on-feedhub-feeditems-feedid
       author: robin
       changes:
         - createIndex:
@@ -337,7 +410,67 @@ databaseChangeLog:
                   name: FEED_ID
 
   - changeSet:
-      id: 8-create-feed-subscription-list-table
+      id: create-feedhub-feed-items-authors-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEED_HUB_FEED_ITEM_AUTHORS
+            columns:
+              - column:
+                  name: FEEDHUB_FEED_ITEMS
+                  type: INT
+              - column:
+                  name: NAME
+                  type: VARCHAR(255)
+              - column:
+                  name: URI
+                  type: VARCHAR(255)
+              - column:
+                  name: EMAIL
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: create-feedhub-feed-items-links-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEED_HUB_FEED_ITEM_LINKS
+            columns:
+              - column:
+                  name: FEEDHUB_FEED_ITEMS
+                  type: INT
+              - column:
+                  name: HREF
+                  type: VARCHAR(255)
+              - column:
+                  name: REL
+                  type: VARCHAR(255)
+              - column:
+                  name: TYPE
+                  type: VARCHAR(255)
+              - column:
+                  name: TITLE
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: create-feedhub-feed-items-contents-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEED_HUB_FEED_ITEM_CONTENTS
+            columns:
+              - column:
+                  name: FEEDHUB_FEED_ITEMS
+                  type: INT
+              - column:
+                  name: TYPE
+                  type: VARCHAR(255)
+              - column:
+                  name: VALUE
+                  type: TEXT
+
+  - changeSet:
+      id: create-feed-subscription-list-table
       author: robin
       changes:
         - createTable:
@@ -351,7 +484,7 @@ databaseChangeLog:
                     primaryKey: true
   
   - changeSet:
-      id: 9-create-feed-subscription-table
+      id: create-feed-subscription-table
       author: robin
       changes:
         - createTable:
@@ -368,7 +501,7 @@ databaseChangeLog:
                   type: TIMESTAMP WITH TIME ZONE
 
   - changeSet:
-      id: 10-create-subscriptions-table
+      id: create-subscriptions-table
       author: robin
       changes:
         - createTable:
