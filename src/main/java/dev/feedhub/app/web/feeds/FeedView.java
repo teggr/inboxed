@@ -1,6 +1,5 @@
 package dev.feedhub.app.web.feeds;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -11,24 +10,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
 import dev.feedhub.app.feeds.Feed;
-import dev.feedhub.app.feeds.FeedConfiguration;
 import dev.feedhub.app.feeds.FeedItem;
-import dev.feedhub.app.scheduler.ScheduledJob;
-import dev.feedhub.app.web.admin.feeds.components.FeedsAdminActionBar;
-import dev.feedhub.app.web.admin.feeds.components.FeedsAdminList;
 import dev.feedhub.app.web.feeds.components.FeedActionBar;
 import dev.feedhub.app.web.feeds.components.FeedItemsList;
-import dev.feedhub.app.web.feeds.components.FeedsActionBar;
-import dev.feedhub.app.web.feeds.components.FeedsList;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import news.inboxed.app.web.site.SiteLayout;
+import news.inboxed.app.web.utils.TimeUtils;
 
 import static j2html.TagCreator.*;
+import static j2html.TagCreator.h5;
+import static j2html.TagCreator.small;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
-import static dev.rebelcraft.j2html.bootstrap.Bootstrap.col;
 import static news.inboxed.app.web.site.InboxedNavigation.inboxedNavigation;
 
 @Component
@@ -61,6 +56,26 @@ public class FeedView extends AbstractView {
           FeedActionBar.feedActionBar(feed, feedsUrl),
 
           hr(),
+
+          // TODO: summary card of the feed + expand the cards for the feed items
+          div().withClasses(container_fluid, mb_3).with(
+            div().withClasses(card).with(
+              div().withClasses(row).with(
+                div().withClasses(col_2).with(
+                  img().withSrc("https://placehold.co/200x200").withClasses(img_fluid, img_thumbnail).withAlt("Feed icon")
+                ),
+                div().withClasses(col_10).with(
+                  div().withClasses(card_body).with(
+                    h5(feed.title()).withClasses(card_title),
+                    p(feed.description()).withClasses(card_text),
+                    p().withClasses(card_text).with(
+                      small(TimeUtils.formatInstant(feed.publishedDate())).withClass(text_body_secondary)
+                    )
+                  )
+                )
+              )
+            )
+          ),
 
           div().withClasses(container_fluid).with(
 
