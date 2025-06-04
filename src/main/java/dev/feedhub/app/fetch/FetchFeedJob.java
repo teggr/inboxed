@@ -1,7 +1,5 @@
 package dev.feedhub.app.fetch;
 
-import static j2html.TagCreator.style;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +53,7 @@ public class FetchFeedJob {
       log.info("Feed found: {} with {} enties and {} links", syndFeed.getTitle(), entries.size(), links.size());
 
       List<FeedItem> feedItems = new ArrayList<>();
-      entries.subList(0, 1).forEach(e -> {
+      entries.forEach(e -> {
         feedItems.add(createFeedItem(feedId, e));
       });
 

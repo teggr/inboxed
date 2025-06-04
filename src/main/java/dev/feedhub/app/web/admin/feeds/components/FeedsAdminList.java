@@ -6,12 +6,16 @@ import dev.feedhub.app.feeds.Feed;
 import dev.feedhub.app.feeds.FeedConfiguration;
 import dev.feedhub.app.feeds.FeedId;
 import dev.feedhub.app.scheduler.ScheduledJob;
+import dev.feedhub.app.web.admin.feeds.FetchFeedUrlBuilder;
 import dev.feedhub.app.web.feeds.FeedUrlBuilder;
 import j2html.tags.DomContent;
 import j2html.tags.specialized.TrTag;
 
 import static j2html.TagCreator.*;
+import static j2html.TagCreator.h3;
+import static j2html.TagCreator.table;
 import static dev.rebelcraft.j2html.bootstrap.Bootstrap.*;
+import static dev.rebelcraft.j2html.bootstrap.Bootstrap.table;
 import static news.inboxed.app.web.utils.TimeUtils.formatInstant;
 
 import java.util.List;
@@ -21,7 +25,7 @@ import java.util.stream.Collectors;
 public class FeedsAdminList {
 
   public static DomContent feeds(Page<FeedConfiguration> feedConfigurations, List<ScheduledJob> scheduledFetchFeedJobs,
-      List<Feed> feeds, FeedUrlBuilder feedUrlBuilder) {
+      List<Feed> feeds, FeedUrlBuilder feedUrlBuilder, FetchFeedUrlBuilder fetchFeedUrlBuilder) {
 
     Map<FeedId, ScheduledJob> scheduledFetchFeedJobsByFeedId = scheduledFetchFeedJobs.stream()
         .collect(Collectors.toMap(ScheduledJob::feedId, job -> job));
@@ -53,7 +57,7 @@ public class FeedsAdminList {
                         
                         th("Last Scheduled Result"), 
                         
-                        th("View")
+                        th("")
 
                     )
 
@@ -66,7 +70,7 @@ public class FeedsAdminList {
                           feedConfiguration, 
                           feedsByFeedId.get(feedConfiguration.feedId()), 
                           scheduledFetchFeedJobsByFeedId.get(feedConfiguration.feedId()),
-                          feedUrlBuilder))
+                          feedUrlBuilder, fetchFeedUrlBuilder))
 
                 )
 
@@ -77,7 +81,7 @@ public class FeedsAdminList {
     );
   }
 
-  private static TrTag feedRow(FeedConfiguration feedConfiguration, Feed feed, ScheduledJob scheduledFetchFeedJob, FeedUrlBuilder feedUrlBuilder) {
+  private static TrTag feedRow(FeedConfiguration feedConfiguration, Feed feed, ScheduledJob scheduledFetchFeedJob, FeedUrlBuilder feedUrlBuilder, FetchFeedUrlBuilder fetchFeedUrlBuilder) {
     return tr().with(
 
         td().with(text(feedConfiguration.url().toString())), 
@@ -93,7 +97,17 @@ public class FeedsAdminList {
         td().with(text(scheduledFetchFeedJob != null && scheduledFetchFeedJob.lastScheduledRunResult() != null
             ? scheduledFetchFeedJob.lastScheduledRunResult().toString()
             : "")),
-        td().with(a().withHref(feedUrlBuilder.build(feedConfiguration.feedId())).with(span().withClasses("bi", "bi-box-arrow-up-right")))
+        td().with(
+          a().withHref(feedUrlBuilder.build(feedConfiguration.feedId()))
+              .withText("View")
+              .withClasses(btn, btn_sm, btn_outline_info),
+          form().withMethod("post")
+          .withAction(fetchFeedUrlBuilder.build(feedConfiguration.feedId()))
+          .with(
+            button().withType("submit").withText("Fetch")
+              .withClasses(btn, btn_sm, btn_outline_info, d_inline)
+          )   
+        )
 
     );
   }

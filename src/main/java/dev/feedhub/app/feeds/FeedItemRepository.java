@@ -9,4 +9,6 @@ public interface FeedItemRepository extends ListCrudRepository<FeedItem, Long>, 
 
     Page<FeedItem> findAllByFeedId(FeedId feedId, Pageable pageable);
 
+    FeedItem findByFeedIdAndUri(FeedId feedId, String uri);
+
 }

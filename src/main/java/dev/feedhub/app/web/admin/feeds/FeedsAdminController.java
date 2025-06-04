@@ -53,6 +53,13 @@ public class FeedsAdminController {
       }
     });
 
+    model.addAttribute("fetchFeedUrlBuilder", new FetchFeedUrlBuilder() {
+      @Override
+      public String build(FeedId feedId) {
+          return fromMethodName(FetchFeedJobAdminController.class, "postRunFeedJob", feedId.id()).build().toUriString();
+      }
+    });
+
     model.addAttribute("feedConfigurations", feedConfigurations.getFeedConfigurations(pageable));
     model.addAttribute("scheduledFetchFeedJobs", feedUpdateJobScheduler.getScheduledFetchFeedJobs());
      model.addAttribute("feeds", feeds.getFeeds());

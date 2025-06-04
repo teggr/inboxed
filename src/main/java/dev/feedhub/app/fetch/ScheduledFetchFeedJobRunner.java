@@ -13,7 +13,7 @@ public class ScheduledFetchFeedJobRunner {
 
   @Scheduled(cron="0 0 * * * *") // every hour
   public void runFeedUpdateJob() {
-    fetchFeedJobScheduler.run();
+    fetchFeedJobScheduler.runNextScheduled();
   }
 
 }

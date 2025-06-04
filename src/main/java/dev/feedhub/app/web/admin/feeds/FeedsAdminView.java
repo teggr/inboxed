@@ -51,6 +51,7 @@ public class FeedsAdminView extends AbstractView {
     String runFetchFeedJobUrl = (String) model.get("runFetchFeedJobUrl");
     String feedsUrl = (String) model.get("feedsUrl");
     FeedUrlBuilder feedUrlBuilder = (FeedUrlBuilder) model.get("feedUrlBuilder");
+    FetchFeedUrlBuilder fetchFeedUrlBuilder = (FetchFeedUrlBuilder) model.get("fetchFeedUrlBuilder");
 
     // build the ui
     DomContent html = FeedHubSiteLayout.add("FeedHub | Admin Feeds", model,
@@ -68,7 +69,7 @@ public class FeedsAdminView extends AbstractView {
               div().withClasses(row).with(
 
                 div().withClasses(col).with(
-                  FeedsAdminList.feeds(feedConfigurations, scheduledFetchFeedJobs, feeds, feedUrlBuilder)
+                  FeedsAdminList.feeds(feedConfigurations, scheduledFetchFeedJobs, feeds, feedUrlBuilder, fetchFeedUrlBuilder)
                 )
 
               )

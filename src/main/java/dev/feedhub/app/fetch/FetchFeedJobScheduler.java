@@ -8,6 +8,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 import dev.feedhub.app.feeds.FeedConfiguration;
 import dev.feedhub.app.feeds.FeedConfigurationAddedEvent;
+import dev.feedhub.app.feeds.FeedId;
 import dev.feedhub.app.scheduler.ScheduledJob;
 import dev.feedhub.app.scheduler.ScheduledJobRepository;
 import dev.feedhub.app.scheduler.ScheduledRunResult;
@@ -54,11 +55,19 @@ public class FetchFeedJobScheduler {
     return scheduledJobRepository.findAll();
   }
 
-  public void run() {
+  public void runNextScheduled() {
 
     List<ScheduledJob> jobsToBeRun = scheduledJobRepository.findAllByNextScheduledRunLessThan(Instant.now());
 
     jobsToBeRun.forEach(this::runScheduledJob);
+
+  }
+
+  public void run(FeedId feedId) {
+
+    ScheduledJob scheduledJob = scheduledJobRepository.findByFeedId(feedId);
+
+    runScheduledJob(scheduledJob);
 
   }
 
