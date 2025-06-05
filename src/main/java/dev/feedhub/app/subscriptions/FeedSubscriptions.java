@@ -16,4 +16,10 @@ public class FeedSubscriptions {
     return feedSubscriberRepository.findAll(pageable);
   }
 
+  public void createSubscriber() {
+
+    feedSubscriberRepository.save(new FeedSubscriber(null,FeedSubscriberIdGenerator.generateSubscriberId(), null, null));
+
+  }
+
 }

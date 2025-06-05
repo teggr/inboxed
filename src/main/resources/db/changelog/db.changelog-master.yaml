@@ -470,60 +470,6 @@ databaseChangeLog:
                   type: TEXT
 
   - changeSet:
-      id: create-feed-subscription-list-table
-      author: robin
-      changes:
-        - createTable:
-            tableName: FEED_SUBSCRIPTION_LIST
-            columns:
-              - column:
-                  name: ID
-                  type: INT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-  
-  - changeSet:
-      id: create-feed-subscription-table
-      author: robin
-      changes:
-        - createTable:
-            tableName: FEED_SUBSCRIPTION
-            columns:
-               - column:
-                  name: FEED_SUBSCRIPTION_LIST
-                  type: INT
-               - column:
-                  name: FEED_ID
-                  type: VARCHAR(255)
-               - column:
-                  name: LAST_UPDATED
-                  type: TIMESTAMP WITH TIME ZONE
-
-  - changeSet:
-      id: create-subscriptions-table
-      author: robin
-      changes:
-        - createTable:
-            tableName: SUBSCRIPTIONS
-            columns:
-               - column:
-                  name: ID
-                  type: INT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-               - column:
-                  name: TYPE
-                  type: VARCHAR(255)
-               - column:
-                  name: SUBSCRIPTION_URL
-                  type: VARCHAR(255)
-               - column:
-                  name: CREATED_DATE
-                  type: TIMESTAMP WITH TIME ZONE
-
-  - changeSet:
       id: create-feedhub-subscribers-table
       author: robin
       changes:
@@ -539,3 +485,21 @@ databaseChangeLog:
                - column:
                   name: SUBSCRIBER_ID
                   type: VARCHAR(255)
+               - column:
+                  name: CREATED_DATE
+                  type: TIMESTAMP WITH TIME ZONE
+
+  - changeSet:
+      id: create-feedhub-feed-subscriptions-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEEDHUB_FEED_SUBSCRIPTIONS
+            columns:
+              - column:
+                  name: FEEDHUB_SUBSCRIBERS
+                  type: INT
+              - column:
+                  name: FEED_ID
+                  type: VARCHAR(255)
+  

@@ -1,6 +1,5 @@
 package dev.feedhub.app.web.admin.subscriptions;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -10,14 +9,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
-import dev.feedhub.app.feeds.Feed;
-import dev.feedhub.app.feeds.FeedConfiguration;
-import dev.feedhub.app.scheduler.ScheduledJob;
 import dev.feedhub.app.subscriptions.FeedSubscriber;
-import dev.feedhub.app.web.admin.feeds.FetchFeedUrlBuilder;
-import dev.feedhub.app.web.admin.feeds.components.FeedsAdminActionBar;
-import dev.feedhub.app.web.admin.feeds.components.FeedsAdminList;
-import dev.feedhub.app.web.feeds.FeedUrlBuilder;
+import dev.feedhub.app.web.admin.subscriptions.components.FeedSubscriptionsAdminActionBar;
+import dev.feedhub.app.web.admin.subscriptions.components.FeedSubscriptionsAdminList;
 import dev.feedhub.app.web.site.FeedHubNavigation;
 import dev.feedhub.app.web.site.FeedHubSiteLayout;
 import j2html.rendering.IndentedHtml;
@@ -46,10 +40,11 @@ public class FeedSubscriptionsAdminView extends AbstractView {
     // get from the model
     Page<FeedSubscriber> feedSubscribers = (Page<FeedSubscriber>) model.get("feedSubscribers");
     
-    String addFeedUrl = (String) model.get("addFeedUrl");
+    String refreshUrl = (String) model.get("refreshUrl");
+    String addSubscriberUrl = (String) model.get("addSubscriberUrl");
 
     // build the ui
-    DomContent html = FeedHubSiteLayout.add("FeedHub | Admin Feeds", model,
+    DomContent html = FeedHubSiteLayout.add("FeedHub | Admin Subscriptions", model,
 
       each(
 
@@ -57,15 +52,14 @@ public class FeedSubscriptionsAdminView extends AbstractView {
 
           div().withClasses(container_fluid).with(
 
-              //FeedsAdminActionBar.feedsActionBar(refreshUrl, addFeedUrl, runFetchFeedJobUrl, feedsUrl),
+              FeedSubscriptionsAdminActionBar.feeSubscriptionsActionBar(refreshUrl, addSubscriberUrl),
 
               hr(),
 
               div().withClasses(row).with(
 
                 div().withClasses(col).with(
-                    text("Feed Subscriptions")
-                  //FeedsAdminList.feeds(feedConfigurations, scheduledFetchFeedJobs, feeds, feedUrlBuilder, fetchFeedUrlBuilder)
+                  FeedSubscriptionsAdminList.feedSubscriptions(feedSubscribers)
                 )
 
               )
