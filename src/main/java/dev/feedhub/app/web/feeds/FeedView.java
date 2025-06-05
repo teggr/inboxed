@@ -15,6 +15,7 @@ import dev.feedhub.app.web.feeds.components.FeedActionBar;
 import dev.feedhub.app.web.feeds.components.FeedItemsList;
 import dev.feedhub.app.web.site.FeedHubNavigation;
 import dev.feedhub.app.web.site.FeedHubSiteLayout;
+import dev.feedhub.app.web.subscriptions.SubscribeToFeedUrlBuilder;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +46,7 @@ public class FeedView extends AbstractView {
     Page<FeedItem> feedItems = (Page<FeedItem>) model.get("feedItems");
     
     String feedsUrl = (String) model.get("feedsUrl");
+    SubscribeToFeedUrlBuilder subscribeToFeedUrlBuilder = (SubscribeToFeedUrlBuilder) model.get("subscribeToFeedUrlBuilder");
 
     // build the ui
     DomContent html = FeedHubSiteLayout.add("FeedHub | Feed", model,
@@ -67,6 +69,8 @@ public class FeedView extends AbstractView {
                 div().withClasses(col_10).with(
                   div().withClasses(card_body).with(
                     h5(feed.title()).withClasses(card_title),
+                    form().withMethod("post").withAction(subscribeToFeedUrlBuilder.build(feed.feedId())).with(
+                        button().withType("submit").withText("Subscribe").withClasses(btn, btn_primary)),
                     p(feed.description()).withClasses(card_text),
                     p().withClasses(card_text).with(
                       small(TimeUtils.formatInstant(feed.publishedDate())).withClass(text_body_secondary)

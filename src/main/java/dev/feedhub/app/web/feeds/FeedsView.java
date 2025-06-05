@@ -14,6 +14,7 @@ import dev.feedhub.app.web.feeds.components.FeedsActionBar;
 import dev.feedhub.app.web.feeds.components.FeedsList;
 import dev.feedhub.app.web.site.FeedHubNavigation;
 import dev.feedhub.app.web.site.FeedHubSiteLayout;
+import dev.feedhub.app.web.subscriptions.SubscribeToFeedUrlBuilder;
 import j2html.rendering.IndentedHtml;
 import j2html.tags.DomContent;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,6 +44,7 @@ public class FeedsView extends AbstractView {
     String refreshUrl = (String) model.get("refreshUrl");
     String feedsAdminUrl = (String) model.get("feedsAdminUrl");
 
+    SubscribeToFeedUrlBuilder subscribeToFeedUrlBuilder = (SubscribeToFeedUrlBuilder) model.get("subscribeToFeedUrlBuilder");
     FeedUrlBuilder feedUrlBuilder = (FeedUrlBuilder) model.get("feedUrlBuilder");
 
     // build the ui
@@ -61,7 +63,7 @@ public class FeedsView extends AbstractView {
               div().withClasses(row).with(
 
                 div().withClasses(col).with(
-                  FeedsList.feeds(feeds, feedUrlBuilder)
+                  FeedsList.feeds(feeds, feedUrlBuilder, subscribeToFeedUrlBuilder)
                 )
 
               )
