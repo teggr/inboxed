@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import dev.feedhub.app.web.admin.feeds.FeedsAdminController;
+import dev.feedhub.app.web.admin.subscriptions.FeedSubscriptionsAdminController;
 import dev.feedhub.app.web.feeds.FeedsController;
 import dev.webshares.app.web.webshares.WebSharesController;
 import news.inboxed.app.web.inbox.InboxController;
@@ -22,6 +23,9 @@ public class FeedHubNavigationControllerAdvice {
 
     String feedsAdminUrl =  fromMethodName(FeedsAdminController.class, "getFeeds", null, null).build().toUriString();
     model.addAttribute("feedsAdminUrl", feedsAdminUrl);
+
+    String feedSubscriptionsAdminUrl =  fromMethodName(FeedSubscriptionsAdminController.class, "getSubscribers", null, null).build().toUriString();
+    model.addAttribute("feedSubscriptionsAdminUrl", feedSubscriptionsAdminUrl);
 
     String inboxedUrl = fromMethodName(InboxController.class, "getInbox" , null, null).build().toUriString();
     model.addAttribute("inboxedUrl", inboxedUrl);

@@ -522,3 +522,20 @@ databaseChangeLog:
                - column:
                   name: CREATED_DATE
                   type: TIMESTAMP WITH TIME ZONE
+
+  - changeSet:
+      id: create-feedhub-subscribers-table
+      author: robin
+      changes:
+        - createTable:
+            tableName: FEEDHUB_SUBSCRIBERS
+            columns:
+               - column:
+                  name: ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+               - column:
+                  name: SUBSCRIBER_ID
+                  type: VARCHAR(255)

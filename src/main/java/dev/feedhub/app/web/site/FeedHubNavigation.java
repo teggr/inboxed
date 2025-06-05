@@ -18,6 +18,7 @@ public class FeedHubNavigation {
     String username = (String) model.get("username");
     String logoutUrl = (String) model.get("logoutUrl");
     String feedsAdminUrl = (String) model.get("feedsAdminUrl");
+    String feedSubscriptionsAdminUrl = (String) model.get("feedSubscriptionsAdminUrl");
 
     // external services
     String inboxedUrl = (String) model.get("inboxedUrl");
@@ -60,6 +61,8 @@ public class FeedHubNavigation {
                             ul().withClasses(dropdown_menu).with(
 
                                 li().with(a().withClasses(dropdown_item).withHref(homeUrl).withText("Feeds")),
+
+                                li().with(a().withClasses(dropdown_item).withHref(feedSubscriptionsAdminUrl).withText("Subscriptions")),
 
                                 li().with(a().withClasses(dropdown_item).withHref(feedsAdminUrl).withText("Configuration")),
 
