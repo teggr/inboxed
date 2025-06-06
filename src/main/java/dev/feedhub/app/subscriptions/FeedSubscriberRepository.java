@@ -9,6 +9,6 @@ public interface FeedSubscriberRepository extends ListCrudRepository<FeedSubscri
 
     FeedSubscriber findBySubscriberId(String subscriberId);
 
-    Page<FeedSubscription> findFeedSubscriptionsBySubscriberId(String subscriberId, Pageable pageable);
+    Page<FeedSubscription> findFeedSubscriptionBySubscriberId(String subscriberId,  Pageable pageable);
 
 }
